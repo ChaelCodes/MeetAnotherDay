@@ -25,3 +25,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# Environment Setup
+This application has a development environment that supports docker.
+
+Run `docker compose up -d` and the application should be available at localhost:3000.
+
+If the database has not been started, `docker compose run --rm web bundle exec rake db:create`

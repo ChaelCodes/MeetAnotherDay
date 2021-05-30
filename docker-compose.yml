@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - config/docker.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./:/app/"
+  db:
+    image: postgres
+    env_file:
+      - config/docker.env
+    ports:
+      - "5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+volumes:
+  # Volume to hold the Postgres database on the host system
+  data:
