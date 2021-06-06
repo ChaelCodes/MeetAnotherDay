@@ -17,33 +17,54 @@ RSpec.describe "/users", type: :request do
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      email: 'chaelcodes@example.com',
+      password: 'password',
+      name: 'Chael',
+      bio: 'Hello. I am dev. Friends please? Ty.'
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    skip("We don't have these yet...")
   }
+
+  let(:json_body) do
+    JSON.parse(response.body).with_indifferent_access
+  end
+
+  let(:json_array) do
+    JSON.parse(response.body).map(&:with_indifferent_access)
+  end
+
+  before do
+    user = User.create! valid_attributes.merge(email: 'chaelcodes+unique@example.com')
+    sign_in user
+  end
 
   describe "GET /index" do
     it "renders a successful response" do
-      User.create! valid_attributes
-      get users_url
-      expect(response).to be_successful
+      user = User.create! valid_attributes
+      get users_url, params: { format: :json }
+      expect(json_array.pluck(:id)).to include user.id
     end
   end
 
   describe "GET /show" do
     it "renders a successful response" do
       user = User.create! valid_attributes
-      get user_url(user)
-      expect(response).to be_successful
+      get user_url(user), params: { format: :json }
+      expect(json_body).to include({
+        bio: "Hello. I am dev. Friends please? Ty.",
+        name: "Chael"
+      })
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
       get new_user_url
-      expect(response).to be_successful
+      expect(response.body).to include("New User")
     end
   end
 
@@ -86,14 +107,16 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          name: 'ChaelCodes'
+        }
       }
 
       it "updates the requested user" do
         user = User.create! valid_attributes
         patch user_url(user), params: { user: new_attributes }
         user.reload
-        skip("Add assertions for updated state")
+        expect(user.name).to eq 'ChaelCodes'
       end
 
       it "redirects to the user" do
