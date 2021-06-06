@@ -38,7 +38,7 @@ RSpec.describe "/users", type: :request do
   end
 
   before do
-    user = User.create! valid_attributes.merge(email: 'chaelcodes+unique@example.com')
+    user = User.create! valid_attributes.merge(email: 'chaelcodes+unique@example.com', confirmed_at: 1.day.ago)
     sign_in user
   end
 
