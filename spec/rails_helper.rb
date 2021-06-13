@@ -10,6 +10,25 @@ require 'rspec/rails'
 # Add auth helpers + devise
 require 'support/devise'
 
+# Setup spec helpers for Feature tests
+require 'capybara/rails'
+require 'capybara/rspec'
+Capybara.register_driver :chrome_headless do |app|
+  chrome_capabilities = ::Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => { 'args': %w[no-sandbox headless disable-gpu window-size=1400,1400] })
+
+  if ENV['HUB_URL']
+    Capybara::Selenium::Driver.new(app,
+                                   browser: :remote,
+                                   url: ENV['HUB_URL'],
+                                   desired_capabilities: chrome_capabilities)
+  else
+    Capybara::Selenium::Driver.new(app,
+                                   browser: :chrome,
+                                   desired_capabilities: chrome_capabilities)
+  end
+end
+Capybara.javascript_driver = :chrome_headless
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -64,4 +83,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:each, type: :feature) do
+    Capybara.app_host = "http://#{IPSocket.getaddress(Socket.gethostname)}:4444"
+    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+    Capybara.server_port = 4444
+  end
 end
