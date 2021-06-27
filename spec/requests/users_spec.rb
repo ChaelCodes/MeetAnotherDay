@@ -26,9 +26,7 @@ RSpec.describe '/users', type: :request do
     }
   end
 
-  let(:invalid_attributes) do
-    skip("We don't have these yet...")
-  end
+  let(:user) { create :user }
 
   let(:json_body) do
     JSON.parse(response.body).with_indifferent_access
@@ -39,13 +37,11 @@ RSpec.describe '/users', type: :request do
   end
 
   before do
-    user = User.create! valid_attributes.merge(email: 'chaelcodes+unique@example.com', confirmed_at: 1.day.ago)
     sign_in user
   end
 
   describe 'GET /index' do
     it 'renders a successful response' do
-      user = User.create! valid_attributes
       get users_url, params: { format: :json }
       expect(json_array.pluck(:id)).to include user.id
     end
@@ -53,11 +49,10 @@ RSpec.describe '/users', type: :request do
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      user = User.create! valid_attributes
       get user_url(user), params: { format: :json }
       expect(json_body).to include({
-                                     bio: 'Hello. I am dev. Friends please? Ty.',
-                                     name: 'Chael'
+                                     bio: user.bio,
+                                     name: user.name
                                    })
     end
   end
@@ -71,55 +66,44 @@ RSpec.describe '/users', type: :request do
 
   describe 'GET /edit' do
     it 'render a successful response' do
-      user = User.create! valid_attributes
       get edit_user_url(user)
       expect(response.body).to include 'Editing User'
     end
   end
 
   describe 'PATCH /update' do
+    subject(:patch_update) { patch user_url(user), params: { user: attributes } }
     context 'with valid parameters' do
-      let(:new_attributes) do
+      let(:attributes) do
         {
           name: 'ChaelCodes'
         }
       end
 
       it 'updates the requested user' do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }
+        patch_update
         user.reload
         expect(user.name).to eq 'ChaelCodes'
       end
 
       it 'redirects to the user' do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }
-        user.reload
+        patch_update
         expect(response).to redirect_to(user_url(user))
-      end
-    end
-
-    context 'with invalid parameters' do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: invalid_attributes }
-        expect(response).to be_successful
       end
     end
   end
 
   describe 'DELETE /destroy' do
+    let!(:numbered_user) { create(:user) }
+
     it 'destroys the requested user' do
-      user = User.create! valid_attributes
       expect do
-        delete user_url(user)
+        delete user_url(numbered_user)
       end.to change(User, :count).by(-1)
     end
 
     it 'redirects to the users list' do
-      user = User.create! valid_attributes
-      delete user_url(user)
+      delete user_url(numbered_user)
       expect(response).to redirect_to(users_url)
     end
   end

@@ -4,8 +4,7 @@ require 'rails_helper'
 
 describe 'Users#show' do
   let(:user_profile) do
-    User.create(name: 'Sample', bio: 'This is a bio', confirmed_at: 1.minute.ago, email: 'chaelcodes@example.com',
-                password: 'P@55w0rd')
+    create(:user)
   end
 
   before(:each) do
@@ -22,8 +21,8 @@ describe 'Users#show' do
     end
   end
 
-  context 'logged_in user' do
-    let(:user) { User.create(name: 'Sample', bio: 'This is a bio', confirmed_at: 1.minute.ago) }
+  context 'logged in user' do
+    let(:user) { create(:user) }
 
     it 'shows basic user information' do
       expect(page).to have_content user_profile.name
@@ -31,7 +30,7 @@ describe 'Users#show' do
   end
 
   context 'unconfirmed user' do
-    let(:user) { User.create(name: 'Sample', bio: 'This is a bio', confirmed_at: nil) }
+    let(:user) { create(:user, :unconfirmed) }
 
     it 'prompts the user to confirm email' do
       expect(page).to have_content 'You have to confirm your email address before continuing.'
