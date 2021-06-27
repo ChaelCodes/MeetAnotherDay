@@ -2,6 +2,7 @@ services:
   web:
     build: .
     depends_on:
+      - chrome
       - db
     env_file:
       - config/docker.env
@@ -17,6 +18,11 @@ services:
       - "5432"
     volumes:
       - data:/var/lib/postgresql/data
+
+  chrome:
+    image: selenium/standalone-chrome:3.141.59-zirconium # this version should match that of the selenium-webdriver gem (see Gemfile)
+    volumes:
+      - /dev/shm:/dev/shm
 volumes:
   # Volume to hold the Postgres database on the host system
   data:

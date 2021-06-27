@@ -1,0 +1,27 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - db/schema.rb
+    - bin/**/*
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*'
+    - 'spec/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/EmptyCaseCondition:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'app/views/**/*.json.jbuilder'
