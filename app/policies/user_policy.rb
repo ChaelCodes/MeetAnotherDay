@@ -7,7 +7,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    false
+    user.id == record.id
   end
 
   def create?
@@ -15,11 +15,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    user.id == record.id
   end
 
   def destroy?
-    false
+    user.id == record.id
   end
 
   # Permissions and acess for a collection of Users
