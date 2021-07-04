@@ -1,1 +1,1 @@
-json.partial! "profiles/profile", profile: @profile
+json.partial! 'profiles/profile', profile: @profile

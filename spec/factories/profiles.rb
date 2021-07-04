@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :profile do
-    name { "MyString" }
-    handle { "MyString" }
-    bio { "MyString" }
+    user
+    name { 'Chael' }
+    handle { 'ChaelCodes' }
+    bio { 'I definitely have a bio, that I am prepared to share.' }
   end
 end
