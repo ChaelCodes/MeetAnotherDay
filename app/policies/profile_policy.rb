@@ -29,7 +29,7 @@ class ProfilePolicy < ApplicationPolicy
     user.id == profile.user_id
   end
 
-  # Permissions and acess for a collection of Users
+  # Permissions and access for a collection of Users
   class Scope
     attr_reader :user, :scope
 
