@@ -1,44 +1,46 @@
- require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe "/events", type: :request do
-  let(:user) {}
+require 'rails_helper'
+
+RSpec.describe '/events', type: :request do
+  let(:user) { nil }
   before do
     sign_in user if user
   end
 
-  describe "GET /index" do
+  describe 'GET /index' do
     let!(:event) { create(:event) }
 
-    it "renders a successful response" do
+    it 'renders a successful response' do
       get events_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /show" do
+  describe 'GET /show' do
     let(:event) { create :event }
 
-    it "renders a successful response" do
+    it 'renders a successful response' do
       get event_url(event)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /new" do
+  describe 'GET /new' do
     subject(:get_new) { get new_event_url }
     include_examples 'redirect to sign in'
 
     context 'logged in user' do
       let(:user) { create :user }
 
-      it "renders a successful response" do
+      it 'renders a successful response' do
         get_new
         expect(response).to be_successful
       end
     end
   end
 
-  describe "GET /edit" do
+  describe 'GET /edit' do
     subject(:get_edit) { get edit_event_url(event) }
     let(:event) { create :event }
     include_examples 'redirect to sign in'
@@ -46,14 +48,14 @@ RSpec.describe "/events", type: :request do
     context 'signed in user' do
       let(:user) { create :user }
 
-      it "render a successful response" do
+      it 'render a successful response' do
         get_edit
         expect(response).to be_successful
       end
     end
   end
 
-  describe "POST /create" do
+  describe 'POST /create' do
     subject(:post_create) { post events_url, params: { event: attributes } }
     let(:attributes) { attributes_for(:event) }
     include_examples 'redirect to sign in'
@@ -61,24 +63,26 @@ RSpec.describe "/events", type: :request do
     context 'with logged in user' do
       let(:user) { create :user }
 
-      it "creates a new Event" do
+      it 'creates a new Event' do
         expect { post_create }.to change(Event, :count).by(1)
       end
 
-      it "redirects to the created event" do
+      it 'redirects to the created event' do
         post_create
         expect(response).to redirect_to(event_url(Event.last))
       end
 
-      context "with invalid parameters" do
-        let(:attributes) { {
-          name: 'RubyConf'
-        } }
+      context 'with invalid parameters' do
+        let(:attributes) do
+          {
+            name: 'RubyConf'
+          }
+        end
 
-        it "does not create a new Event" do
-          expect {
+        it 'does not create a new Event' do
+          expect do
             post_create
-          }.to change(Event, :count).by(0)
+          end.to change(Event, :count).by(0)
         end
 
         it 'returns an unprocessable entity code' do
@@ -89,7 +93,7 @@ RSpec.describe "/events", type: :request do
     end
   end
 
-  describe "PATCH /update" do
+  describe 'PATCH /update' do
     subject(:patch_update) { patch event_url(event), params: { event: attributes } }
     include_examples 'redirect to sign in'
     let!(:event) { create :event }
@@ -98,18 +102,18 @@ RSpec.describe "/events", type: :request do
     context 'with logged in user' do
       let(:user) { create :user }
 
-      it "updates the requested event" do
+      it 'updates the requested event' do
         patch_update
         event.reload
         expect(event.name).to eq 'Strangeloop'
       end
 
-      it "redirects to the event" do
+      it 'redirects to the event' do
         patch_update
         expect(response).to redirect_to(event_url(event))
       end
 
-      context "with invalid parameters" do
+      context 'with invalid parameters' do
         let(:attributes) { { start_at: 'LUNCHTIME' } }
 
         it 'returns an unprocessable entity code' do
@@ -121,7 +125,7 @@ RSpec.describe "/events", type: :request do
     end
   end
 
-  describe "DELETE /destroy" do
+  describe 'DELETE /destroy' do
     subject(:delete_destroy) { delete event_url(event) }
     include_examples 'redirect to sign in'
     let!(:event) { create :event }
@@ -129,11 +133,11 @@ RSpec.describe "/events", type: :request do
     context 'signed in user' do
       let(:user) { create :user }
 
-      it "destroys the requested event" do
+      it 'destroys the requested event' do
         expect { delete_destroy }.to change(Event, :count).by(-1)
       end
 
-      it "redirects to the events list" do
+      it 'redirects to the events list' do
         delete_destroy
         expect(response).to redirect_to(events_url)
       end

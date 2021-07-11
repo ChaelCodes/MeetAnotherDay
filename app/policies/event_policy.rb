@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Rules governing permissions for Events
 class EventPolicy < ApplicationPolicy
   def show?
     true
@@ -19,6 +22,7 @@ class EventPolicy < ApplicationPolicy
     user.present?
   end
 
+  # Rules governing a list of Events
   class Scope < Scope
     def resolve
       scope.all

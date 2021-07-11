@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Create a table for the Events Profiles can attend
 class CreateEvents < ActiveRecord::Migration[6.1]
   def change
     create_table :events do |t|
