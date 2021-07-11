@@ -22,3 +22,23 @@ RSpec.shared_examples 'unauthenticated user does not have access' do
     end
   end
 end
+
+RSpec.shared_examples 'redirect to sign in' do
+  it 'redirect to sign in' do
+    subject
+    expect(response).to redirect_to new_user_session_path
+  end
+end
+
+RSpec.shared_examples 'unauthorized access' do
+  it 'redirect to root' do
+    subject
+    expect(response).to redirect_to root_path
+  end
+
+  it 'has an unauthorized message' do
+    subject
+    expect(response.code).to eq '302'
+    expect(flash[:alert]).to eq 'You are not authorized to perform this action.'
+  end
+end
