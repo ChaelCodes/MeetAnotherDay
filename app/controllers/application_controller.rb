@@ -10,12 +10,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
-  # Is the user required to be logged in before the
-  # controller's endpoints can be accessed?
-  def self.require_authentication?
-    true
-  end
-  before_action :authenticate_user! if require_authentication?
+  before_action :authenticate_user!, only: %i[create new update edit destroy]
 
   private
 

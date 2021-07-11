@@ -18,17 +18,17 @@
 
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.text_area :description, size: '100x10' %>
   </div>
 
   <div class="field">
     <%= form.label :start_at %>
-    <%= form.datetime_select :start_at %>
+    <%= form.datetime_local_field :start_at %>
   </div>
 
   <div class="field">
     <%= form.label :end_at %>
-    <%= form.datetime_select :end_at %>
+    <%= form.datetime_local_field :end_at %>
   </div>
 
   <div class="actions">

@@ -21,8 +21,8 @@ describe 'Users#show' do
     end
   end
 
-  context 'logged in user' do
-    let(:user) { create(:user) }
+  context 'when user is viewing their own page' do
+    let(:user) { user_profile }
 
     it 'shows basic user information' do
       expect(page).to have_content user_profile.name
