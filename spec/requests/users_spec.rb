@@ -94,16 +94,14 @@ RSpec.describe '/users', type: :request do
   end
 
   describe 'DELETE /destroy' do
-    let!(:numbered_user) { create(:user) }
-
     it 'destroys the requested user' do
       expect do
-        delete user_url(numbered_user)
+        delete user_url(user)
       end.to change(User, :count).by(-1)
     end
 
     it 'redirects to the users list' do
-      delete user_url(numbered_user)
+      delete user_url(user)
       expect(response).to redirect_to(users_url)
     end
   end
