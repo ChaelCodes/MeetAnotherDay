@@ -22,11 +22,11 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def update?
-    user.id == profile.user_id
+    user && user.id == profile.user_id
   end
 
   def destroy?
-    user.id == profile.user_id
+    user && user.id == profile.user_id
   end
 
   # Permissions and access for a collection of Users
