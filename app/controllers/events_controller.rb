@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
+# routes calls to the Events endpoint
 class EventsController < ApplicationController
+  before_action :create_event, only: :create
   before_action :set_event, only: %i[show edit update destroy]
 
   # GET /events or /events.json
@@ -7,8 +11,7 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1 or /events/1.json
-  def show
-  end
+  def show; end
 
   # GET /events/new
   def new
@@ -17,16 +20,13 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /events or /events.json
   def create
-    @event = Event.new(event_params)
-    authorize @event
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: "Event was successfully created." }
+        format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: "Event was successfully updated." }
+        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
+      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
