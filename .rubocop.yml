@@ -25,3 +25,6 @@ Style/EmptyCaseCondition:
 Style/FrozenStringLiteralComment:
   Exclude:
     - 'app/views/**/*.json.jbuilder'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
