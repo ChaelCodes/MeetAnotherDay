@@ -39,6 +39,8 @@ group :development, :test do
   gem 'rexml'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 end
 
 group :development do
