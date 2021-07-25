@@ -2,6 +2,7 @@
 
 # Manages routing and instantiating variable for Event Attendees endpoints
 class EventAttendeesController < ApplicationController
+  before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
 
   # GET /event_attendees or /event_attendees.json
@@ -15,6 +16,7 @@ class EventAttendeesController < ApplicationController
   # GET /event_attendees/new
   def new
     @event_attendee = EventAttendee.new
+    authorize @event_attendee
   end
 
   # GET /event_attendees/1/edit
@@ -22,8 +24,6 @@ class EventAttendeesController < ApplicationController
 
   # POST /event_attendees or /event_attendees.json
   def create
-    @event_attendee = EventAttendee.new(event_attendee_params)
-
     respond_to do |format|
       if @event_attendee.save
         format.html { redirect_to @event_attendee, notice: 'Event attendee was successfully created.' }
@@ -59,9 +59,16 @@ class EventAttendeesController < ApplicationController
 
   private
 
+  # callback to set event attendee for create
+  def create_event_attendee
+    @event_attendee = EventAttendee.new(event_attendee_params)
+    authorize @event_attendee
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_event_attendee
     @event_attendee = EventAttendee.find(params[:id])
+    authorize @event_attendee
   end
 
   # Only allow a list of trusted parameters through.
