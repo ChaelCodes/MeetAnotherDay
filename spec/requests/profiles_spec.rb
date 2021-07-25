@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe '/profiles', type: :request do
   let(:profile) { create :profile }
+  let(:json_headers) { { ACCEPT: 'application/json' } }
 
   # Test all routes as an authenticated user
   let(:user) { create :user }
@@ -23,11 +24,17 @@ RSpec.describe '/profiles', type: :request do
   end
 
   describe 'GET /show' do
-    subject(:get_show) { get profile_url(profile) }
+    subject(:get_show) { get profile_url(profile), headers: json_headers }
+    let!(:event_attendee) { create :event_attendee, profile: profile }
 
     it 'renders a successful response' do
       get_show
       expect(response).to be_successful
+    end
+
+    it 'send events' do
+      get_show
+      expect(JSON.parse(response.body)['events'].first['id']).to eq(event_attendee.event.id)
     end
   end
 
