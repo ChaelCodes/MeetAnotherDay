@@ -15,7 +15,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe '/event_attendees', type: :request do
-  let(:event_attendee) { create :event_attendee }  
+  let(:event_attendee) { create :event_attendee }
 
   let(:user) { nil }
   before do
@@ -51,7 +51,7 @@ RSpec.describe '/event_attendees', type: :request do
       let(:user) { create :user }
 
       it 'renders a successful response' do
-        get_new      
+        get_new
         expect(response).to be_successful
       end
     end
@@ -130,8 +130,8 @@ RSpec.describe '/event_attendees', type: :request do
 
   describe 'PATCH /update' do
     subject(:patch_update) { patch event_attendee_url(event_attendee), params: { event_attendee: attributes } }
-    let(:event_attendee) { create :event_attendee }    
-    
+    let(:event_attendee) { create :event_attendee }
+
     context 'with valid parameters' do
       let(:attributes) do
         { event_id: create(:event, name: 'StrangeLoop').id }
@@ -147,7 +147,7 @@ RSpec.describe '/event_attendees', type: :request do
 
       context 'when user matches profile' do
         let(:user) { event_attendee.profile.user }
-    
+
         it 'updates the requested event_attendee' do
           patch_update
           event_attendee.reload
