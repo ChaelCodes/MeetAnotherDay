@@ -12,7 +12,9 @@ class ProfilesController < ApplicationController
   end
 
   # GET /profiles/1 or /profiles/1.json
-  def show; end
+  def show
+    @events = @profile.events
+  end
 
   # GET /profiles/new
   def new
