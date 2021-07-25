@@ -64,6 +64,16 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "ConfBuddies_production"
 
+  config.action_mailer.default_url_options = { host: "confbuddies.herokuapp.com" }
+  config.action_mailer.smtp_settings = {
+    port: ENV["SENDGRID_PORT"],
+    address: ENV["SENDGRID_SERVER"],
+    user_name: ENV["SENDGRID_USERNAME"],
+    password: ENV["SENDGRID_PASSWORD"],
+    domain: "chael.codes",
+    authentication: :plain,
+    ssl: true
+  }
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
