@@ -15,117 +15,193 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe '/event_attendees', type: :request do
-  # EventAttendee. As you add validations to EventAttendee, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
+  let(:event_attendee) { create :event_attendee }  
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+  let(:user) { nil }
+  before do
+    sign_in user if user
   end
 
   describe 'GET /index' do
+    subject(:get_index) { get event_attendees_url }
+
+    let!(:event_attendee) { create :event_attendee }
+
     it 'renders a successful response' do
-      EventAttendee.create! valid_attributes
-      get event_attendees_url
+      get_index
       expect(response).to be_successful
     end
   end
 
   describe 'GET /show' do
+    subject(:get_show) { get event_attendee_url(event_attendee) }
+
     it 'renders a successful response' do
-      event_attendee = EventAttendee.create! valid_attributes
-      get event_attendee_url(event_attendee)
+      get_show
       expect(response).to be_successful
     end
   end
 
   describe 'GET /new' do
-    it 'renders a successful response' do
-      get new_event_attendee_url
-      expect(response).to be_successful
+    subject(:get_new) { get new_event_attendee_url }
+
+    include_examples 'redirect to sign in'
+
+    context 'when user is logged in' do
+      let(:user) { create :user }
+
+      it 'renders a successful response' do
+        get_new      
+        expect(response).to be_successful
+      end
     end
   end
 
   describe 'GET /edit' do
-    it 'render a successful response' do
-      event_attendee = EventAttendee.create! valid_attributes
-      get edit_event_attendee_url(event_attendee)
-      expect(response).to be_successful
+    subject(:get_edit) { get edit_event_attendee_url(event_attendee) }
+
+    include_examples 'redirect to sign in'
+
+    context 'when user does not match profile' do
+      let(:user) { create :user }
+
+      include_examples 'unauthorized access'
+    end
+
+    context 'when user matches profile' do
+      let(:user) { event_attendee.profile.user }
+
+      it 'render a successful response' do
+        get_edit
+        expect(response).to be_successful
+      end
     end
   end
 
   describe 'POST /create' do
+    subject(:post_create) { post event_attendees_url, params: { event_attendee: attributes } }
+
     context 'with valid parameters' do
-      it 'creates a new EventAttendee' do
-        expect do
-          post event_attendees_url, params: { event_attendee: valid_attributes }
-        end.to change(EventAttendee, :count).by(1)
+      let(:profile) { create(:profile) }
+      let(:attributes) do
+        {
+          profile_id: profile.id,
+          event_id: create(:event).id
+        }
       end
 
-      it 'redirects to the created event_attendee' do
-        post event_attendees_url, params: { event_attendee: valid_attributes }
-        expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
+      include_examples 'redirect to sign in'
+
+      context 'when user does not match profile' do
+        let(:user) { create :user }
+
+        include_examples 'unauthorized access'
+      end
+
+      context 'when user matches profile' do
+        let(:user) { profile.user }
+
+        it 'creates a new EventAttendee' do
+          expect { post_create }.to change(EventAttendee, :count).by(1)
+        end
+
+        it 'redirects to the created event_attendee' do
+          post_create
+          expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
+        end
       end
     end
 
-    context 'with invalid parameters' do
+    context 'with invalid parameters and valid user' do
+      let(:attributes) { { profile_id: profile.id } }
+      let(:profile) { create(:profile) }
+      let(:user) { profile.user }
+
       it 'does not create a new EventAttendee' do
-        expect do
-          post event_attendees_url, params: { event_attendee: invalid_attributes }
-        end.to change(EventAttendee, :count).by(0)
+        expect { post_create }.to change(EventAttendee, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post event_attendees_url, params: { event_attendee: invalid_attributes }
-        expect(response).to be_successful
+      it 'returns an unprocessable entity code' do
+        post_create
+        expect(response.status).to eq(422)
       end
     end
   end
 
   describe 'PATCH /update' do
+    subject(:patch_update) { patch event_attendee_url(event_attendee), params: { event_attendee: attributes } }
+    let(:event_attendee) { create :event_attendee }    
+    
     context 'with valid parameters' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+      let(:attributes) do
+        { event_id: create(:event, name: 'StrangeLoop').id }
       end
 
-      it 'updates the requested event_attendee' do
-        event_attendee = EventAttendee.create! valid_attributes
-        patch event_attendee_url(event_attendee), params: { event_attendee: new_attributes }
-        event_attendee.reload
-        skip('Add assertions for updated state')
+      include_examples 'redirect to sign in'
+
+      context 'when user does not match profile' do
+        let(:user) { create :user }
+
+        include_examples 'unauthorized access'
       end
 
-      it 'redirects to the event_attendee' do
-        event_attendee = EventAttendee.create! valid_attributes
-        patch event_attendee_url(event_attendee), params: { event_attendee: new_attributes }
-        event_attendee.reload
-        expect(response).to redirect_to(event_attendee_url(event_attendee))
+      context 'when user matches profile' do
+        let(:user) { event_attendee.profile.user }
+    
+        it 'updates the requested event_attendee' do
+          patch_update
+          event_attendee.reload
+          expect(event_attendee.event.name).to eq 'StrangeLoop'
+        end
+
+        it 'redirects to the event_attendee' do
+          patch_update
+          expect(response).to redirect_to(event_attendee_url(event_attendee))
+        end
       end
     end
 
-    context 'with invalid parameters' do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        event_attendee = EventAttendee.create! valid_attributes
-        patch event_attendee_url(event_attendee), params: { event_attendee: invalid_attributes }
-        expect(response).to be_successful
+    context 'with invalid parameters and valid user' do
+      let(:attributes) { { event_id: nil } }
+      let(:user) { event_attendee.profile.user }
+
+      it 'returns an unprocessable entity code' do
+        patch_update
+        expect(response.status).to eq(422)
+        expect(event_attendee.reload.event.name).to eq 'RubyConf'
       end
     end
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested event_attendee' do
-      event_attendee = EventAttendee.create! valid_attributes
-      expect do
-        delete event_attendee_url(event_attendee)
-      end.to change(EventAttendee, :count).by(-1)
+    subject(:delete_destroy) { delete event_attendee_url(event_attendee) }
+
+    let!(:event_attendee) { create :event_attendee }
+
+    include_examples 'redirect to sign in'
+
+    context 'when unrelated user' do
+      let(:user) { create :user }
+
+      include_examples 'unauthorized access'
+
+      it 'does not allow folks to delete others event attendance' do
+        delete_destroy
+        expect(event_attendee.id).to eq event_attendee.reload.id
+      end
     end
 
-    it 'redirects to the event_attendees list' do
-      event_attendee = EventAttendee.create! valid_attributes
-      delete event_attendee_url(event_attendee)
-      expect(response).to redirect_to(event_attendees_url)
+    context 'when user matches profile' do
+      let(:user) { event_attendee.profile.user }
+
+      it 'destroys the requested event_attendee' do
+        expect { delete_destroy }.to change(EventAttendee, :count).by(-1)
+      end
+
+      it 'redirects to the event_attendees list' do
+        delete_destroy
+        expect(response).to redirect_to(event_attendees_url)
+      end
     end
   end
 end

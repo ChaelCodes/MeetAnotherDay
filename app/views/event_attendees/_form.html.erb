@@ -13,12 +13,12 @@
 
   <div class="field">
     <%= form.label :profile_id %>
-    <%= form.text_field :profile_id %>
+    <%= form.collection_select :profile_id, Profile.where(user_id: current_user.id), :id, :name %>
   </div>
 
   <div class="field">
     <%= form.label :event_id %>
-    <%= form.text_field :event_id %>
+    <%= form.collection_select :event_id, Event.all, :id, :name %>
   </div>
 
   <div class="actions">
