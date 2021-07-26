@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Profile#edit" do
+describe "Profile" do
   let(:profile) { create(:profile) }
 
   include_examples "unauthenticated user does not have access" do

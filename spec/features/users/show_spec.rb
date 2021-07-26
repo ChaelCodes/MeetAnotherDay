@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Users#show" do
+describe "Users" do
   let(:user_profile) do
     create(:user)
   end
@@ -29,7 +29,7 @@ describe "Users#show" do
     end
   end
 
-  context "unconfirmed user" do
+  context "when user is unconfirmed" do
     let(:user) { create(:user, :unconfirmed) }
 
     it "prompts the user to confirm email" do

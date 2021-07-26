@@ -30,7 +30,7 @@ RSpec.describe "/event_attendees", type: :request do
 
     it "renders a successful response" do
       get_index
-      expect(response).to be_successful
+      expect(response.body).to include(event_attendee.profile_id.to_s)
     end
   end
 
@@ -170,6 +170,10 @@ RSpec.describe "/event_attendees", type: :request do
       it "returns an unprocessable entity code" do
         patch_update
         expect(response.status).to eq(422)
+      end
+
+      it "updates the event name" do
+        patch_update
         expect(event_attendee.reload.event.name).to eq "RubyConf"
       end
     end
