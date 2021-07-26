@@ -1,3 +1,7 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   NewCops: enable
   Exclude:
@@ -16,6 +20,22 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+Rails/RequestReferer:
+  EnforcedStyle: referrer
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/HookArgument:
+  EnforcedStyle: each
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/features/**/*'
+
+RSpec/NestedGroups:
+  Enabled: false
+
 Style/DoubleNegation:
   Enabled: false
 
@@ -25,3 +45,6 @@ Style/EmptyCaseCondition:
 Style/FrozenStringLiteralComment:
   Exclude:
     - 'app/views/**/*.json.jbuilder'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
