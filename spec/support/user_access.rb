@@ -14,7 +14,7 @@ RSpec.shared_examples "unauthenticated user does not have access" do
     end
   end
 
-  context "unconfirmed user" do
+  context "when user is unconfirmed" do
     let(:user) { create(:user, :unconfirmed) }
 
     it "prompts the user to confirm email" do
@@ -38,7 +38,6 @@ RSpec.shared_examples "unauthorized access" do
 
   it "has an unauthorized message" do
     subject
-    expect(response.code).to eq "302"
     expect(flash[:alert]).to eq "You are not authorized to perform this action."
   end
 end

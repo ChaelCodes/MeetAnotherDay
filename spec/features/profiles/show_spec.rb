@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-describe "Profile#show" do
+describe "Profile" do
   let(:profile) { create(:profile) }
 
   include_examples "unauthenticated user does not have access" do
     let(:path) { "/profiles/#{profile.id}".dup }
   end
 
-  context "logged in user" do
+  context "when user logged in" do
     let(:user) { create :user }
 
     before(:each) do

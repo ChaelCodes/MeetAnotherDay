@@ -20,7 +20,7 @@ RSpec.describe "/profiles", type: :request do
 
     it "renders a successful response" do
       get_index
-      expect(response).to be_successful
+      expect(response.body).to include(profile.name)
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe "/profiles", type: :request do
       expect(response).to redirect_to(root_path)
     end
 
-    context "the user who created the profile" do
+    context "when user edits their profile" do
       let(:user) { profile.user }
 
       it "render a successful response" do

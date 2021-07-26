@@ -10,7 +10,11 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+  # rubocop:disable Rails/LexicallyScopedActionFilter
+  # These methods are defined on many controllers and user should be
+  # authenticated prior to using them.
   before_action :authenticate_user!, only: %i[create new update edit destroy]
+  # rubocop:enable Rails/LexicallyScopedActionFilter
 
   private
 

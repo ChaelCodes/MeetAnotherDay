@@ -14,7 +14,7 @@ RSpec.describe "/events", type: :request do
 
     it "renders a successful response" do
       get events_url
-      expect(response).to be_successful
+      expect(response.body).to include(event.name)
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe "/events", type: :request do
 
     include_examples "redirect to sign in"
 
-    context "logged in user" do
+    context "when user is logged in" do
       let(:user) { create :user }
 
       it "renders a successful response" do
@@ -49,7 +49,7 @@ RSpec.describe "/events", type: :request do
 
     include_examples "redirect to sign in"
 
-    context "signed in user" do
+    context "when user is logged in" do
       let(:user) { create :user }
 
       it "render a successful response" do
@@ -140,7 +140,7 @@ RSpec.describe "/events", type: :request do
 
     include_examples "redirect to sign in"
 
-    context "signed in user" do
+    context "when user is logged in" do
       let(:user) { create :user }
 
       it "destroys the requested event" do

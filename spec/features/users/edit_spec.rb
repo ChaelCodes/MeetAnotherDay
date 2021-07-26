@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Users#edit" do
+describe "Users" do
   let(:user_profile) do
     create(:user)
   end
@@ -21,7 +21,7 @@ describe "Users#edit" do
     end
   end
 
-  context "other logged in user" do
+  context "when user logged in does not match" do
     let(:user) { create(:user) }
 
     it "permission to edit denied" do
@@ -29,7 +29,7 @@ describe "Users#edit" do
     end
   end
 
-  context "unconfirmed user" do
+  context "when user unconfirmed" do
     let(:user) { create(:user, :unconfirmed) }
 
     it "prompts the user to confirm email" do
@@ -38,7 +38,7 @@ describe "Users#edit" do
     end
   end
 
-  context "same logged in user" do
+  context "when profile belongs to user" do
     let(:user) { user_profile }
 
     it "permission to edit denied" do
