@@ -10,6 +10,9 @@ Tech | Version | Use
 [Ruby on Rails](https://guides.rubyonrails.org/) | A web application framework built using Ruby that manages interfacing with the database, and responding to web requests
 [Postgres](https://www.postgresql.org/docs/13/index.html) | 13 | Database for storing events, users, and all other data
 
+# Contributing
+Feel free to contirubte PRs, Issues, Documentation, or in any other way to this repo. The UI stack has not been formalized yet. So it is deliberately brutalist.
+
 # Dev Environment Setup
 This application has a development environment that supports Docker.
 
