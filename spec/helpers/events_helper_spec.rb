@@ -2,16 +2,21 @@
 
 require "rails_helper"
 
-# Specs in this file have access to a helper object that includes
-# the EventsHelper. For example:
-#
-# describe EventsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe EventsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#date_range" do
+    subject { date_range(event) }
+
+    let(:event) { create :event }
+
+    it { is_expected.to eq "November 08, 2021 - November 10, 2021" }
+
+    context "when 1 day event" do
+      let(:event) do
+        create :event, name: "HexDevs Open-Source",
+                       start_at: "2021-08-05 21:00:00", end_at: "2021-08-05 23:59:00"
+      end
+
+      it { is_expected.to eq "August 05, 2021 21:00-23:59" }
+    end
+  end
 end
