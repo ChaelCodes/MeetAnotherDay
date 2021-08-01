@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment', __dir__)
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'rspec/rails'
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'support/devise' # Add auth helpers + devise
-require 'support/factory_bot' # Add Factories
+require "support/devise" # Add auth helpers + devise
+require "support/factory_bot" # Add Factories
 
 # Setup spec helpers for Feature tests
-require 'capybara/rails'
-require 'capybara/rspec'
+require "capybara/rails"
+require "capybara/rspec"
 Capybara.register_driver :chrome_headless do |app|
   chrome_capabilities =
-    ::Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' =>
+    ::Selenium::WebDriver::Remote::Capabilities.chrome("goog:chromeOptions" =>
     {
       args: %w[no-sandbox headless disable-gpu window-size=1400,1400]
     })
 
-  if ENV['HUB_URL']
+  if ENV["HUB_URL"]
     Capybara::Selenium::Driver.new(app,
                                    browser: :remote,
-                                   url: ENV['HUB_URL'],
+                                   url: ENV["HUB_URL"],
                                    desired_capabilities: chrome_capabilities)
   else
     Capybara::Selenium::Driver.new(app,
@@ -35,7 +35,7 @@ end
 Capybara.javascript_driver = :chrome_headless
 
 # Add Pundit Helpers
-require 'pundit/rspec'
+require "pundit/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -50,7 +50,7 @@ require 'pundit/rspec'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.

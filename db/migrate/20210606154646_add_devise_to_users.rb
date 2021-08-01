@@ -3,10 +3,11 @@
 # Devise is used for user login, authentication, and email confirmation
 class AddDeviseToUsers < ActiveRecord::Migration[6.1]
   def self.up
+    # rubocop:disable Rails/BulkChangeTable
     change_table :users do |t|
       ## Database authenticatable
-      t.string :email, null: false, default: ''
-      t.string :encrypted_password, null: false, default: ''
+      t.string :email, null: false, default: ""
+      t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
       t.string   :reset_password_token
@@ -36,6 +37,7 @@ class AddDeviseToUsers < ActiveRecord::Migration[6.1]
       # Uncomment below if timestamps were not included in your original model.
       # t.timestamps null: false
     end
+    # rubocop:enable Rails/BulkChangeTable
 
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true

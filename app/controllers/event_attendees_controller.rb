@@ -26,7 +26,7 @@ class EventAttendeesController < ApplicationController
   def create
     respond_to do |format|
       if @event_attendee.save
-        format.html { redirect_to @event_attendee, notice: 'Event attendee was successfully created.' }
+        format.html { redirect_to @event_attendee, notice: "Event attendee was successfully created." }
         format.json { render :show, status: :created, location: @event_attendee }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class EventAttendeesController < ApplicationController
   def update
     respond_to do |format|
       if @event_attendee.update(event_attendee_params)
-        format.html { redirect_to @event_attendee, notice: 'Event attendee was successfully updated.' }
+        format.html { redirect_to @event_attendee, notice: "Event attendee was successfully updated." }
         format.json { render :show, status: :ok, location: @event_attendee }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class EventAttendeesController < ApplicationController
   def destroy
     @event_attendee.destroy
     respond_to do |format|
-      format.html { redirect_to event_attendees_url, notice: 'Event attendee was successfully destroyed.' }
+      format.html { redirect_to event_attendees_url, notice: "Event attendee was successfully destroyed." }
       format.json { head :no_content }
     end
   end
