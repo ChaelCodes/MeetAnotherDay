@@ -1,6 +1,18 @@
 <h1><%= @event.name %></h1>
-<subtitle><%= date_range(@event) %></subtitle>
-<p role="doc-subtitle">
+<p role="doc-subtitle"><%= date_range(@event) %></p>
+<% if current_user&.profile&.attending? @event %>
+  <p>Attending</p>
+<% elsif current_user %>
+  <%= button_to "Attend",
+    event_attendees_path(
+      event_attendee: {
+                        profile_id: current_user.profile,
+                        event_id: @event.id
+                      }
+    ),
+    action: "create" %>
+<% end %>
+<p>
   <%= @event.description %>
 </p>
 
