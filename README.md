@@ -1,34 +1,25 @@
 # ConfBuddies
-An app to help you find and meetup with your buddies at conferences.
+An app to help you find and meet up with your buddies at conferences.
 
-# README
+Have you ever gone to a conference, met someone really cool who lives halfway around the world, and then promptly fell out of touch as soon as the conference was over? A year later, you don't remember their name, but you remember that you met someone really cool at this conference last time you went. ConfBuddies help you manage those relationships! Friend someone while you're at the conference, and when you go to future conferences, find out who else is going!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Tech Stack
 
-Things you may want to cover:
+Tech | Version | Use
+--- | ---
+[Ruby on Rails](https://guides.rubyonrails.org/) | A web application framework built using Ruby that manages interfacing with the database, and responding to web requests
+[Postgres](https://www.postgresql.org/docs/13/index.html) | 13 | Database for storing events, users, and all other data
 
-* Ruby version
+# Dev Environment Setup
+This application has a development environment that supports Docker.
 
-* System dependencies
+## First time setup
+1. Setup web/db containers. `docker compose up -d`
+1. Run database migrations. `docker compose run --rm web bundle exec rake db:create`
+1. The application should be available at [localhost:3000](localhost:3000)
 
-* Configuration
+## Daily use
+Run `docker compose up -d` and the application should be available at [localhost:3000](localhost:3000).
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-# Environment Setup
-This application has a development environment that supports docker.
-
-Run `docker compose up -d` and the application should be available at localhost:3000.
-
-If the database has not been started, `docker compose run --rm web bundle exec rake db:create`.
+## Trouble-shooting
+If you run into an issue with shared mounts on WSL, (`error message: Error response from daemon: path /home/<>/ConfBuddies is mounted on / but it is not a shared mount.`) you may want to try `sudo mount --make-shared /`.
