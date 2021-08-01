@@ -11,7 +11,7 @@
     <% events.each do |event| %>
       <tr>
         <td><%= link_to event, event %></td>
-        <td><%= event.description %></td>
+        <td style="max-width: 500px; min-width: 1px"><%= event.description %></td>
         <td><%= date_range(event) %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>
         <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
