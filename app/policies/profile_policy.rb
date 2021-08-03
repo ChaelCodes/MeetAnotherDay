@@ -26,7 +26,8 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def destroy?
-    user && user.id == profile.user_id
+    return false unless user
+    user.admin? || user.id == profile.user_id
   end
 
   # Permissions and access for a collection of Users

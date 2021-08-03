@@ -129,6 +129,18 @@ RSpec.describe "/profiles", type: :request do
           expect(response).to redirect_to(profile_url(profile))
         end
       end
+
+      context "with admin" do
+        let(:user) { create :user, :admin }
+
+        include_examples "unauthorized access"
+
+        it "does not update profile" do
+          patch_update
+          profile.reload
+          expect(profile.handle).to eq "ChaelCodes"
+        end
+      end
     end
 
     context "with invalid parameters" do
@@ -147,8 +159,23 @@ RSpec.describe "/profiles", type: :request do
 
     let!(:profile) { create :profile }
 
+    include_examples "unauthorized access"
+
     context "with profile's creator" do
       let(:user) { profile.user }
+
+      it "destroys the requested profile" do
+        expect { delete_destroy }.to change(Profile, :count).by(-1)
+      end
+
+      it "redirects to the profiles list" do
+        delete_destroy
+        expect(response).to redirect_to(profiles_url)
+      end
+    end
+
+    context "with an admin" do
+      let(:user) { create :user, :admin }
 
       it "destroys the requested profile" do
         expect { delete_destroy }.to change(Profile, :count).by(-1)
