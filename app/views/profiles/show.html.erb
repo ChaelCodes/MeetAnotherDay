@@ -15,5 +15,4 @@
 
 <%= render 'events/list', events: @events %>
 
-<%= link_to 'Edit', edit_profile_path(@profile) %> |
-<%= link_to 'Back', profiles_path %>
+<%= buttons_for_show(@profile) %>
