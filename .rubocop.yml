@@ -29,6 +29,9 @@ RSpec/ExampleLength:
 RSpec/HookArgument:
   EnforcedStyle: each
 
+RSpec/LetSetup:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Exclude:
     - 'spec/features/**/*'

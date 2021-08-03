@@ -13,4 +13,8 @@ class Profile < ApplicationRecord
   def to_s
     name
   end
+
+  def attending?(event)
+    event_attendees.where(event: event).any?
+  end
 end
