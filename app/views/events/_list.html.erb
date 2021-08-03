@@ -3,7 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -13,8 +13,7 @@
         <td><%= link_to event, event %></td>
         <td style="max-width: 500px; min-width: 1px"><%= event.description %></td>
         <td><%= date_range(event) %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%= buttons_for_index(event) %>
       </tr>
     <% end %>
   </tbody>

@@ -16,8 +16,7 @@
         <td><%= link_to profile, profile %></td>
         <td><%= profile.handle %></td>
         <td><%= profile.bio %></td>
-        <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
-        <td><%= link_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%= buttons_for_index(profile) %>
       </tr>
     <% end %>
   </tbody>

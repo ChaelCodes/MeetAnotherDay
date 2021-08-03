@@ -10,5 +10,4 @@
   <%= link_to @event_attendee.event, @event_attendee.event %>
 </p>
 
-<%= link_to 'Edit', edit_event_attendee_path(@event_attendee) %> |
-<%= link_to 'Back', event_attendees_path %>
+<%= buttons_for_show(@event_attendee) %>
