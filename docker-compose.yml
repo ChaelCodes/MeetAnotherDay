@@ -11,7 +11,7 @@ services:
     volumes:
       - "./:/app/"
   db:
-    image: postgres
+    image: postgres:13
     env_file:
       - config/docker.env
     ports:
