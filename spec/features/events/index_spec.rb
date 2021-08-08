@@ -1,0 +1,39 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+describe "Events" do
+  let!(:event) { create(:event) }
+  let(:user) { nil }
+
+  before(:each) do
+    sign_in user if user
+    visit "/events/".dup
+  end
+
+  it "shows the event" do
+    expect(page).to have_link "RubyConf", href: event_path(event)
+    expect(page).not_to have_link "Edit", href: edit_event_path(event)
+    expect(page).not_to have_link "Delete", href: event_path(event)
+  end
+
+  context "when user logged in" do
+    let(:user) { create :user }
+
+    it "shows the event" do
+      expect(page).to have_link "RubyConf", href: event_path(event)
+      expect(page).not_to have_link "Edit", href: edit_event_path(event)
+      expect(page).not_to have_link "Delete", href: event_path(event)
+    end
+
+    context "when user is admin" do
+      let(:user) { create :user, :admin }
+
+      it "allows user to edit and destroy event" do
+        expect(page).to have_link "RubyConf", href: event_path(event)
+        expect(page).to have_link "Edit", href: edit_event_path(event)
+        expect(page).to have_link "Delete", href: event_path(event)
+      end
+    end
+  end
+end
