@@ -135,7 +135,7 @@ RSpec.describe "/profiles", type: :request do
 
         include_examples "unauthorized access"
 
-        it "does not update profile" do
+        it "does not update the profile" do
           patch_update
           profile.reload
           expect(profile.handle).to eq "ChaelCodes"
