@@ -52,7 +52,13 @@ RSpec.describe "/events", type: :request do
     context "when user is logged in" do
       let(:user) { create :user }
 
-      it "render a successful response" do
+      include_examples "unauthorized access"
+    end
+
+    context "when admin" do
+      let(:user) { create :user, :admin }
+
+      it "renders a successful response" do
         get_edit
         expect(response).to be_successful
       end
@@ -110,6 +116,12 @@ RSpec.describe "/events", type: :request do
     context "with logged in user" do
       let(:user) { create :user }
 
+      include_examples "unauthorized access"
+    end
+
+    context "with admin user" do
+      let(:user) { create :user, :admin }
+
       it "updates the requested event" do
         patch_update
         event.reload
@@ -140,8 +152,14 @@ RSpec.describe "/events", type: :request do
 
     include_examples "redirect to sign in"
 
-    context "when user is logged in" do
+    context "with logged in user" do
       let(:user) { create :user }
+
+      include_examples "unauthorized access"
+    end
+
+    context "when User is admin" do
+      let(:user) { create :user, :admin }
 
       it "destroys the requested event" do
         expect { delete_destroy }.to change(Event, :count).by(-1)
