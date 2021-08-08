@@ -2,24 +2,29 @@
 
 # Rules governing permissions for Events
 class EventPolicy < ApplicationPolicy
+  # Everyone can view Event details
   def show?
     true
   end
 
+  # Everyone can view Event details
   def index?
     true
   end
 
+  # Logged in users can create Events
   def create?
     user.present?
   end
 
+  # Only Admins can update Events
   def update?
-    user.present?
+    user&.admin?
   end
 
+  # Only Admins can destroy Events
   def destroy?
-    user.present?
+    user&.admin?
   end
 
   # Rules governing a list of Events
