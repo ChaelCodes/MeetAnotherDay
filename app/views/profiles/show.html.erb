@@ -1,18 +1,15 @@
-<p>
-  <strong>Name:</strong>
-  <%= @profile.name %>
-</p>
-
-<p>
-  <strong>Handle:</strong>
-  <%= @profile.handle %>
-</p>
-
-<p>
-  <strong>Bio:</strong>
-  <%= @profile.bio %>
-</p>
-
-<%= render 'events/list', events: @events %>
-
-<%= buttons_for_show(@profile) %>
+<div class="container">
+  <h1 class="title"><%= @profile.name %></h1>
+  <h2 class="subtitle"><%= @profile.handle %></h2>
+  <div class="block">
+    <p><%= @profile.bio %></p>
+  </div>
+  <% if @profile.events.present? %>
+    <div class="block">
+      <%= render 'events/list', events: @events %>
+    </div>
+  <% end %>
+  <div>
+    <%= buttons(@profile, include_nav: true) %>
+  </div>
+</div>

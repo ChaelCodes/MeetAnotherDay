@@ -1,13 +1,13 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <p>
+    <strong>Profile:</strong>
+    <%= link_to @event_attendee.profile, @event_attendee.profile %>
+  </p>
 
-<p>
-  <strong>Profile:</strong>
-  <%= link_to @event_attendee.profile, @event_attendee.profile %>
-</p>
+  <p>
+    <strong>Event:</strong>
+    <%= link_to @event_attendee.event, @event_attendee.event %>
+  </p>
 
-<p>
-  <strong>Event:</strong>
-  <%= link_to @event_attendee.event, @event_attendee.event %>
-</p>
-
-<%= buttons_for_show(@event_attendee) %>
+  <%= buttons(@event_attendee) %>
+</div>
