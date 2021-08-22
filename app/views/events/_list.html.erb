@@ -1,4 +1,4 @@
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -11,9 +11,9 @@
     <% events.each do |event| %>
       <tr>
         <td><%= link_to event, event %></td>
-        <td style="max-width: 500px; min-width: 1px"><%= event.description %></td>
+        <td><%= event.description %></td>
         <td><%= date_range(event) %></td>
-        <%= buttons_for_index(event) %>
+        <td><%= buttons(event) %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,27 +1,28 @@
-<h1>Profiles</h1>
+<div class="container">
+  <h1 class="title">Profiles</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Handle</th>
-      <th>Bio</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @profiles.each do |profile| %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= link_to profile, profile %></td>
-        <td><%= profile.handle %></td>
-        <td><%= profile.bio %></td>
-        <%= buttons_for_index(profile) %>
+        <th>Name</th>
+        <th>Handle</th>
+        <th>Bio</th>
+        <th>User</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
-<%= link_to 'New Profile', new_profile_path %>
+    <tbody>
+      <% @profiles.each do |profile| %>
+        <tr>
+          <td><%= link_to profile, profile %></td>
+          <td><%= profile.handle %></td>
+          <td><%= profile.bio %></td>
+          <td><%= profile.user.name %></td>
+          <td><%= buttons(profile) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'New Profile', new_profile_path, class: "button is-primary" %>
+</div>
