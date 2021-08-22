@@ -3,38 +3,28 @@
 # Any needed Application UI functions
 module ApplicationHelper
   # Display buttons for the show page
-  def buttons_for_show(resource)
+  def buttons(resource, include_nav: false)
     buttons = []
     buttons << edit_link(resource)
-    buttons << delete_link(resource)
-    buttons << index_link(resource)
-    safe_join(buttons.compact_blank, "|")
+    buttons << delete_button(resource)
+    buttons << index_link(resource) if include_nav
+    tag.div(safe_join(buttons), class: "buttons")
   end
 
-  # Display buttons for the show page
-  def buttons_for_index(resource)
-    buttons = []
-    buttons << edit_link(resource)
-    buttons << delete_link(resource)
-    buttons.map do |button|
-      tag.td { button }
-    end
-    safe_join(buttons)
-  end
-
-  # Delete Link if the user has permission
-  def delete_link(resource)
+  # Delete Button if the user has permission
+  def delete_button(resource)
     return unless policy(resource).destroy?
-    link_to("Delete",
-            url_for(resource),
-            method: :delete,
-            data: { confirm: "Are you sure?" })
+    button_to("Delete",
+              url_for(resource),
+              method: :delete,
+              data: { confirm: "Are you sure?" },
+              class: "button is-danger")
   end
 
   # Edit Link if the user has permission
   def edit_link(resource)
     return unless policy(resource).edit?
-    link_to("Edit", url_for([:edit, resource]))
+    link_to("Edit", url_for([:edit, resource]), class: "button is-success")
   end
 
   # Index Link if the user has permission
