@@ -40,6 +40,12 @@ module ApplicationHelper
   # Index Link if the user has permission
   def index_link(resource)
     return unless policy(resource).index?
-    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class))
+    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class), class: "button is-link")
+  end
+
+  def alert_color
+    return "is-danger" if alert || response.status == 422
+    return "is-success" if notice
+    "is-primary"
   end
 end
