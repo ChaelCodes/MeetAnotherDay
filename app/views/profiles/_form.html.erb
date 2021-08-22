@@ -1,20 +1,9 @@
-<%= form_with(model: profile) do |form| %>
+<%= form_with(model: profile, builder: ApplicationFormBuilder) do |form| %>
   <%= render 'layouts/errors', resource: profile %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :handle %>
-    <%= form.text_field :handle %>
-  </div>
-
-  <div class="field">
-    <%= form.label :bio %>
-    <%= form.text_area :bio %>
-  </div>
+  <%= form.labelled_text_field :name %>
+  <%= form.labelled_text_field :handle %>
+  <%= form.labelled_text_area :bio %>
 
   <div class="actions">
     <%= form.submit %>
