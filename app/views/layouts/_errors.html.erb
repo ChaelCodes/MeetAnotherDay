@@ -1,11 +1,14 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(resource.errors.count, "error") %> prohibited this #{resource.to_s} from being saved:</h2>
-
-    <ul>
-      <% resource.errors.each do |error| %>
-        <li><%= error.full_message %></li>
-      <% end %>
-    </ul>
-  </div>
+  <article class="message is-danger">
+    <div class="message-header">
+      <%= "#{pluralize(resource.errors.count, "error")} prohibited this #{resource.to_s} from being saved:" %>
+    </div>
+    <div class="message-body">
+      <ul>
+        <% resource.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  </article>
 <% end %>

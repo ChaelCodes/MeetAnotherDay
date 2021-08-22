@@ -1,37 +1,22 @@
-<%= form_with(model: event) do |form| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
-      <ul>
-        <% event.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div class="block">
+  <%= form_with(model: event, builder: ApplicationFormBuilder) do |form| %>
+    <%= render "layouts/errors", resource: @event %>
+    
+    <%= form.labelled_text_field :name %>
+    <%= form.labelled_text_area :description %>
+    <div class="field">
+      <label class="label">Date</label>
+      <div class="control columns">
+        <div class="column">
+          <%= form.datetime_local_field :start_at, class: "input" %>
+        </div>
+        <div class="column">
+          <%= form.datetime_local_field :end_at, class: "input" %>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <%= form.submit "Submit", class: "button is-primary" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, size: '100x10' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_at %>
-    <%= form.datetime_local_field :start_at %>
-  </div>
-
-  <div class="field">
-    <%= form.label :end_at %>
-    <%= form.datetime_local_field :end_at %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
