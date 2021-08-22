@@ -1,0 +1,25 @@
+<nav class="navbar <%= alert_color %>" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">ConfBuddies</a>
+    <%= link_to "Events", events_path, class: "navbar-item" %>
+    <% if current_user %>
+      <% if current_user.profile&.id %>
+        <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item" %>
+      <% else %>
+        <%= link_to "Create Profile", new_profile_path, class: "navbar-item" %>
+      <% end %>
+      <div class="navbar-item">
+        <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "button #{alert_color} is-inverted is-outlined" %>
+      </div>
+    <% else %>
+      <div class="navbar-item">
+        <%= button_to "Sign In", new_user_session_path, class: "button #{alert_color} is-inverted is-outlined" %>
+      </div>
+    <% end %>
+    <% if notice || alert %>
+      <div class="navbar-item">
+        <%= notice || alert %>
+      </div>
+    <% end %>
+  </div>
+</nav>
