@@ -20,7 +20,7 @@ describe "Profile" do
     it "shows the profile" do
       expect(page).to have_content "ChaelCodes"
       expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
-      expect(page).not_to have_link "Delete", href: profile_path(profile)
+      expect(page).not_to have_button "Delete"
     end
 
     context "when profile belongs to the user" do
@@ -28,7 +28,7 @@ describe "Profile" do
 
       it "allows user to edit profile" do
         expect(page).to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).to have_link "Delete", href: profile_path(profile)
+        expect(page).to have_button "Delete"
       end
     end
 
@@ -37,7 +37,7 @@ describe "Profile" do
 
       it "allows user to destroy profile" do
         expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).to have_link "Delete", href: profile_path(profile)
+        expect(page).to have_button "Delete"
       end
     end
   end

@@ -14,7 +14,7 @@ describe "Events" do
   it "shows the event" do
     expect(page).to have_content "RubyConf"
     expect(page).not_to have_link "Edit", href: edit_event_path(event)
-    expect(page).not_to have_link "Delete", href: event_path(event)
+    expect(page).not_to have_button "Delete"
     expect(page).to have_link "All Events", href: events_path
   end
 
@@ -24,7 +24,7 @@ describe "Events" do
     it "shows the event" do
       expect(page).to have_content "RubyConf"
       expect(page).not_to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_link "Delete", href: event_path(event)
+      expect(page).not_to have_button "Delete"
     end
 
     context "when user is admin" do
@@ -33,7 +33,7 @@ describe "Events" do
       it "allows user to edit and destroy event" do
         expect(page).to have_content "RubyConf"
         expect(page).to have_link "Edit", href: edit_event_path(event)
-        expect(page).to have_link "Delete", href: event_path(event)
+        expect(page).to have_button "Delete"
       end
     end
   end
