@@ -4,6 +4,7 @@
     <%= link_to "Events", events_path, class: "navbar-item" %>
     <% if current_user %>
       <% if current_user.profile&.id %>
+        <%= link_to "Friends", friendships_path, class: "navbar-item" %>
         <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item" %>
       <% else %>
         <%= link_to "Create Profile", new_profile_path, class: "navbar-item" %>
