@@ -1,28 +1,35 @@
+# frozen_string_literal: true
+
+# Manages routes for friendships
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :create_friendship, only: :create
+  before_action :set_friendship, only: %i[show edit update destroy]
 
   # GET /friendships or /friendships.json
   def index
-    @friendships = Friendship.all
+    return unless current_user.profile
+    @profile = current_user.profile
+    @friendships = Friendship.where(friend_id: @profile.id,
+                                    status: :accepted).or(Friendship.where(
+                                                            buddy_id: @profile.id, status: :accepted
+                                                          ))
   end
 
   # GET /friendships/1 or /friendships/1.json
-  def show
-  end
+  def show; end
 
   # GET /friendships/new
   def new
     @friendship = Friendship.new
+    authorize @friendship
   end
 
   # GET /friendships/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /friendships or /friendships.json
   def create
-    @friendship = Friendship.new(friendship_params)
-
     respond_to do |format|
       if @friendship.save
         format.html { redirect_to @friendship, notice: "Friendship was successfully created." }
@@ -57,13 +64,20 @@ class FriendshipsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_friendship
-      @friendship = Friendship.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def friendship_params
-      params.require(:friendship).permit(:friendship_id_id, :buddy_id_id, :status)
-    end
+  def create_friendship
+    @friendship = Friendship.new(friendship_params)
+    authorize @friendship
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_friendship
+    @friendship = policy_scope(Friendship).find(params[:id])
+    authorize @friendship
+  end
+
+  # Only allow a list of trusted parameters through.
+  def friendship_params
+    params.require(:friendship).permit(:friend_id, :buddy_id, :status)
+  end
 end
