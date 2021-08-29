@@ -23,6 +23,16 @@ describe "Profile" do
       expect(page).not_to have_button "Delete"
     end
 
+    context "when user has a profile" do
+      let(:profile) { create(:profile, user: user) }
+
+      it "allows user to befriend another" do
+        expect(page).to have_button "Request Friend"
+        click_button "Request Friend"
+        expect(page).to have_content "Friendship was successfully created."
+      end
+    end
+
     context "when profile belongs to the user" do
       let(:user) { profile.user }
 
