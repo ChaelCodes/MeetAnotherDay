@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(version: 2021_08_29_151335) do
   end
 
   create_table "friendships", force: :cascade do |t|
-    t.integer "friendship_id", null: false
+    t.integer "friend_id", null: false
     t.integer "buddy_id", null: false
     t.integer "status", default: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["friendship_id", "buddy_id"], name: "index_friendships_on_friendship_id_and_buddy_id", unique: true
+    t.index ["friend_id", "buddy_id"], name: "index_friendships_on_friend_id_and_buddy_id", unique: true
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -75,5 +75,5 @@ ActiveRecord::Schema.define(version: 2021_08_29_151335) do
   add_foreign_key "event_attendees", "events"
   add_foreign_key "event_attendees", "profiles"
   add_foreign_key "friendships", "profiles", column: "buddy_id"
-  add_foreign_key "friendships", "profiles", column: "friendship_id"
+  add_foreign_key "friendships", "profiles", column: "friend_id"
 end

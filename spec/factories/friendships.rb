@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :friendship do
-    friendship_id { nil }
-    buddy_id { nil }
-    status { 1 }
+    buddy { create :profile }
+    friend { create :profile }
+    status { :requested }
   end
 end
