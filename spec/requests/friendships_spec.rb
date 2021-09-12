@@ -27,6 +27,15 @@ RSpec.describe "/friendships", type: :request do
         expect(response).to be_successful
       end
     end
+
+    context "when user has profile" do
+      let(:profile) { create :profile, user: user }
+
+      it "renders a successful response" do
+        get_index
+        expect(response).to be_successful
+      end
+    end
   end
 
   describe "GET /show" do
