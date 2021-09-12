@@ -31,11 +31,22 @@ class FriendshipPolicy < ApplicationPolicy
 
   def update?
     return false unless user
+    return false if friendship.blocked?
     user.profile == friendship.buddy || user.profile == friendship.friend
   end
 
   def destroy?
     user.admin? || update?
+  end
+
+  # Buddy is the person who requested the friendship
+  # Only the friend can accept the friendship
+  def accept?
+    user.profile == friendship.friend
+  end
+
+  def block?
+    update?
   end
 
   # Permissions and access for a collection of Users
