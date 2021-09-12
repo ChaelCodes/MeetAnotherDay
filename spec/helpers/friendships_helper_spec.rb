@@ -2,16 +2,32 @@
 
 require "rails_helper"
 
-# Specs in this file have access to a helper object that includes
-# the FriendshipsHelper. For example:
-#
-# describe FriendshipsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
+# Describes the FriendshipHelper
 RSpec.describe FriendshipsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#friendship_button" do
+    subject { helper.friendship_button(profile, my_profile) }
+
+    let(:profile) { create(:profile) }
+    let(:my_profile) { create(:profile) }
+
+    it "returns a button" do
+      is_expected.to match(/Request Friend/)
+    end
+
+    context "when the profiles are friends" do
+      let!(:friendship) { create(:friendship, buddy: profile, friend: my_profile, status: :accepted) }
+
+      it "says they friends" do
+        is_expected.to match(%r{friendships/#{friendship.id}})
+      end
+    end
+
+    context "when the friendship has been blocked" do
+      let!(:friendship) { create(:friendship, buddy: profile, friend: my_profile, status: :blocked) }
+
+      it "says they are not friends" do
+        is_expected.to match(/Request Declined/)
+      end
+    end
+  end
 end
