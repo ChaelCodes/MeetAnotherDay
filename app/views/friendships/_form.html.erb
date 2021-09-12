@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :friendship_id_id %>
-    <%= form.text_field :friendship_id_id %>
+    <%= form.label :friend_id %>
+    <%= form.text_field :friend_id %>
   </div>
 
   <div class="field">
-    <%= form.label :buddy_id_id %>
-    <%= form.text_field :buddy_id_id %>
+    <%= form.label :buddy_id %>
+    <%= form.text_field :buddy_id %>
   </div>
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.number_field :status %>
+    <%= form.select :status, Friendship.statuses.keys %>
   </div>
 
   <div class="actions">

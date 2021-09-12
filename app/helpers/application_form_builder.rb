@@ -25,6 +25,12 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def labelled_select(method, *input_options, label_options: {})
+    form_controls(method, label_options) do
+      select(method, *input_options)
+    end
+  end
+
   def labelled_text_area(method, label_options: {}, input_options: {})
     form_controls(method, label_options) do
       text_area(method, input_options)
@@ -60,6 +66,12 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
   # FormBuilder Overrides
   def collection_select(*args)
+    tag.div class: "select" do
+      super(*args)
+    end
+  end
+
+  def select(*args)
     tag.div class: "select" do
       super(*args)
     end
