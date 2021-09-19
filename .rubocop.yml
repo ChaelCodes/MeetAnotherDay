@@ -29,6 +29,9 @@ RSpec/ExampleLength:
 RSpec/HookArgument:
   EnforcedStyle: each
 
+RSpec/ImplicitSubject:
+  Enabled: false
+
 RSpec/LetSetup:
   Enabled: false
 
