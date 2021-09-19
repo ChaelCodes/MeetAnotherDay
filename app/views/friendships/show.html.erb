@@ -15,5 +15,8 @@
       <%= @friendship.status %>
     </p>
   </div>
-  <%= buttons @friendship, include_nav: true %>
+  <div class="buttons">
+    <%= destroy_friendship_button(@friendship) %>
+    <%= block_button(@friendship) %>
+  </div>
 </div>
