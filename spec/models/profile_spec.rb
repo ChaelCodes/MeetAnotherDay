@@ -19,6 +19,14 @@ RSpec.describe Profile, type: :model do
     end
   end
 
+  describe "#friend_requests" do
+    subject { profile.friend_requests }
+
+    let(:friendship) { create :friendship, friend: profile }
+
+    it { is_expected.to include friendship }
+  end
+
   describe "#friends" do
     subject { profile.friends }
 
