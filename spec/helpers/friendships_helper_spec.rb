@@ -11,15 +11,15 @@ RSpec.describe FriendshipsHelper, type: :helper do
     let(:my_profile) { create(:profile) }
 
     it "returns a button" do
-      is_expected.to match(/Request Friend/)
+      expect(subject).to match(/Request Friend/)
     end
 
     context "when the profiles are friends" do
       let!(:friendship) { create(:friendship, buddy: profile, friend: my_profile, status: :accepted) }
 
       it "says they friends" do
-        is_expected.to match(/Friends/)
-        is_expected.to match(/friendships\/#{friendship.id}/)
+        expect(subject).to match(/Friends/)
+        expect(subject).to match(%r{friendships/#{friendship.id}})
       end
     end
 

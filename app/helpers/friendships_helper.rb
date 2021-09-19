@@ -3,7 +3,7 @@
 # methods to help with displaying friendship!
 module FriendshipsHelper
   def friendship_button(profile, my_profile = current_user&.profile)
-    return unless my_profile.present?
+    return if my_profile.blank?
     friendship = my_profile.friendship_with(profile)
     case friendship&.status
     when nil
@@ -22,11 +22,11 @@ module FriendshipsHelper
   end
 
   def be_my_buddy_button(friendship)
-    button_to "Be my buddy?", friendship_path(friendship, { status: :accepted }), method: :put, class: 'btn btn-primary'
+    button_to "Be my buddy?", friendship_path(friendship, { status: :accepted }), method: :put, class: "btn btn-primary"
   end
 
   def decline_friendship_button(friendship)
-    button_to "Ignore", friendship_path(friendship), method: :put, class: 'btn btn-danger'
+    button_to "Ignore", friendship_path(friendship), method: :put, class: "btn btn-danger"
   end
 
   def request_friend(profile, my_profile)
