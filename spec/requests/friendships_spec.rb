@@ -79,19 +79,13 @@ RSpec.describe "/friendships", type: :request do
     context "with buddy" do
       let(:user) { friendship.buddy.user }
 
-      it "render a successful response" do
-        get_edit
-        expect(response).to be_successful
-      end
+      include_examples "unauthorized access"
     end
 
     context "with friend" do
       let(:user) { friendship.friend.user }
 
-      it "render a successful response" do
-        get_edit
-        expect(response).to be_successful
-      end
+      include_examples "unauthorized access"
     end
   end
 
