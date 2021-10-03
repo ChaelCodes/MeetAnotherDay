@@ -17,6 +17,11 @@ describe "Events" do
     expect(page).not_to have_button "Delete"
   end
 
+  it "only shows future events" do
+    past_event = create(:event, :past_event)
+    expect(page).not_to have_link past_event.name, href: event_path(past_event)
+  end
+
   context "when user logged in" do
     let(:user) { create :user }
 
