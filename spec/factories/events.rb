@@ -12,5 +12,12 @@ FactoryBot.define do
       start_at { "2021-08-05 21:00:00" }
       end_at { "2021-08-05 23:59:00" }
     end
+
+    trait :past_event do
+      name { "PastConf" }
+      description { "The conference you always miss by a few days." }
+      start_at { 3.days.ago }
+      end_at { 1.day.ago }
+    end
   end
 end

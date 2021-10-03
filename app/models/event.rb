@@ -7,6 +7,8 @@ class Event < ApplicationRecord
 
   validates :start_at, :end_at, presence: true
 
+  scope :ongoing_or_upcoming, -> { where("end_at >= ?", Time.zone.now) }
+
   def to_s
     name
   end
