@@ -26,11 +26,14 @@ RSpec.describe "/event_attendees", type: :request do
   describe "GET /index" do
     subject(:get_index) { get event_attendees_url }
 
-    let!(:event_attendee) { create :event_attendee }
+    context "when user is logged in" do
+      let!(:event_attendee) { create :event_attendee }
+      let(:user) { event_attendee.profile.user }
 
-    it "renders a successful response" do
-      get_index
-      expect(response.body).to include(event_attendee.profile_id.to_s)
+      it "renders a successful response" do
+        get_index
+        expect(response.body).to include(event_attendee.profile_id.to_s)
+      end
     end
   end
 
