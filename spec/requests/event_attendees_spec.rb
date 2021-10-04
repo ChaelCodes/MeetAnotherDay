@@ -27,12 +27,17 @@ RSpec.describe "/event_attendees", type: :request do
     subject(:get_index) { get event_attendees_url }
 
     context "when user is logged in" do
-      let!(:event_attendee) { create :event_attendee }
-      let(:user) { event_attendee.profile.user }
+      let!(:event_attendee) { create_list :event_attendee, 2 }
+      let(:user) { event_attendee[0].profile.user }
 
       it "renders a successful response" do
         get_index
-        expect(response.body).to include(event_attendee.profile_id.to_s)
+        expect(response.body).to include(event_attendee[0].profile_id.to_s)
+      end
+
+      it "don't render other users records" do
+        get_index
+        expect(response.body).not_to include(event_attendee[1].profile_id.to_s)
       end
     end
   end
