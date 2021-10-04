@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="block">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), builder: ApplicationFormBuilder) do |form| %>
+      <%= render "layouts/errors", resource: resource %>
+      <div class="field">
+        <label class="label">Email</label>
+        <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <%= form.password_field :password, autocomplete: "current-password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <% form.labelled_check_box(:remember_me) %>
+      <% end %>
+
+      <div class="field actions">
+        <%= form.submit "Log in", class: "button is-primary" %>
+      </div>
+
+      <div class="field actions">
+        <%= render "devise/shared/links" %>
+      </div>
+    <% end %>
+  </div>
+</div>
