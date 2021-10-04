@@ -7,32 +7,32 @@ To get started, you will need either Docker [desktop](https://docs.docker.com/de
 Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing,
 
 ## First time setup
-1. Setup web and db containers. `docker-compose up -d`
-2. Create database tables. `docker-compose run --rm web bundle exec rake db:create`
-3. Run database migrations. `docker-compose run --rm web bundle exec rake db:migrate`
+1. Setup web and db containers. `docker compose up -d`
+1. Create database tables. `docker compose run --rm web bundle exec rake db:create`
+1. Run database migrations. `docker compose run --rm web bundle exec rake db:migrate`
 
 ## Daily use
-Run `docker-compose up -d` will run those services in the background and the application should be available at [localhost:3000](localhost:3000).
+Run `docker compose up -d` will run those services in the background and the application should be available at [localhost:3000](localhost:3000).
 Run `docker ps` to see all of the running services which are defined in `docker-compose.yml`.
 
 ## Testing
-Run `docker-compose run --rm web bundle exec rspec` to run the test suite. We have GitHub Actions setup to run the test suite automatically. We expect new tests for new functionality, and your PR to having a passing test suite before review.
+Run `docker compose run --rm web bundle exec rspec` to run the test suite. We have GitHub Actions setup to run the test suite automatically. We expect new tests for new functionality, and your PR to having a passing test suite before review.
 
 ## Teardown
-When you're done, run `docker-compose down` to stop the containers. You can remove all containers, images, and volumes with `docker-compose rm -v` when you're done contributing to ConfBuddies.
+When you're done, run `docker compose down` to stop the containers. You can remove all containers, images, and volumes with `docker compose rm -v` when you're done contributing to ConfBuddies.
 
 ## Helpful Docker Commands
 To open the Rails console:\
-`docker-compose run --rm web bin/rails c`
+`docker compose run --rm web bin/rails c`
 
 To open the Postgres console:\
-`docker-compose exec db psql -U postgres ConfBuddies_development`
+`docker compose exec db psql -U postgres ConfBuddies_development`
 
 To run your tests:\
-`docker-compose run --rm web bundle exec rspec`
+`docker compose run --rm web bundle exec rspec`
 
 To run rubocop:\
-`docker-compose run --rm web bundle exec rubocop`
+`docker compose run --rm web bundle exec rubocop`
 
 To reset the database with the seed data:
 1. (If server was running) Shut down the web server: `docker-compose stop web`
