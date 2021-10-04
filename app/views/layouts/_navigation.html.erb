@@ -14,7 +14,7 @@
       </div>
     <% else %>
       <div class="navbar-item">
-        <%= button_to "Sign In", new_user_session_path, class: "button #{alert_color} is-inverted is-outlined" %>
+        <%= link_to "Sign In", new_user_session_path, class: "button #{alert_color} is-inverted is-outlined" %>
       </div>
     <% end %>
     <% if notice || alert %>
