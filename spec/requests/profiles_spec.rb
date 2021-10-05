@@ -138,7 +138,7 @@ RSpec.describe "/profiles", type: :request do
         it "does not update the profile" do
           patch_update
           profile.reload
-          expect(profile.handle).to eq "ChaelCodes"
+          expect(profile.handle).to_not eq "ChaelChats"
         end
       end
     end
