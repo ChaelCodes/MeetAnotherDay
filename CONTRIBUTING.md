@@ -6,6 +6,11 @@ This application has a development environment that supports Docker. We believe 
 To get started, you will need either Docker [desktop](https://docs.docker.com/desktop/#download-and-install) or Docker [engine](https://docs.docker.com/engine/install) as well as
 Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing,
 
+Please note:
+Older versions of Docker that were release before version 2 and the [new docker compose command](https://docs.docker.com/compose/cli-command/#compose-v2-and-the-new-docker-compose-command) will have to use a hyphen in these commands instead.
+For example running `docker-compose` instead of `docker compose` listed in the examples below.
+
+
 ## First time setup
 1. Setup web and db containers. `docker compose up -d`
 1. Create database tables. `docker compose run --rm web bundle exec rake db:create`
