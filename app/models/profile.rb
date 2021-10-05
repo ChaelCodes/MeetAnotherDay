@@ -13,7 +13,7 @@ class Profile < ApplicationRecord
   # Whether they are "buddy" or "friend"
   has_many :buddyships, class_name: "Friendship", foreign_key: "buddy_id", dependent: :destroy, inverse_of: :buddy
   has_many :friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy, inverse_of: :friend
-  validates :handle, presence: true
+  validates :handle, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters are allowed" }, uniqueness: { case_sensitive: true }
 
   def to_s
     name
