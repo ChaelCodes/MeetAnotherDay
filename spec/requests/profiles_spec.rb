@@ -102,7 +102,9 @@ RSpec.describe "/profiles", type: :request do
   end
 
   describe "PATCH /update" do
-    subject(:patch_update) { patch profile_url(profile), params: { profile: attributes } }
+    subject(:patch_update) do
+      patch profile_url(profile), params: { profile: attributes }
+    end
 
     context "with valid parameters" do
       let(:attributes) do
@@ -138,7 +140,7 @@ RSpec.describe "/profiles", type: :request do
         it "does not update the profile" do
           patch_update
           profile.reload
-          expect(profile.handle).to_not eq "ChaelChats"
+          expect(profile.handle).not_to eq "ChaelChats"
         end
       end
     end
