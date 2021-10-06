@@ -1,9 +1,6 @@
 name: Check Code
 
-on:
-  pull_request:
-  push:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
   lint:
