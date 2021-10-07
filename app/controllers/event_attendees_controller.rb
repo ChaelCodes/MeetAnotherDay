@@ -51,7 +51,6 @@ class EventAttendeesController < ApplicationController
 
   # DELETE /event_attendees/1 or /event_attendees/1.json
   def destroy
-    byebug
     @event_attendee.destroy
     respond_to do |format|
       format.html { redirect_to event_attendees_url, notice: "Event attendee was successfully destroyed." }
