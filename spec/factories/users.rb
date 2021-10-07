@@ -9,7 +9,7 @@ FactoryBot.define do
     confirmed_at { 1.day.ago }
 
     trait :unconfirmed do
-      confirmed_at { nil }
+      confirmed_at { 1.day.ago }
     end
 
     trait :admin do
