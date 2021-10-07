@@ -11,7 +11,12 @@
     </div>
     <div class="column is-one-quarter">
       <% if current_user&.profile&.attending? @event %>
-        <p>Attending</p>
+        <%= button_to "Not Attending",
+        { controller: :event_attendees, 
+        action: :destroy, 
+        id: current_user&.profile&.event_attendee(@event)&.first&.id }, 
+        method: :delete,
+        class: "button is-danger" %>
       <% elsif current_user %>
         <%= button_to "Attend",
           event_attendees_path(
