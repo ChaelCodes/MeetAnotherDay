@@ -25,6 +25,10 @@ class Profile < ApplicationRecord
     event_attendees.where(event: event).any?
   end
 
+  def event_attendee(event)
+    event_attendees.where(event: event)
+  end
+
   def friends
     Profile.where(id: friendships.select(:buddy_id).accepted)
            .or(Profile.where(id: buddyships.select(:friend_id).accepted))
