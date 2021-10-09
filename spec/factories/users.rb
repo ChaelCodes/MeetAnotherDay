@@ -10,7 +10,10 @@ FactoryBot.define do
 
     trait :unconfirmed do
       confirmed_at { nil }
-      confirmation_sent_at { 4.days.ago }
+      after(:create) do |user|
+        # Overwrite confirmation_sent_at
+        user.update(confirmation_sent_at: 4.days.ago)
+      end
     end
 
     trait :admin do
