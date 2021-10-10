@@ -1,0 +1,8 @@
+<% if event_attendees %>
+  <h4><%= t(".buddies_attending", count: event_attendees.count) %></h4>
+  <ul>
+    <% event_attendees.each do |event_attendee| %>
+      <li><%= link_to event_attendee.profile, event_attendee.profile %></li>
+    <% end %>
+  </ul>
+<% end %>
