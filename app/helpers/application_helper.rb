@@ -38,4 +38,14 @@ module ApplicationHelper
     return "is-success" if notice
     "is-primary"
   end
+
+  # Helper method to convert Markwodn to HTML in the views
+  def kramdown(text)
+    sanitize Kramdown::Document.new(text).to_html
+  end
+
+  # Converts to html and then that removes all html tags in order to get pure text
+  def kramdown_pure_text(text)
+    sanitize kramdown(text), { tags: [] }
+  end
 end
