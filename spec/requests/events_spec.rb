@@ -24,6 +24,14 @@ RSpec.describe "/events", type: :request do
     let(:event) { create :event }
     let(:format) { :html }
 
+    context "when description has markdown" do
+      it "converts markdown to html" do
+        get event_url(event)
+        expected_str = '<a href="https://rubyconf.org/">RubyConf 2020</a> will be held in <code>Denver</code>.'
+        expect(response.body).to include(expected_str)
+      end
+    end
+
     context "when format is html" do
       let(:format) { :html }
 
