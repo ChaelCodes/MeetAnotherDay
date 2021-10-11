@@ -11,7 +11,7 @@ COPY Gemfile Gemfile.lock /app/
 
 WORKDIR /app/
 
-RUN bundle install
+RUN bundle install --jobs=2
 
 ENTRYPOINT ["./scripts/remove_server_pid.sh"]
 CMD bundle exec rails server -b 0.0.0.0 -p 3000

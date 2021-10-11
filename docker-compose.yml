@@ -10,6 +10,7 @@ services:
       - "3000:3000"
     volumes:
       - "./:/app/"
+      - bundle_cache:/usr/local/bundle
   db:
     image: postgres:13
     env_file:
@@ -26,3 +27,5 @@ services:
 volumes:
   # Volume to hold the Postgres database on the host system
   data:
+  bundle_cache:
+    driver: local
