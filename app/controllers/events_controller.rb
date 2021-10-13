@@ -11,7 +11,14 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1 or /events/1.json
-  def show; end
+  def show
+    return unless current_profile
+    @event_attendees = EventAttendee
+                       .where(event_id: @event.id)
+                       .joins(:profile)
+                       .where(profiles:
+        { id: current_profile.friends.select(:id) })
+  end
 
   # GET /events/new
   def new
@@ -58,6 +65,10 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def current_profile
+    @current_profile = current_user&.profile
+  end
 
   # Callback for the create endpoint that instantiates and authorizes an event.
   def create_event

@@ -19,11 +19,60 @@ RSpec.describe "/events", type: :request do
   end
 
   describe "GET /show" do
-    let(:event) { create :event }
+    subject(:get_show) { get event_url(event), params: { format: format } }
 
-    it "renders a successful response" do
-      get event_url(event)
-      expect(response).to be_successful
+    let(:event) { create :event }
+    let(:format) { :html }
+
+    context "when description has markdown" do
+      it "converts markdown to html" do
+        get event_url(event)
+        expected_str = '<a href="https://rubyconf.org/">RubyConf 2020</a> will be held in <code>Denver</code>.'
+        expect(response.body).to include(expected_str)
+      end
+    end
+
+    context "when format is html" do
+      let(:format) { :html }
+
+      it "renders a successful response" do
+        get event_url(event)
+        expect(response).to be_successful
+      end
+    end
+
+    context "when format is json" do
+      let(:format) { :json }
+
+      it "shares event details" do
+        get_show
+        expect(json_body).to include(
+          "id" => event.id,
+          "name" => event.name
+        )
+      end
+
+      context "when profile has friend attending" do
+        let(:user) { friendship.buddy.user }
+        let!(:friendship) { create :friendship, status: :accepted }
+        let!(:event_attendee) { create :event_attendee, profile: friendship.friend, event: event }
+
+        it "includes friend's name" do
+          get_show
+          expect(json_body.dig("event_attendees", 0, "profile", "name")).to eq friendship.friend.name
+        end
+      end
+
+      context "when profile has no friend attending" do
+        let(:profile) { create :profile }
+        let(:user) { profile.user }
+        let!(:event_attendee) { create :event_attendee, event: event }
+
+        it "does not include stranger's name" do
+          get_show
+          expect(json_body.dig("attendees", 0, "name")).to be_nil
+        end
+      end
     end
   end
 

@@ -102,7 +102,9 @@ RSpec.describe "/profiles", type: :request do
   end
 
   describe "PATCH /update" do
-    subject(:patch_update) { patch profile_url(profile), params: { profile: attributes } }
+    subject(:patch_update) do
+      patch profile_url(profile), params: { profile: attributes }
+    end
 
     context "with valid parameters" do
       let(:attributes) do
@@ -131,6 +133,7 @@ RSpec.describe "/profiles", type: :request do
       end
 
       context "with admin" do
+        let(:profile) { create :profile, handle: "Foo" }
         let(:user) { create :user, :admin }
 
         include_examples "unauthorized access"
