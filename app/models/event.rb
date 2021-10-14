@@ -6,6 +6,7 @@ class Event < ApplicationRecord
   has_many :attendees, through: :event_attendees, source: :profile
 
   validates :start_at, :end_at, presence: true
+  validates :handle, presence: true
 
   scope :ongoing_or_upcoming, -> { where("end_at >= ?", Time.zone.now) }
 
