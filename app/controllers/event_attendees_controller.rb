@@ -2,12 +2,13 @@
 
 # Manages routing and instantiating variable for Event Attendees endpoints
 class EventAttendeesController < ApplicationController
+  before_action :authenticate_user!, only: %i[create new update edit destroy index]
   before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
 
   # GET /event_attendees or /event_attendees.json
   def index
-    @event_attendees = EventAttendee.all
+    @event_attendees = EventAttendee.where(profile_id: current_user.profile.id)
   end
 
   # GET /event_attendees/1 or /event_attendees/1.json
