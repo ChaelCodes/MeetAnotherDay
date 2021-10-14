@@ -13,6 +13,7 @@ describe "Events" do
 
   it "shows the event" do
     expect(page).to have_link "RubyConf", href: event_path(event)
+    expect(page).not_to have_link "New Event", href: new_event_path
     expect(page).not_to have_link "Edit", href: edit_event_path(event)
     expect(page).not_to have_button "Delete"
   end
@@ -27,6 +28,7 @@ describe "Events" do
 
     it "shows the event" do
       expect(page).to have_link "RubyConf", href: event_path(event)
+      expect(page).to have_link "New Event", href: new_event_path
       expect(page).not_to have_link "Edit", href: edit_event_path(event)
       expect(page).not_to have_button "Delete"
     end
@@ -36,6 +38,7 @@ describe "Events" do
 
       it "allows user to edit and destroy event" do
         expect(page).to have_link "RubyConf", href: event_path(event)
+        expect(page).to have_link "New Event", href: new_event_path
         expect(page).to have_link "Edit", href: edit_event_path(event)
         expect(page).to have_button "Delete"
       end
