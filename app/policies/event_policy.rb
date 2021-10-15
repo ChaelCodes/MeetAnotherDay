@@ -2,7 +2,6 @@
 
 # Rules governing permissions for Events
 class EventPolicy < ApplicationPolicy
-
   # Only Admins can new Events
   def new?
     user&.confirmed?
