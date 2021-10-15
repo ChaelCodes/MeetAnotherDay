@@ -27,8 +27,8 @@ describe "Events" do
     let(:user) { create :user, :unconfirmed }
 
     it "shows the event" do
-      expect(page).not_to have_link "RubyConf", href: event_path(event)
-      expect(page).to have_link "New Event", href: new_event_path
+      expect(page).to have_link "RubyConf", href: event_path(event)
+      expect(page).not_to have_link "New Event", href: new_event_path
       expect(page).not_to have_link "Edit", href: edit_event_path(event)
       expect(page).not_to have_button "Delete"
     end
