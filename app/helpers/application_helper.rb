@@ -22,7 +22,7 @@ module ApplicationHelper
               class: "button is-danger")
   end
 
-   # Show Link if the user has permission
+  # Show Link if the user has permission
   def show_link(resource)
     return unless policy(resource).show?
     link_to("Show", url_for(resource), class: "button is-link")
