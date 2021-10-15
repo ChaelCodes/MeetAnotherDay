@@ -6,6 +6,7 @@ class EventPolicy < ApplicationPolicy
   def new?
     user&.confirmed?
   end
+
   # Everyone can view Event details
   def show?
     true
