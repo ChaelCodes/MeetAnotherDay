@@ -33,6 +33,7 @@ class EventsController < ApplicationController
   def create
     respond_to do |format|
       if @event.save
+        EventAttendee.create!(profile_id: current_profile&.id, event_id: @event.id, organizer: true)
         format.html { redirect_to @event, notice: "Event was successfully created." }
         format.json { render :show, status: :created, location: @event }
       else
@@ -78,8 +79,8 @@ class EventsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event
-    @event = Event.find(params[:id])
-    authorize @event
+      @event = Event.find(params[:id])
+      authorize @event
   end
 
   # Only allow a list of trusted parameters through.
