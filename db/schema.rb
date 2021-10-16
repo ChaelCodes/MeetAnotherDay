@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_10_17_005416) do
-=======
-ActiveRecord::Schema.define(version: 2021_10_15_002226) do
->>>>>>> 96e70f2 (Event Attendess organizer boolean migrations)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
