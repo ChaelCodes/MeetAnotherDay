@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_10_17_005416) do
+=======
+ActiveRecord::Schema.define(version: 2021_10_15_002226) do
+>>>>>>> 96e70f2 (Event Attendess organizer boolean migrations)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +24,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_005416) do
     t.bigint "event_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "organizer", default: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["profile_id"], name: "index_event_attendees_on_profile_id"
   end
