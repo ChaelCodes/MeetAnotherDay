@@ -78,7 +78,8 @@ class EventsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find_by("LOWER(handle) = ?", params[:id]&.downcase)
+    @event ||= Event.find(params[:id])
     authorize @event
   end
 
