@@ -11,10 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_10_24_152330) do
 =======
 ActiveRecord::Schema.define(version: 2021_10_15_020446) do
 >>>>>>> a4b956d (refactor: Add index and unique to handle attribute in the events table)
+=======
+ActiveRecord::Schema.define(version: 2021_10_17_005416) do
+>>>>>>> 27fa2b7 (refactor: Add handle column to events, along with index and unique)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"

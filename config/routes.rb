@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  resources :support
   resources :events
   resources :event_attendees
   resources :friendships
