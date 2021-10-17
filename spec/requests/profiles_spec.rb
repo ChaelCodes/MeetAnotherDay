@@ -40,6 +40,15 @@ RSpec.describe "/profiles", type: :request do
     end
   end
 
+  describe "GET /show with handle" do
+    subject(:get_show) { get "/profiles/#{profile.handle}" }
+
+    it "renders a successful response" do
+      get_show
+      expect(response).to be_successful
+    end
+  end
+
   describe "GET /new" do
     subject(:get_new) { get new_profile_url }
 
