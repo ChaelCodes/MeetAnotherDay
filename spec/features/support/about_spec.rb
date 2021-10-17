@@ -8,6 +8,6 @@ describe "Support" do
   end
 
   it "shows the " do
-    expect(page).to have_content "A Brief History of ConfBuddies:"
+    expect(page).to have_content "It was the first day of Strangeloop, and Chael was having lunch alone."
   end
 end
