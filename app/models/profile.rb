@@ -6,6 +6,7 @@
 class Profile < ApplicationRecord
   include ::Handleable
 
+<<<<<<< HEAD
   # Attributes
   enum visibility: {
     myself: 0,
@@ -16,6 +17,8 @@ class Profile < ApplicationRecord
   }, _prefix: :visible_to
 
   # Relationships
+=======
+>>>>>>> 86620be (Allow people to access events or profiles through their handle in the url)
   belongs_to :user
 
   has_many :event_attendees, dependent: :destroy
@@ -26,6 +29,7 @@ class Profile < ApplicationRecord
   has_many :buddyships, class_name: "Friendship", foreign_key: "buddy_id", dependent: :destroy, inverse_of: :buddy
   has_many :friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy, inverse_of: :friend
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
   validates :handle, presence: true,
@@ -35,6 +39,8 @@ class Profile < ApplicationRecord
 >>>>>>> 0969d65 (Add support controller and about page)
                      uniqueness: { case_sensitive: true }
 >>>>>>> a2fdd89 (Add support controller and about page)
+=======
+>>>>>>> 86620be (Allow people to access events or profiles through their handle in the url)
 
   def to_s
     name

@@ -2,6 +2,17 @@ en:
   time:
     formats:
       time: "%H:%M"
+  activerecord:
+    errors:
+      models:
+        event:
+          attributes:
+            handle:
+              invalid: "only letters and numbers are allowed"
+        profile:
+          attributes:
+            handle:
+              invalid: "only letters and numbers are allowed"
   event_attendees:
     list:
       buddies_attending:
