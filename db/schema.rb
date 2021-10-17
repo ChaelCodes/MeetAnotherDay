@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_022040) do
+ActiveRecord::Schema.define(version: 2021_10_17_005416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 2021_10_06_022040) do
     t.datetime "end_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "handle"
+    t.index ["handle"], name: "index_events_on_handle", unique: true
   end
 
   create_table "friendships", force: :cascade do |t|
