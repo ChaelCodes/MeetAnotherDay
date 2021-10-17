@@ -3,8 +3,9 @@
 # Any needed Application UI functions
 module ApplicationHelper
   # Display buttons for the show page
-  def buttons(resource, include_nav: false)
+  def buttons(resource, include_nav: false, include_show: false)
     buttons = []
+    buttons << show_link(resource) if include_show
     buttons << edit_link(resource)
     buttons << delete_button(resource)
     buttons << index_link(resource) if include_nav
@@ -19,6 +20,12 @@ module ApplicationHelper
               method: :delete,
               data: { confirm: "Are you sure?" },
               class: "button is-danger")
+  end
+
+  # Show Link if the user has permission
+  def show_link(resource)
+    return unless policy(resource).show?
+    link_to("Show", url_for(resource), class: "button is-link")
   end
 
   # Edit Link if the user has permission
