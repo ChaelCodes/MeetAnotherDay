@@ -5,6 +5,22 @@ require "rails_helper"
 RSpec.describe Profile, type: :model do
   let(:profile) { create :profile }
 
+  describe "validations" do
+    it "has a valid factory" do
+      expect(profile).to be_valid
+    end
+
+    context "with duplicate handle" do
+      let(:duplicate_handle) { build :profile, handle: profile.handle.downcase }
+
+      it "does not allow two profiles to have the same handle" do
+        profile
+        duplicate_handle.valid?
+        expect(duplicate_handle.errors.full_messages).to include("Handle has already been taken")
+      end
+    end
+  end
+
   describe "#attending?" do
     subject { profile.attending? event }
 
