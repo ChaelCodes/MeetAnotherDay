@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   # Ensure User is authorized to access route using Pundit
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  after_action :verify_authorized, except: :index, unless: :devise_controller?
+  after_action :verify_authorized, except: %i[index about], unless: :devise_controller?
 
   protect_from_forgery with: :exception
 

@@ -70,7 +70,8 @@ class ProfilesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_profile
-    @profile = policy_scope(Profile).find(params[:id])
+    @profile = policy_scope(Profile).find_by("LOWER(handle) = ?", params[:id]&.downcase)
+    @profile ||= policy_scope(Profile).find(params[:id])
     authorize @profile
   end
 

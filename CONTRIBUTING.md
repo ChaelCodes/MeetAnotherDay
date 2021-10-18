@@ -13,8 +13,7 @@ For example running `docker-compose` instead of `docker compose` listed in the e
 
 ## First time setup
 1. Setup web and db containers. `docker compose up -d`
-1. Create database tables. `docker compose run --rm web bundle exec rake db:create`
-1. Run database migrations. `docker compose run --rm web bundle exec rake db:migrate`
+1. Create the database. `docker compose run --rm web bundle exec rake db:setup`
 
 ## Daily use
 Run `docker compose up -d` will run those services in the background and the application should be available at [localhost:3000](localhost:3000).
@@ -40,9 +39,9 @@ To run rubocop:\
 `docker compose run --rm web bundle exec rubocop`
 
 To reset the database with the seed data:
-1. (If server was running) Shut down the web server: `docker-compose stop web`
+1. (If server was running) Shut down the web server: `docker compose stop web`
 2. Reset the DB: `docker-compose run web bundle exec rake db:reset`
-3. (If server was running) Bring the web server back up: `docker-compose start web`
+3. (If server was running) Bring the web server back up: `docker compose start web`
 
 ## Updating Node Modules
 You'll have to update your node_modules folder if you see a message similar to the one below.
@@ -55,9 +54,19 @@ web_1           | ========================================
 
 If you update package.json or yarn.lock you'll want to rebuild that module. There might be a more efficient way, but you can run:
 ```
-> docker-compose run --rm web yarn install --check-files
+> docker compose run --rm web yarn install --check-files
 ```
 
+## Running Migrations
+If you see the following error, that means there are database change that haven't been applied.
+```
+Migrations are pending. To resolve this issue, run:
+bin/rails db:migrate RAILS_ENV=development
+```
+Run this docker command to apply the changes.
+```
+docker compose run --rm web bundle exec rake db:migrate
+```
 
 ## Trouble-shooting
 If you run into an issue with shared mounts on WSL, (`error message: Error response from daemon: path /home/<>/ConfBuddies is mounted on / but it is not a shared mount.`) you may want to try `sudo mount --make-shared /`.
