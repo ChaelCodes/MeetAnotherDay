@@ -24,7 +24,7 @@ describe "Events" do
   end
 
   context "when user logged in but unconfirmed email" do
-    let(:user) { create :user, :unconfirmed }
+    let(:user) { create :user, confirmed_at: nil, confirmation_sent_at: 1.day.ago }
 
     it "shows the event" do
       expect(page).to have_link "RubyConf", href: event_path(event)
