@@ -2,6 +2,11 @@
 
 # Rules governing permissions for Events
 class EventPolicy < ApplicationPolicy
+  # Only Admins can new Events
+  def new?
+    user&.confirmed?
+  end
+
   # Everyone can view Event details
   def show?
     true
