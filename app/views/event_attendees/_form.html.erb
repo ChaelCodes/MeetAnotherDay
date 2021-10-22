@@ -21,7 +21,13 @@
     <%= form.collection_select :event_id, Event.all, :id, :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :organizer %>
+    <%= form.check_box :organizer %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
+
 <% end %>

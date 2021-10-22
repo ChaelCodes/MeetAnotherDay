@@ -33,6 +33,7 @@ class EventsController < ApplicationController
   def create
     respond_to do |format|
       if @event.save
+        EventAttendee.create!(profile_id: current_profile&.id, event_id: @event.id, organizer: true)
         format.html { redirect_to @event, notice: "Event was successfully created." }
         format.json { render :show, status: :created, location: @event }
       else

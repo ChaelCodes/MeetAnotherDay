@@ -3,5 +3,7 @@
 require "rails_helper"
 
 RSpec.describe EventAttendee, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:event_attendee) { create :event_attendee }
+
+  it { expect(event_attendee).to be_valid }
 end
