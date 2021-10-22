@@ -27,7 +27,7 @@ RSpec.describe "/event_attendees", type: :request do
     subject(:get_index) { get event_attendees_url }
 
     context "when user is logged in" do
-      let!(:event_attendee) { create_list :event_attendee, 2 }
+      let!(:event_attendee) { create_list :event_attendee, 2, organizer: true }
       let(:user) { event_attendee[0].profile.user }
 
       it "renders a successful response" do
@@ -71,14 +71,16 @@ RSpec.describe "/event_attendees", type: :request do
 
     include_examples "redirect to sign in"
 
-    context "when user does not match profile" do
+    context "when user is not an organizer" do
       let(:user) { create :user }
+      let(:event_attendee) { create :event_attendee, organizer: false }
 
       include_examples "unauthorized access"
     end
 
-    context "when user matches profile" do
-      let(:user) { event_attendee.profile.user }
+    context "when user is an organizer" do
+      let(:user) { create :user }
+      let(:event_attendee) { create :event_attendee, organizer: true }
 
       it "render a successful response" do
         get_edit
@@ -157,6 +159,7 @@ RSpec.describe "/event_attendees", type: :request do
 
       context "when user matches profile" do
         let(:user) { event_attendee.profile.user }
+        let(:event_attendee) { create :event_attendee, organizer: true }
 
         it "updates the requested event_attendee" do
           patch_update
@@ -174,6 +177,7 @@ RSpec.describe "/event_attendees", type: :request do
     context "with invalid parameters and valid user" do
       let(:attributes) { { event_id: nil } }
       let(:user) { event_attendee.profile.user }
+      let(:event_attendee) { create :event_attendee, organizer: true }
 
       it "returns an unprocessable entity code" do
         patch_update

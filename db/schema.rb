@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_005416) do
     t.bigint "event_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "organizer", default: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["profile_id"], name: "index_event_attendees_on_profile_id"
   end

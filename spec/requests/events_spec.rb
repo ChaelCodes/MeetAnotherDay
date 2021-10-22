@@ -134,9 +134,14 @@ RSpec.describe "/events", type: :request do
 
     context "with logged in user" do
       let(:user) { create :user }
+      let!(:profile) { create :profile, user_id: user.id }
 
       it "creates a new Event" do
         expect { post_create }.to change(Event, :count).by(1)
+      end
+
+      it "creates a new organizer EventAttendee" do
+        expect { post_create }.to change(EventAttendee, :count).by(1)
       end
 
       it "redirects to the created event" do
@@ -200,6 +205,17 @@ RSpec.describe "/events", type: :request do
           patch_update
           event.reload
           expect(response.status).to eq(422)
+        end
+      end
+
+      context "with organizer user" do
+        let(:user) { create :user }
+        let!(:event_attendee) { create :event_attendee, organizer: true }
+
+        it "updates the requested event" do
+          patch_update
+          event.reload
+          expect(event.name).to eq "RubyConf"
         end
       end
     end
