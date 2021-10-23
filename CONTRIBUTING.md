@@ -12,7 +12,7 @@ For example running `docker-compose` instead of `docker compose` listed in the e
 
 ## Working with the repository
 <details>
-  <summary>Click to get started 🚀</summary>
+  <summary>We use Forked Repos - Learn More! 🚀</summary>
 
   _When contributing to the repository we use a **Fork**._
 
