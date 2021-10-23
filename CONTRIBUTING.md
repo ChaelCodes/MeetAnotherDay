@@ -29,8 +29,9 @@ For example running `docker-compose` instead of `docker compose` listed in the e
 
   ### Keeping up to date (Syncing)
   In order to keep a fork up to date we need to pull from the upstream repo which will be the original ConfBuddies repo.
-You should already have a remote upstream to the fork.
-Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
+  This can be setup by running `git remote add upstream https://github.com/ChaelCodes/ConfBuddies.git`
+
+  Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
 
   In order to pull changes from the original repo into the fork, we need to fetch the upstream. This can be done either by the [UI on Github](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-web-ui) or the from [within your terminal](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-command-line).
 
