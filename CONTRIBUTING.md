@@ -28,7 +28,9 @@ For example running `docker-compose` instead of `docker compose` listed in the e
   Once this is done you will have your own version of ConfBuddies in a url that looks like this `https://github.com/YOUR_USERNAME/ConfBuddies.git`. To get started on this you can clone the repository and make changes for your contributions. If you aren't sure how to do this then we recommend looking at this guide on [cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
   ### Keeping up to date (Syncing)
-  In order to keep a fork up to date we need to pull from the upstream repo which will be the original ConfBuddies repo. As this will already have a remote upstream to the fork. Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
+  In order to keep a fork up to date we need to pull from the upstream repo which will be the original ConfBuddies repo.
+You should already have a remote upstream to the fork.
+Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
 
   In order to pull changes from the original repo into the fork, we need to fetch the upstream. This can be done either by the [UI on Github](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-web-ui) or the from [within your terminal](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-command-line).
 
