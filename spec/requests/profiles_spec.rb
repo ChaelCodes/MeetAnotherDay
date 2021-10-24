@@ -10,7 +10,7 @@ RSpec.describe "/profiles", type: :request do
   let(:user) { create :user }
 
   before(:each) do
-    sign_in user
+    sign_in user if user
   end
 
   describe "GET /index" do
@@ -25,18 +25,117 @@ RSpec.describe "/profiles", type: :request do
   end
 
   describe "GET /show" do
-    subject(:get_show) { get profile_url(profile), headers: json_headers }
+    subject(:get_show) { get profile_url(profile), headers: headers }
 
-    let!(:event_attendee) { create :event_attendee, profile: profile }
+    let(:headers) { nil }
 
-    it "renders a successful response" do
-      get_show
-      expect(response).to be_successful
+    it_behaves_like "show page renders a sucessful response"
+
+    context "when the profile is attending events" do
+      let(:headers) { json_headers }
+      let!(:event_attendee) { create :event_attendee, profile: profile }
+
+      it "send events" do
+        get_show
+        expect(JSON.parse(response.body)["events"].first["id"]).to eq(event_attendee.event.id)
+      end
     end
 
-    it "send events" do
-      get_show
-      expect(JSON.parse(response.body)["events"].first["id"]).to eq(event_attendee.event.id)
+    context "when profile is visible to everyone" do
+      let(:profile) { create :profile, visibility: :everyone }
+
+      context "when user is not signed in" do
+        let(:user) { nil }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+    end
+
+    context "when profile is visible to authenticated" do
+      let(:profile) { create :profile, visibility: :authenticated }
+
+      context "when user is not signed in" do
+        let(:user) { nil }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user is signed in" do
+        let(:user)  { create :user, :unconfirmed_with_trial }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user has confirmed their email" do
+        let(:user)  { create :user }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+
+      context "when user is me" do
+        let(:user)  { profile.user }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+    end
+
+    context "when profile is visible to friends" do
+      let(:profile) { create :profile, visibility: :friends }
+
+      context "when user is signed in" do
+        let(:user)  { create :user, :unconfirmed_with_trial }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user is your friend" do
+        let(:user) { friendship.buddy.user }
+        let(:friendship) { create :friendship, friend: profile, status: :accepted }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+
+      context "when user is not your friend" do
+        let(:user) { friendship.buddy.user }
+        let(:friendship) { create :friendship, friend: profile, status: :requested }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user is me" do
+        let(:user)  { profile.user }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+    end
+
+    context "when profile is visible to myself" do
+      let(:profile) { create :profile, visibility: :myself }
+
+      context "when user is friend" do
+        let(:user) { friendship.buddy.user }
+        let(:friendship) { create :friendship, friend: profile, status: :accepted }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user is signed in" do
+        let(:user)  { create :user }
+
+        it_behaves_like "unauthorized access"
+      end
+
+      context "when user is me" do
+        let(:user)  { profile.user }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
+
+      context "when user is admin" do
+        let(:user)  { create :user, :admin }
+
+        it_behaves_like "show page renders a sucessful response"
+      end
     end
   end
 
