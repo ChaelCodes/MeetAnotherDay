@@ -10,6 +10,36 @@ Please note:
 Older versions of Docker that were released before version 2 and the [new docker compose command](https://docs.docker.com/compose/cli-command/#compose-v2-and-the-new-docker-compose-command) will have to use a hyphen in these commands instead.
 For example running `docker-compose` instead of `docker compose` listed in the examples below.
 
+## Working with the repository
+<details>
+  <summary>We use Forked Repos - Learn More! 🚀</summary>
+
+  _When contributing to the repository we use a **Fork**._
+
+  ### Forking
+  In case you are not aware of what a fork is here is a description from the [about forks](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/about-forks) resource on Github.
+
+  > A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with pull requests.
+
+  To fork a project all you have to do is click fork in the top right of the repository page. See image below from https://guides.github.com/activities/forking/
+
+  ![Forking a repo](https://github-images.s3.amazonaws.com/help/bootcamp/Bootcamp-Fork.png)
+
+  Once this is done you will have your own version of ConfBuddies in a url that looks like this `https://github.com/YOUR_USERNAME/ConfBuddies.git`. To get started on this you can clone the repository and make changes for your contributions. If you aren't sure how to do this then we recommend looking at this guide on [cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+
+  ### Keeping up to date (Syncing)
+  In order to keep a fork up to date we need to pull from the upstream repo which will be the original ConfBuddies repo.
+  This can be setup by running `git remote add upstream https://github.com/ChaelCodes/ConfBuddies.git`
+
+  Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
+
+  In order to pull changes from the original repo into the fork, we need to fetch the upstream. This can be done either by the [UI on Github](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-web-ui) or the from [within your terminal](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-command-line).
+
+  This can be done in 3 steps:
+  - `git fetch upstream` in order to fetch the changes that have been made
+  - `git checkout main` to switch to the default branch
+  - `git merge upstream/main` to merge the changes from the original repository into your copy.
+</details>
 
 ## First time setup
 1. Setup web and db containers. `docker compose up -d`
