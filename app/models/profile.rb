@@ -6,6 +6,16 @@
 class Profile < ApplicationRecord
   include ::Handleable
 
+  # Attributes
+  enum visibility: {
+    myself: 0,
+    friends: 1,
+    # attendees: 2,
+    authenticated: 3,
+    everyone: 4
+  }, _prefix: :visible_to
+
+  # Relationships
   belongs_to :user
 
   has_many :event_attendees, dependent: :destroy
