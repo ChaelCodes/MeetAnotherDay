@@ -8,8 +8,11 @@ class Profile < ApplicationRecord
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 1f00004 (Add overdue_unconfirmed tests)
+=======
+>>>>>>> e0a01e8 (Add Visibility enum to Profile to give users control over access and visibility.)
   # Attributes
   enum visibility: {
     myself: 0,
@@ -21,10 +24,13 @@ class Profile < ApplicationRecord
 
   # Relationships
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 86620be (Allow people to access events or profiles through their handle in the url)
 =======
 >>>>>>> 1f00004 (Add overdue_unconfirmed tests)
+=======
+>>>>>>> e0a01e8 (Add Visibility enum to Profile to give users control over access and visibility.)
   belongs_to :user
 
   has_many :event_attendees, dependent: :destroy

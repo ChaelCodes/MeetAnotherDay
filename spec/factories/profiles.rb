@@ -6,5 +6,6 @@ FactoryBot.define do
     name { "Chael" }
     sequence(:handle) { |n| "ChaelCodes#{n}" }
     bio { "I definitely have a bio, that I am prepared to share." }
+    visibility { "authenticated" }
   end
 end

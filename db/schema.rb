@@ -12,6 +12,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_10_24_152330) do
 =======
 ActiveRecord::Schema.define(version: 2021_10_15_020446) do
@@ -19,6 +20,9 @@ ActiveRecord::Schema.define(version: 2021_10_15_020446) do
 =======
 ActiveRecord::Schema.define(version: 2021_10_17_005416) do
 >>>>>>> 27fa2b7 (refactor: Add handle column to events, along with index and unique)
+=======
+ActiveRecord::Schema.define(version: 2021_10_24_152330) do
+>>>>>>> e0a01e8 (Add Visibility enum to Profile to give users control over access and visibility.)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
