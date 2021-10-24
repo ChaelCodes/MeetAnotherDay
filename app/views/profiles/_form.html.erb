@@ -3,6 +3,7 @@
 
   <%= form.labelled_text_field :name %>
   <%= form.labelled_text_field :handle %>
+  <%= form.labelled_select :visibility, Profile.visibilities.keys %>
   <%= form.labelled_text_area :bio %>
 
   <div class="actions">
