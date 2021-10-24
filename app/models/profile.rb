@@ -7,6 +7,9 @@ class Profile < ApplicationRecord
   include ::Handleable
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1f00004 (Add overdue_unconfirmed tests)
   # Attributes
   enum visibility: {
     myself: 0,
@@ -17,8 +20,11 @@ class Profile < ApplicationRecord
   }, _prefix: :visible_to
 
   # Relationships
+<<<<<<< HEAD
 =======
 >>>>>>> 86620be (Allow people to access events or profiles through their handle in the url)
+=======
+>>>>>>> 1f00004 (Add overdue_unconfirmed tests)
   belongs_to :user
 
   has_many :event_attendees, dependent: :destroy
@@ -28,6 +34,9 @@ class Profile < ApplicationRecord
   # Whether they are "buddy" or "friend"
   has_many :buddyships, class_name: "Friendship", foreign_key: "buddy_id", dependent: :destroy, inverse_of: :buddy
   has_many :friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy, inverse_of: :friend
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -41,6 +50,23 @@ class Profile < ApplicationRecord
 >>>>>>> a2fdd89 (Add support controller and about page)
 =======
 >>>>>>> 86620be (Allow people to access events or profiles through their handle in the url)
+=======
+=======
+>>>>>>> 78354a6 (Add support controller and about page)
+=======
+  validates :handle, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters are allowed" },
+=======
+  validates :handle, presence: true,
+                     format: { with: /\A[a-zA-Z0-9]+\z/, message: "Only letters and numbers are allowed" },
+=======
+  validates :handle, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters are allowed" },
+>>>>>>> 0969d65 (Add support controller and about page)
+>>>>>>> a2fdd89 (Add support controller and about page)
+                     uniqueness: { case_sensitive: true }
+>>>>>>> 0969d65 (Add support controller and about page)
+>>>>>>> 456d08c (Add support controller and about page)
+=======
+>>>>>>> 1f00004 (Add overdue_unconfirmed tests)
 
   def to_s
     name

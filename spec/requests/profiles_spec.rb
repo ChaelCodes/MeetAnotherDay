@@ -171,6 +171,9 @@ RSpec.describe "/profiles", type: :request do
   describe "GET /show with handle" do
     subject(:get_show) { get "/profiles/#{profile.handle}" }
 
+    let!(:event_attendee) { create :event_attendee, profile: profile }
+    let!(:user) { create :user }
+
     it "renders a successful response" do
       get_show
       expect(response).to be_successful

@@ -123,6 +123,27 @@ RSpec.describe "/event_attendees", type: :request do
       end
     end
 
+    context "when overdue_unconfirmed user matches profile" do
+      let(:user) { create :user, :overdue_unconfirmed }
+      let(:profile) { create :profile, user: user }
+
+      let(:attributes) do
+        {
+          profile_id: profile.id,
+          event_id: create(:event).id
+        }
+      end
+
+      it "creates a new EventAttendee" do
+        expect { post_create }.to change(EventAttendee, :count).by(1)
+      end
+
+      it "redirects to the created event_attendee" do
+        post_create
+        expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
+      end
+    end
+
     context "with invalid parameters and valid user" do
       let(:attributes) { { profile_id: profile.id } }
       let(:profile) { create(:profile) }

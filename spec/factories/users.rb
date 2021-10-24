@@ -16,6 +16,13 @@ FactoryBot.define do
       end
     end
 
+    trait :overdue_unconfirmed do
+      confirmed_at { nil }
+      after(:create) do |user|
+        user.update(confirmation_sent_at: 2.days.ago)
+      end
+    end
+
     trait :admin do
       admin { true }
     end
