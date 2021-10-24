@@ -17,7 +17,7 @@ For example running `docker-compose` instead of `docker compose` listed in the e
   _When contributing to the repository we use a **Fork**._
 
   ### Forking
-  Incase you are not aware of what a fork is here is a description from the [about forks](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/about-forks) resource on Github.
+  In case you are not aware of what a fork is here is a description from the [about forks](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/about-forks) resource on Github.
 
   > A fork is a copy of a repository that you manage. Forks let you make changes to a project without affecting the original repository. You can fetch updates from or submit changes to the original repository with pull requests.
 
