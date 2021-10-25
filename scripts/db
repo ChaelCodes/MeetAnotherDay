@@ -1,0 +1,45 @@
+#!/bin/bash
+
+compose="docker compose"
+
+if ! docker compose > /dev/null; then
+  if ! command -v docker-compose > /dev/null; then
+    echo "docker compose is not installed"
+    exit 1
+  fi
+  compose="docker-compose"
+fi
+
+setup() {
+  $compose run --rm web bundle exec rake db:setup
+}
+
+migrate() {
+  $compose run --rm web bundle exec rake db:migrate
+}
+
+reset() {
+  if [ "$(docker ps -q -f name=conf-buddies_web)" ]; then
+    $compose stop web
+    $compose run web bundle exec rake db:reset
+    $compose start web
+  else
+    $compose run web bundle exec rake db:reset
+  fi
+}
+
+case $1 in
+  setup)
+    setup
+    ;;
+  migrate)
+    migrate
+    ;;
+  reset)
+    reset
+    ;;
+  *)
+    echo "unknown db command: $1"
+    echo "available commands: migrate, reset and setup"
+    exit 1
+esac
