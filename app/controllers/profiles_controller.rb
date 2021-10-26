@@ -2,7 +2,7 @@
 
 # Routes requests for Profiles
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :set_profile, only: %i[show edit update destroy]
   before_action :new_profile, only: :create
 
@@ -70,12 +70,13 @@ class ProfilesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_profile
-    @profile = policy_scope(Profile).find(params[:id])
+    @profile = policy_scope(Profile).find_by("LOWER(handle) = ?", params[:id]&.downcase)
+    @profile ||= policy_scope(Profile).find(params[:id])
     authorize @profile
   end
 
   # Only allow a list of trusted parameters through.
   def profile_params
-    params.require(:profile).permit(:name, :handle, :bio)
+    params.require(:profile).permit(:bio, :handle, :name, :visibility)
   end
 end

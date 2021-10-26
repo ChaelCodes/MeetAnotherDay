@@ -4,6 +4,18 @@
 # like bio, status, handle, twitch, YouTube, etc
 # Becomes friends with other Profiles through Friendship
 class Profile < ApplicationRecord
+  include ::Handleable
+
+  # Attributes
+  enum visibility: {
+    myself: 0,
+    friends: 1,
+    # attendees: 2,
+    authenticated: 3,
+    everyone: 4
+  }, _prefix: :visible_to
+
+  # Relationships
   belongs_to :user
 
   has_many :event_attendees, dependent: :destroy
@@ -13,7 +25,6 @@ class Profile < ApplicationRecord
   # Whether they are "buddy" or "friend"
   has_many :buddyships, class_name: "Friendship", foreign_key: "buddy_id", dependent: :destroy, inverse_of: :buddy
   has_many :friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy, inverse_of: :friend
-  validates :handle, presence: true
 
   def to_s
     name
@@ -21,6 +32,10 @@ class Profile < ApplicationRecord
 
   def attending?(event)
     event_attendees.where(event: event).any?
+  end
+
+  def event_attendee(event)
+    event_attendees.where(event: event)
   end
 
   def friends

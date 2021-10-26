@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="column">
       <h1 class="title"><%= @profile.name %></h1>
-      <h2 class="subtitle"><%= @profile.handle %></h2>
+      <h2 class="subtitle"><%= "@#{@profile.handle}" %></h2>
     </div>
     <div class="column is-one-quarter">
       <%= friendship_button(@profile) %>

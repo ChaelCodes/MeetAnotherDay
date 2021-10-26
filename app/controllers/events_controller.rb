@@ -7,11 +7,18 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.all
+    @events = Event.ongoing_or_upcoming
   end
 
   # GET /events/1 or /events/1.json
-  def show; end
+  def show
+    return unless current_profile
+    @event_attendees = EventAttendee
+                       .where(event_id: @event.id)
+                       .joins(:profile)
+                       .where(profiles:
+        { id: current_profile.friends.select(:id) })
+  end
 
   # GET /events/new
   def new
@@ -26,6 +33,7 @@ class EventsController < ApplicationController
   def create
     respond_to do |format|
       if @event.save
+        EventAttendee.create!(profile_id: current_profile&.id, event_id: @event.id, organizer: true)
         format.html { redirect_to @event, notice: "Event was successfully created." }
         format.json { render :show, status: :created, location: @event }
       else
@@ -59,6 +67,10 @@ class EventsController < ApplicationController
 
   private
 
+  def current_profile
+    @current_profile = current_user&.profile
+  end
+
   # Callback for the create endpoint that instantiates and authorizes an event.
   def create_event
     @event = Event.new(event_params)
@@ -67,12 +79,13 @@ class EventsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find_by("LOWER(handle) = ?", params[:id]&.downcase)
+    @event ||= Event.find(params[:id])
     authorize @event
   end
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :description, :start_at, :end_at)
+    params.require(:event).permit(:name, :handle, :description, :start_at, :end_at)
   end
 end
