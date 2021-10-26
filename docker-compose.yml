@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - "./:/app/"
+      - "./:/app"
   db:
     image: postgres:13
     env_file:
