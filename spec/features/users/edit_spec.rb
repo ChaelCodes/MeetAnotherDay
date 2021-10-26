@@ -29,6 +29,14 @@ describe "Users" do
     end
   end
 
+  context "when overdue_unconfirmed user logged in does not match" do
+    let(:user) { create(:user, :overdue_unconfirmed) }
+
+    it "permission to edit denied" do
+      expect(page).to have_content "You are not authorized to perform this action."
+    end
+  end
+
   context "when user unconfirmed" do
     let(:user) { create(:user, :unconfirmed) }
 
