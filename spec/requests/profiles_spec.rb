@@ -18,9 +18,20 @@ RSpec.describe "/profiles", type: :request do
 
     let!(:profile) { create :profile }
 
-    it "renders a successful response" do
-      get_index
-      expect(response.body).to include(profile.name)
+    context "when the profile belongs to a confirmed user" do
+      it "renders a successful response" do
+        get_index
+        expect(response.body).to include(profile.name)
+      end
+    end
+
+    context "when the profile belongs to a confirmed overdue_unconfirmed user" do
+      let(:user) { create :user, :overdue_unconfirmed }
+
+      it "renders a successful response" do
+        get_index
+        expect(response.body).to include(profile.name)
+      end
     end
   end
 
@@ -184,6 +195,25 @@ RSpec.describe "/profiles", type: :request do
           handle: "ChaelCodes"
         }
       end
+
+      it "creates a new Profile" do
+        expect { post_create }.to change(Profile, :count).by(1)
+      end
+
+      it "redirects to the created profile" do
+        post_create
+        expect(response).to redirect_to(profile_url(Profile.last))
+      end
+    end
+
+    context "with valid parameters and overdue_unconfirmed user" do
+      let(:attributes) do
+        {
+          handle: "ChaelCodes"
+        }
+      end
+
+      let(:user) { create :user, :overdue_unconfirmed }
 
       it "creates a new Profile" do
         expect { post_create }.to change(Profile, :count).by(1)
