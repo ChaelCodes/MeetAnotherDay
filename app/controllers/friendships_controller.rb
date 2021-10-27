@@ -44,7 +44,6 @@ class FriendshipsController < ApplicationController
   # PATCH/PUT /friendships/1 or /friendships/1.json
   def update
     respond_to do |format|
-      byebug
       if Friendship.where(buddy_id: current_user.id, status: :accepted).length == 0
         if @friendship.update(friendship_params)
           format.html do
