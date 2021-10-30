@@ -13,7 +13,7 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  config.hosts << /^chaelcodes-confbuddies-.*-3000\.githubpreview\.dev$/
+  config.hosts << /^.+-confbuddies-.*-3000\.githubpreview\.dev$/
 
   #####
   # Action Mailer
