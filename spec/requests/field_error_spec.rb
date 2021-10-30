@@ -14,13 +14,16 @@ RSpec.describe "/profiles", type: :request do
   end
 
   describe "POST /create" do
-    let(:attributes) { {handle: ""} } # Blank to kick out an error.
     subject(:post_create) { post profiles_url, params: { profile: attributes } }
 
+    let(:attributes) { { handle: "" } } # Blank to kick out an error.
+
     context "with invalid parameters" do
+      before(:each) do
+        post_create
+      end
 
       it "includes the error class" do
-        expect { post_create }.not_to change(Profile, :count)
         expect(response.body).to match(/input class="(.*)is-danger(.*)"/)
       end
     end
