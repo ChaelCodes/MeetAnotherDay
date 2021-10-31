@@ -13,6 +13,10 @@
  *= require_tree .
  *= require_self
  */
+main {
+  min-height: calc(100vh - 230px);
+}
+
 .footer {
   margin-top: 2rem;
   padding-bottom: 2rem;
