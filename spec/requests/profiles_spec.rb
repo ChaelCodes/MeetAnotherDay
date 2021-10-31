@@ -13,15 +13,27 @@ RSpec.describe "/profiles", type: :request do
     sign_in user if user
   end
 
+  # rubocop:disable RSpec/MultipleExpectations
   describe "GET /index" do
     subject(:get_index) { get profiles_url }
 
-    let!(:profile) { create :profile }
+    let!(:public_profile) { create :profile, visibility: :everyone }
+    let!(:authenticated_profile) { create :profile, visibility: :authenticated }
+    let!(:not_friends_profile) { create :profile, visibility: :friends }
+    let!(:friends_profile) { create :profile, visibility: :friends }
+    let!(:private_profile) { create :profile, visibility: :myself }
+    let!(:my_profile) { create :profile, user: user }
+    let!(:friendship) { create :friendship, buddy: my_profile, friend: friends_profile, status: :accepted }
 
     context "when the profile belongs to a confirmed user" do
       it "renders a successful response" do
         get_index
-        expect(response.body).to include(profile.name)
+        expect(response.body).to include(public_profile.handle)
+        expect(response.body).to include(authenticated_profile.handle)
+        expect(response.body).not_to include(not_friends_profile.handle)
+        expect(response.body).not_to include(private_profile.handle)
+        expect(response.body).to include(friends_profile.handle)
+        expect(response.body).to include(my_profile.handle)
       end
     end
 
@@ -30,19 +42,22 @@ RSpec.describe "/profiles", type: :request do
 
       it "shows only public profiles" do
         get_index
-        expect(response.body).to include(profile.name)
+        expect(response.body).to include(public_profile.handle)
+        expect(response.body).not_to include(authenticated_profile.handle)
+        expect(response.body).not_to include(not_friends_profile.handle)
+        expect(response.body).not_to include(private_profile.handle)
+        expect(response.body).to include(friends_profile.handle)
+        expect(response.body).to include(my_profile.handle)
       end
     end
 
     context "when the profile belongs to a overdue unconfirmed user" do
       let(:user) { create :user, :overdue_unconfirmed }
 
-      it "renders a successful response" do
-        get_index
-        expect(response.body).not_to include(profile.name)
-      end
+      it_behaves_like "confirm your email"
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 
   describe "GET /show" do
     subject(:get_show) { get profile_url(profile), headers: headers }
