@@ -121,42 +121,26 @@ RSpec.describe "/event_attendees", type: :request do
           expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
         end
       end
-    end
 
-    context "with valid parameters and overdue_unconfirmed user" do
-      let(:user) { create :user, :overdue_unconfirmed }
-      let(:profile) { create :profile, user: user }
+      context "when user matches profile but is overdue on email confirmation" do
+        let(:user) { create :user, :overdue_unconfirmed }
+        let(:profile) { create :profile, user: user }
 
-      let(:attributes) do
-        {
-          profile_id: profile.id,
-          event_id: create(:event).id
-        }
+        it_behaves_like "confirm your email"
       end
 
-      it "creates a new EventAttendee" do
-        expect { post_create }.to change(EventAttendee, :count).by(1)
-      end
+      context "when user matches profile and is unconfirmed" do
+        let(:user) { create :user, :unconfirmed_with_trial }
+        let(:profile) { create :profile, user: user }
 
-      it "redirects to the created event_attendee" do
-        post_create
-        expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
-      end
-    end
+        it "creates a new EventAttendee" do
+          expect { post_create }.to change(EventAttendee, :count).by(1)
+        end
 
-    context "with valid parameters and unconfirmed user" do
-      let(:user) { create :user, :unconfirmed }
-      let(:profile) { create :profile, user: user }
-
-      let(:attributes) do
-        {
-          profile_id: profile.id,
-          event_id: create(:event).id
-        }
-      end
-
-      it "creates a new EventAttendee" do
-        expect { post_create }.to change(EventAttendee, :count).by(0)
+        it "redirects to the created event_attendee" do
+          post_create
+          expect(response).to redirect_to(event_attendee_url(EventAttendee.last))
+        end
       end
     end
 

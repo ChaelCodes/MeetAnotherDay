@@ -42,6 +42,7 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Exclude:
     - "spec/features/**/*"
+    - "spec/requests/**/*"
 
 RSpec/NestedGroups:
   Enabled: false
