@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles or /profiles.json
   def index
-    @profiles = Profile.all
+    @profiles = policy_scope(Profile)
   end
 
   # GET /profiles/1 or /profiles/1.json
@@ -70,8 +70,8 @@ class ProfilesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_profile
-    @profile = policy_scope(Profile).find_by("LOWER(handle) = ?", params[:id]&.downcase)
-    @profile ||= policy_scope(Profile).find(params[:id])
+    @profile = Profile.find_by("LOWER(handle) = ?", params[:id]&.downcase)
+    @profile ||= Profile.find(params[:id])
     authorize @profile
   end
 

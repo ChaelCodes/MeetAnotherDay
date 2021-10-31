@@ -38,17 +38,26 @@ class ProfilePolicy < ApplicationPolicy
     mine? || admin?
   end
 
-  # Permissions and access for a collection of Users
+  # Permissions and access for a collection of Profiles
   class Scope
-    attr_reader :user, :scope
+    attr_reader :current_profile, :user, :scope
 
     def initialize(user, scope)
       @user = user
       @scope = scope
+      @current_profile = user&.profile
     end
 
     def resolve
-      scope.all
+      return scope.all if user&.admin?
+      default_access = [:everyone]
+      default_access << :authenticated if user&.confirmed?
+      access_collection = scope.where(visibility: default_access)
+      if current_profile
+        return access_collection.or(scope.where(id: current_profile.friends.visible_to_friends))
+                                .or(scope.where(id: current_profile.id))
+      end
+      access_collection
     end
   end
 end
