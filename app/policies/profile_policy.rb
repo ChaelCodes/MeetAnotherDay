@@ -42,6 +42,9 @@ class ProfilePolicy < ApplicationPolicy
   class Scope
     attr_reader :current_profile, :user, :scope
 
+    AUTHENTICATED_ACCESS = %i[everyone authenticated].freeze
+    UNAUTHENTICATED_ACCESS = :everyone
+
     def initialize(user, scope)
       @user = user
       @scope = scope
@@ -50,14 +53,20 @@ class ProfilePolicy < ApplicationPolicy
 
     def resolve
       return scope.all if user&.admin?
-      default_access = [:everyone]
-      default_access << :authenticated if user&.confirmed?
-      access_collection = scope.where(visibility: default_access)
-      if current_profile
-        return access_collection.or(scope.where(id: current_profile.friends.visible_to_friends))
-                                .or(scope.where(id: current_profile.id))
-      end
-      access_collection
+      access_collection = scope.where(visibility: public_access_list)
+      include_friends_and_self(scope, access_collection, current_profile)
+    end
+
+    private
+
+    def public_access_list
+      user&.confirmed? ? AUTHENTICATED_ACCESS : UNAUTHENTICATED_ACCESS
+    end
+
+    def include_friends_and_self(scope, collection, profile)
+      return collection unless profile
+      collection.or(scope.where(id: current_profile.friends.visible_to_friends))
+                .or(scope.where(id: current_profile.id))
     end
   end
 end
