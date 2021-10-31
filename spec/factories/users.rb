@@ -24,7 +24,7 @@ FactoryBot.define do
       confirmed_at { nil }
       after(:create) do |user|
         # Overwrite confirmation_sent_at
-        user.update(confirmation_sent_at: 2.days.ago)
+        user.update(confirmation_sent_at: 4.days.ago)
       end
     end
 
