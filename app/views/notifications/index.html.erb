@@ -1,33 +1,21 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1 class="title">Notifications</h1>
 
-<h1>Notifications</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Message</th>
-      <th>Notifiable</th>
-      <th>Notified</th>
-      <th>Notifier</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @notifications.each do |notification| %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= notification.message %></td>
-        <td><%= notification.notifiable_id %></td>
-        <td><%= notification.notified_id %></td>
-        <td><%= notification.notifier_id %></td>
-        <td><%= link_to 'Show', notification %></td>
-        <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
-        <td><%= link_to 'Destroy', notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Message</th>
+        <th colspan="1"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
-<%= link_to 'New Notification', new_notification_path %>
+    <tbody>
+      <% @notifications.each do |notification| %>
+        <tr>
+          <td><%= link_to notification.message, notification %></td>
+          <td><%= buttons(notification) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
