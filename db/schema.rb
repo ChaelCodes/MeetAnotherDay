@@ -44,6 +44,19 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
     t.index ["friend_id", "buddy_id"], name: "index_friendships_on_friend_id_and_buddy_id", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "message"
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.bigint "notified_id"
+    t.bigint "notifier_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["notified_id"], name: "index_notifications_on_notified_id"
+    t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.string "name"
     t.string "handle"
@@ -80,4 +93,6 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
   add_foreign_key "event_attendees", "profiles"
   add_foreign_key "friendships", "profiles", column: "buddy_id"
   add_foreign_key "friendships", "profiles", column: "friend_id"
+  add_foreign_key "notifications", "profiles", column: "notified_id"
+  add_foreign_key "notifications", "profiles", column: "notifier_id"
 end

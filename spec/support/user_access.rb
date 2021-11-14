@@ -61,3 +61,10 @@ RSpec.shared_examples "unauthorized access" do
     expect(flash[:alert]).to eq "You are not authorized to perform this action."
   end
 end
+
+RSpec.shared_examples "renders a successful response" do
+  it "successful response" do
+    subject
+    expect(response).to be_successful
+  end
+end

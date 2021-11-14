@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :notifications
   root "support#about"
 
   devise_for :users
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
   resources :events
   resources :event_attendees
   resources :friendships
+  resources :notifications
   resources :profiles
   resources :users, except: :create
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
