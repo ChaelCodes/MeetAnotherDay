@@ -30,4 +30,28 @@ RSpec.describe Friendship do
       it { is_expected.to be_nil }
     end
   end
+
+  describe "#to_s" do
+    subject { friendship.to_s }
+    let(:buddy) { create(:profile, name: "Xavier") }
+    let(:friend) { create(:profile, name: "Mr.Flibble") }
+
+    context "with accepted friendship" do
+      let(:friendship) { create :friendship, :accepted, buddy: buddy, friend: friend }
+
+      it { is_expected.to eq "Xavier and Mr.Flibble are friends!" }
+    end
+
+    context "with blocked friendship" do
+      let(:friendship) { create :friendship, :blocked, buddy: buddy, friend: friend }
+
+      it { is_expected.to eq "Xavier and Mr.Flibble are NOT friends." }
+    end
+
+    context "with requested friendship" do
+      let(:friendship) { create :friendship, :requested, buddy: buddy, friend: friend }
+
+      it { is_expected.to eq "Xavier wants to be friends with Mr.Flibble!" }
+    end
+  end
 end
