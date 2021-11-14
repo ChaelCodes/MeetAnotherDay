@@ -4,7 +4,7 @@
 class NotificationPolicy < ApplicationPolicy
   # Logged in users can create notifications
   def new?
-    user&.present?
+    admin?
   end
 
   # Only the Notified Profile can view event details

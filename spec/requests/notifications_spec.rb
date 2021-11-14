@@ -4,14 +4,6 @@ require "rails_helper"
 
 RSpec.describe "/notifications", type: :request do
   let(:user) { nil }
-  # Notification. As you add validations to Notification, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip("Add a hash of attributes valid for your model")
-  end
-  let(:invalid_attributes) do
-    skip("Add a hash of attributes invalid for your model")
-  end
   let(:json_headers) { { ACCEPT: "application/json" } }
 
   before(:each) do
@@ -82,6 +74,12 @@ RSpec.describe "/notifications", type: :request do
 
     context "with logged in user" do
       let(:user) { create :user }
+
+      it_behaves_like "unauthorized access"
+    end
+
+    context "with admin" do
+      let(:user) { create :user, :admin }
 
       it_behaves_like "renders a successful response"
     end
