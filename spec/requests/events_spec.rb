@@ -21,7 +21,7 @@ RSpec.describe "/events" do
   describe "GET /show" do
     subject(:get_show) { get event_url(event), params: { format: } }
 
-    let(:event) { create :event }
+    let(:event) { create :event, name: "RubyConf 2020" }
     let(:format) { :html }
 
     context "when description has markdown" do
