@@ -1,24 +1,14 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1 class="title"><%= @notification.message %></h1>
 
-<p>
-  <strong>Message:</strong>
-  <%= @notification.message %>
-</p>
+  <h2 class="subtitle">
+    <%= link_to @notification.notifiable, @notification.notifiable %>
+  </h2>
 
-<p>
-  <strong>Notifiable:</strong>
-  <%= @notification.notifiable_id %>
-</p>
+  <p>
+    <strong>Notification from:</strong>
+    <%= link_to @notification.notifier, @notification.notifier %>
+  </p>
 
-<p>
-  <strong>Notified:</strong>
-  <%= @notification.notified_id %>
-</p>
-
-<p>
-  <strong>Notifier:</strong>
-  <%= @notification.notifier_id %>
-</p>
-
-<%= link_to 'Edit', edit_notification_path(@notification) %> |
-<%= link_to 'Back', notifications_path %>
+  <%= buttons(@notification, include_nav: true) %>
+</div>
