@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :notifications
   root "support#about"
 
   devise_for :users
