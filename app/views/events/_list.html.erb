@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
+      <th class="is-hidden-mobile">Description</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -11,7 +11,7 @@
     <% events.each do |event| %>
       <tr>
         <td><%= link_to event, event %></td>
-        <td><%= kramdown_pure_text(event.description) %></td>
+        <td class="is-hidden-mobile"><%= kramdown_pure_text(event.description) %></td>
         <td><%= date_range(event) %></td>
         <td><%= buttons(event) %></td>
       </tr>
