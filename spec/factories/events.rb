@@ -5,8 +5,8 @@ FactoryBot.define do
     name { "RubyConf" }
     sequence(:handle) { |n| "RubyConf#{n}" }
     description { "[RubyConf 2020](https://rubyconf.org/) will be held in `Denver`." }
-    start_at { "2021-11-08 00:00:00" }
-    end_at { "2021-11-10 00:00:00" }
+    start_at { 1.month.from_now }
+    end_at { start_at + 3.days }
 
     trait :one_day do
       name { "HexDevs Open-Source" }
