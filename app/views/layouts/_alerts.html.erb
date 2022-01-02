@@ -1,0 +1,7 @@
+<% if notice || alert %>
+<article class="message is-hidden-tablet <%= alert_color %>">
+  <div class="message-body">
+    <%= notice || alert %>
+  </div>
+</article>
+<% end %>
