@@ -1,11 +1,15 @@
 <nav class="navbar <%= alert_color %> mb-3" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">ConfBuddies</a>
-    <%= link_to "Events", events_path, class: "navbar-item" %>
+    <a class="navbar-item is-hidden-mobile" href="/">ConfBuddies</a>
+    <a class="navbar-item is-hidden-tablet" href="/">CB</a>
+    <%= link_to "Events", events_path, class: "navbar-item is-hidden-mobile" %>
+    <%= link_to "📅", events_path, class: "navbar-item is-hidden-tablet" %>
     <% if current_user %>
       <% if current_user.profile&.id %>
-        <%= link_to "Friends", friendships_path, class: "navbar-item" %>
-        <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item" %>
+        <%= link_to "Friends", friendships_path, class: "navbar-item is-hidden-mobile" %>
+        <%= link_to "🤝🧼", friendships_path, class: "navbar-item is-hidden-tablet" %>
+        <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item is-hidden-mobile" %>
+        <%= link_to "🦸", profile_path(current_user.profile), class: "navbar-item is-hidden-tablet" %>
       <% else %>
         <%= link_to "Create Profile", new_profile_path, class: "navbar-item" %>
       <% end %>
