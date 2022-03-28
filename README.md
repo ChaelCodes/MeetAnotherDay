@@ -11,7 +11,7 @@ Have you ever gone to a conference, met someone really cool who lives halfway ar
 
 Tech | Version | Use
 --- | --- | ---
-[Ruby on Rails](https://guides.rubyonrails.org/) | 6.1 | A web application framework built using Ruby that manages interfacing with the database, and responding to web requests
+[Ruby on Rails](https://guides.rubyonrails.org/) | 7.0.x | A web application framework built using Ruby that manages interfacing with the database, and responding to web requests
 [Postgres](https://www.postgresql.org/docs/13/index.html) | 13 | Database for storing events, users, and all other data
 [Bulma](https://bulma.io/) | 0.9.3 | A CSS framework for building web applications (we use [Cyborg](https://jenil.github.io/bulmaswatch/cyborg/))
 
