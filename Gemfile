@@ -11,7 +11,7 @@ gem "rails", "~> 7.0.x"
 gem "devise" # Use to authenticate user
 gem "kramdown", "~> 2.3", ">= 2.3.1"
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
-gem "puma", "~> 5.5" # Use Puma as the app server
+gem "puma", "~> 5.6" # Use Puma as the app server
 gem "pundit" # use pundit to control app premissions and policies
 gem "sass-rails", ">= 6" # Use SCSS for stylesheets
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
