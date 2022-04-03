@@ -6,8 +6,7 @@
       <tr>
         <th>Name</th>
         <th>Handle</th>
-        <th>Bio</th>
-        <th>User</th>
+        <th class="is-hidden-mobile">Bio</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -17,8 +16,7 @@
         <tr>
           <td><%= link_to profile, profile %></td>
           <td><%= profile.handle %></td>
-          <td><%= profile.bio %></td>
-          <td><%= profile.user.name %></td>
+          <td class="is-hidden-mobile"><%= profile.bio %></td>
           <td><%= buttons(profile) %></td>
         </tr>
       <% end %>

@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rails
   - rubocop-rspec
@@ -8,12 +10,24 @@ AllCops:
     - db/schema.rb
     - bin/**/*
 
+Layout/CommentIndentation:
+  Exclude:
+    - "config/environments/**/*"
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
+Layout/IndentationConsistency:
+  Exclude:
+    - "config/environments/**/*"
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - "config/environments/**/*"
+
 Metrics/BlockLength:
   Exclude:
-    - "config/environments/*"
+    - "config/environments/**/*"
     - "spec/**/*"
 
 Metrics/MethodLength:
@@ -56,6 +70,9 @@ Style/EmptyCaseCondition:
 Style/FrozenStringLiteralComment:
   Exclude:
     - "app/views/**/*.json.jbuilder"
+    - "db/migrate/*"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+  Exclude:
+    - "config/**/*"

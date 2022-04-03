@@ -98,5 +98,7 @@ Run this docker command to apply the changes.
 docker compose run --rm web bundle exec rake db:migrate
 ```
 
-## Trouble-shooting
+## Troubleshooting
 If you run into an issue with shared mounts on WSL, (`error message: Error response from daemon: path /home/<>/ConfBuddies is mounted on / but it is not a shared mount.`) you may want to try `sudo mount --make-shared /`.
+
+If you do not have permission to modify files created in Docker, you may need to run `sudo chown -R $USER:$USER .`
