@@ -10,7 +10,7 @@
   <tbody>
     <% events.each do |event| %>
       <tr>
-        <td><%= link_to event, event %></td>
+        <td><%= link_to event %></td>
         <td class="is-hidden-mobile"><%= kramdown_pure_text(event.description) %></td>
         <td><%= date_range(event) %></td>
         <td><%= buttons(event) %></td>
