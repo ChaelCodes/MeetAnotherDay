@@ -6,7 +6,7 @@
       <table class="table friend-requests">
         <% @profile.friend_requests.each do |friendship| %>
           <tr>
-            <td><%= link_to friendship.buddy, friendship.buddy %></td>
+            <td><%= link_to friendship.buddy %></td>
             <td><%= be_my_buddy_button(friendship) %></td>
             <td><%= destroy_friendship_button(friendship) %></td>
             <td><%= block_button(friendship) %></td>

@@ -14,7 +14,7 @@
     <tbody>
       <% @profiles.each do |profile| %>
         <tr>
-          <td><%= link_to profile, profile %></td>
+          <td><%= link_to profile %></td>
           <td><%= profile.handle %></td>
           <td class="is-hidden-mobile"><%= profile.bio %></td>
           <td><%= buttons(profile) %></td>

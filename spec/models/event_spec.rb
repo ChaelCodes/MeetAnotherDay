@@ -7,6 +7,20 @@ RSpec.describe Event, type: :model do
 
   it { expect(event).to be_valid }
 
+  describe "start_at must be before end_at" do
+    context "when start_at is after end_at" do
+      let(:event) { build :event, start_at: 1.day.from_now, end_at: Time.zone.now }
+
+      it { expect(event).not_to be_valid }
+    end
+
+    context "when start_at is before end_at" do
+      let(:event) { build :event, start_at: 1.hour.ago, end_at: Time.zone.now }
+
+      it { expect(event).to be_valid }
+    end
+  end
+
   describe "#ongoing_or_upcoming" do
     subject { described_class.ongoing_or_upcoming }
 
