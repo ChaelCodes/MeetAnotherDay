@@ -1,7 +1,18 @@
 # Contributing
 Feel free to contribute PRs, Issues, Documentation, or in any other way to this repo. We welcome new ideas, implementation suggestions, and feedback!
 
-# Dev Environment Setup
+# Dev Environment Setup (Not using Docker)
+Prerequisites - 'ruby-3.0.1' and 'postgresql' for database
+
+1) Fork the repository and clone it on your local.
+2) Run command 'bundle install' to install the gems.
+3) Make sure to update the database.yml file with the correct user name and password.
+4) Run 'rails db:create' to create the database.
+5) Run the migrations using 'rails db:migrate'
+6) Run 'rails server' to get the server up and running.
+
+
+# Dev Environment Setup (Usig Docker)
 This application has a development environment that supports Docker. We believe this makes it easier to get started with the application.
 To get started, you will need either Docker [desktop](https://docs.docker.com/desktop/#download-and-install) or Docker [engine](https://docs.docker.com/engine/install) as well as
 Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing,
