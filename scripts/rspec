@@ -1,0 +1,13 @@
+#!/bin/bash
+
+compose="docker compose"
+
+if ! docker compose > /dev/null; then
+  if ! command -v docker-compose > /dev/null; then
+    echo "docker compose is not installed"
+    exit 1
+  fi
+  compose="docker-compose"
+fi
+
+$compose run --rm web bundle exec rspec
