@@ -12,7 +12,7 @@ Prerequisites - 'ruby-3.0.1' and 'postgresql' for database
 6) Run 'rails server' to get the server up and running.
 
 
-# Dev Environment Setup (Usig Docker)
+# Dev Environment Setup (Using Docker)
 This application has a development environment that supports Docker. We believe this makes it easier to get started with the application.
 To get started, you will need either Docker [desktop](https://docs.docker.com/desktop/#download-and-install) or Docker [engine](https://docs.docker.com/engine/install) as well as
 Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing,
