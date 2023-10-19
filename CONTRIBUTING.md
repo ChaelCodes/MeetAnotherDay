@@ -1,8 +1,8 @@
 # Contributing
 Feel free to contribute PRs, Issues, Documentation, or in any other way to this repo. We welcome new ideas, implementation suggestions, and feedback!
 
-# Dev Environment Setup (Not using Docker)
-Prerequisites - 'ruby-3.0.1' and 'postgresql' for database
+# Dev Environment Setup (Local)
+Prerequisites - 'ruby-3.2.2' and 'postgresql' for database
 
 1) Fork the repository and clone it on your local.
 2) Run command 'bundle install' to install the gems.
