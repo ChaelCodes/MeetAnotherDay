@@ -10,16 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2021_10_24_152330) do
-
+ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "event_attendees", force: :cascade do |t|
     t.bigint "profile_id", null: false
     t.bigint "event_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "organizer", default: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["profile_id"], name: "index_event_attendees_on_profile_id"
@@ -28,10 +27,10 @@ ActiveRecord::Schema[6.1].define(version: 2021_10_24_152330) do
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.datetime "start_at", null: false
-    t.datetime "end_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "start_at", precision: nil, null: false
+    t.datetime "end_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "handle"
     t.index ["handle"], name: "index_events_on_handle", unique: true
   end
@@ -40,8 +39,8 @@ ActiveRecord::Schema[6.1].define(version: 2021_10_24_152330) do
     t.integer "friend_id", null: false
     t.integer "buddy_id", null: false
     t.integer "status", default: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["friend_id", "buddy_id"], name: "index_friendships_on_friend_id_and_buddy_id", unique: true
   end
 
@@ -50,8 +49,8 @@ ActiveRecord::Schema[6.1].define(version: 2021_10_24_152330) do
     t.string "handle"
     t.string "bio"
     t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "visibility", default: 1
     t.index ["handle"], name: "index_profiles_on_handle", unique: true
     t.index ["user_id"], name: "index_profiles_on_user_id"
@@ -60,8 +59,8 @@ ActiveRecord::Schema[6.1].define(version: 2021_10_24_152330) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "bio"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
