@@ -1,6 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
 require:
+  - rubocop-capybara
+  - rubocop-factory_bot
   - rubocop-rails
   - rubocop-rspec
 
@@ -34,11 +36,17 @@ Metrics/MethodLength:
   Exclude:
     - "db/migrate/*"
 
+Naming/BlockForwarding:
+  Enabled: false
+
 Rails/RequestReferer:
   EnforcedStyle: referrer
 
 RSpec/ExampleLength:
   Max: 10
+
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  EnforcedStyle: omit_parentheses
 
 RSpec/HookArgument:
   EnforcedStyle: each
@@ -59,6 +67,9 @@ RSpec/MultipleMemoizedHelpers:
     - "spec/requests/**/*"
 
 RSpec/NestedGroups:
+  Enabled: false
+
+Style/ArgumentsForwarding:
   Enabled: false
 
 Style/DoubleNegation:

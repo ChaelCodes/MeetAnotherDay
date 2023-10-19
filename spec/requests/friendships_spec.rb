@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe "/friendships", type: :request do
-  let(:friendship) { create(:friendship, buddy: buddy, friend: friend) }
+RSpec.describe "/friendships" do
+  let(:friendship) { create :friendship, buddy:, friend: }
   let(:buddy) { create :profile }
   let(:friend) { create :profile }
   let(:user) { nil }
@@ -28,7 +28,7 @@ RSpec.describe "/friendships", type: :request do
       end
 
       context "when user has profile" do
-        let!(:profile) { create :profile, user: user }
+        let!(:profile) { create :profile, user: }
 
         it "renders a successful response" do
           get_index
@@ -59,7 +59,7 @@ RSpec.describe "/friendships", type: :request do
     include_examples "redirect to sign in"
 
     context "with logged in user" do
-      let(:user) { create(:user) }
+      let(:user) { create :user }
 
       include_examples "unauthorized access"
     end
@@ -71,7 +71,7 @@ RSpec.describe "/friendships", type: :request do
     include_examples "redirect to sign in"
 
     context "with logged in user" do
-      let(:user) { create(:user) }
+      let(:user) { create :user }
 
       include_examples "unauthorized access"
     end
@@ -93,12 +93,12 @@ RSpec.describe "/friendships", type: :request do
     subject(:post_create) { post friendships_url, params: { friendship: attributes } }
 
     context "with valid parameters" do
-      let(:attributes) { attributes_for(:friendship, buddy_id: buddy.id, friend_id: friend.id) }
+      let(:attributes) { attributes_for :friendship, buddy_id: buddy.id, friend_id: friend.id }
 
       include_examples "redirect to sign in"
 
       context "with logged in user" do
-        let(:user) { create(:user) }
+        let(:user) { create :user }
 
         it "creates a new Friendship" do
           expect { post_create }.to change(Friendship, :count).by(1)
@@ -112,16 +112,16 @@ RSpec.describe "/friendships", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:attributes) { attributes_for(:friendship, friend_id: nil) }
-      let(:user) { create(:user) }
+      let(:attributes) { attributes_for :friendship, friend_id: nil }
+      let(:user) { create :user }
 
       it "does not create a new Friendship" do
-        expect { post_create }.to change(Friendship, :count).by(0)
+        expect { post_create }.not_to change(Friendship, :count)
       end
 
       it "returns an unprocessable entity code" do
         post_create
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -132,12 +132,12 @@ RSpec.describe "/friendships", type: :request do
     before(:each) { friendship }
 
     context "with valid parameters" do
-      let(:attributes) { attributes_for(:friendship, status: :accepted) }
+      let(:attributes) { attributes_for :friendship, status: :accepted }
 
       include_examples "redirect to sign in"
 
       context "with logged in user" do
-        let(:user) { create(:user) }
+        let(:user) { create :user }
 
         include_examples "unauthorized access"
 
@@ -174,12 +174,12 @@ RSpec.describe "/friendships", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:attributes) { attributes_for(:friendship, status: nil) }
+      let(:attributes) { attributes_for :friendship, status: nil }
       let(:user) { buddy.user }
 
       it "returns an unprocessable entity code" do
         patch_update
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -192,7 +192,7 @@ RSpec.describe "/friendships", type: :request do
     include_examples "redirect to sign in"
 
     context "with logged in user" do
-      let(:user) { create(:user) }
+      let(:user) { create :user }
 
       include_examples "unauthorized access"
     end
@@ -211,7 +211,7 @@ RSpec.describe "/friendships", type: :request do
     end
 
     context "with admin" do
-      let(:user) { create(:user, :admin) }
+      let(:user) { create :user, :admin }
 
       it "destroys the requested friendship" do
         expect { delete_destroy }.to change(Friendship, :count).by(-1)

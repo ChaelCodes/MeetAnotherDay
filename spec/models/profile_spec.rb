@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Profile, type: :model do
+RSpec.describe Profile do
   let(:profile) { create :profile }
 
   describe "validations" do
@@ -29,7 +29,7 @@ RSpec.describe Profile, type: :model do
     it { is_expected.to be_falsey }
 
     context "when profile is attending" do
-      let!(:event_attendee) { create :event_attendee, profile: profile, event: event }
+      let!(:event_attendee) { create :event_attendee, profile:, event: }
 
       it { is_expected.to be_truthy }
     end
@@ -42,21 +42,21 @@ RSpec.describe Profile, type: :model do
 
     context "when profile has friends" do
       let(:friend) { create :profile }
-      let!(:friendship) { Friendship.create(friend: friend, buddy: profile, status: :accepted) }
+      let!(:friendship) { Friendship.create(friend:, buddy: profile, status: :accepted) }
 
       it { is_expected.to include(friend) }
     end
 
     context "when profile has buddies" do
       let(:buddy) { create :profile }
-      let!(:friendship) { Friendship.create(friend: profile, buddy: buddy, status: :accepted) }
+      let!(:friendship) { Friendship.create(friend: profile, buddy:, status: :accepted) }
 
       it { is_expected.to include(buddy) }
     end
 
     context "when profile has requested friends" do
       let(:friend) { create :profile }
-      let!(:friendship) { Friendship.create(friend: friend, buddy: profile, status: :requested) }
+      let!(:friendship) { Friendship.create(friend:, buddy: profile, status: :requested) }
 
       it "does not include friend requests" do
         is_expected.not_to include(friend)
@@ -65,7 +65,7 @@ RSpec.describe Profile, type: :model do
 
     context "when profile has pending friend requests" do
       let(:buddy) { create :profile }
-      let!(:friendship2) { Friendship.create(friend: profile, buddy: buddy, status: :requested) }
+      let!(:friendship2) { Friendship.create(friend: profile, buddy:, status: :requested) }
 
       it { is_expected.not_to include(buddy) }
     end
@@ -79,7 +79,7 @@ RSpec.describe Profile, type: :model do
     it { is_expected.to be_nil }
 
     context "when profile is the buddy" do
-      let!(:friendship) { create :friendship, buddy: profile, friend: friend }
+      let!(:friendship) { create :friendship, buddy: profile, friend: }
 
       it { is_expected.to eq friendship }
     end

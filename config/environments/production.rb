@@ -66,10 +66,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "confbuddies.herokuapp.com" }
   config.action_mailer.smtp_settings = {
-    port: ENV["SENDGRID_PORT"],
-    address: ENV["SENDGRID_SERVER"],
-    user_name: ENV["SENDGRID_USERNAME"],
-    password: ENV["SENDGRID_PASSWORD"],
+    port: ENV.fetch("SENDGRID_PORT", nil),
+    address: ENV.fetch("SENDGRID_SERVER", nil),
+    user_name: ENV.fetch("SENDGRID_USERNAME", nil),
+    password: ENV.fetch("SENDGRID_PASSWORD", nil),
     domain: "chael.codes",
     authentication: :plain,
     ssl: true
@@ -89,7 +89,7 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"

@@ -23,7 +23,7 @@ class ProfilePolicy < ApplicationPolicy
   def show?
     return true if mine? || admin? || profile.visible_to_everyone?
     return confirmed_user? if profile.visible_to_authenticated?
-    return current_profile&.friends_with? profile if profile.visible_to_friends?
+    current_profile&.friends_with? profile if profile.visible_to_friends?
   end
 
   def create?

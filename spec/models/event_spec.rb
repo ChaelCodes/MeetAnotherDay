@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Event, type: :model do
+RSpec.describe Event do
   let(:event) { create :event }
 
   it { expect(event).to be_valid }

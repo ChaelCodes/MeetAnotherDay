@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe SupportController, type: :routing do
+RSpec.describe SupportController do
   describe "routing" do
     it "routes to #about(Root)" do
       expect(get: "/").to route_to("support#about")

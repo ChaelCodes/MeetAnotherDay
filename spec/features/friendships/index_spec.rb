@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Friendships" do
-  let!(:friendship) { create(:friendship) }
+  let!(:friendship) { create :friendship }
   let(:user) { nil }
   let(:path) { friendships_path }
 
@@ -22,7 +22,7 @@ describe "Friendships" do
     end
 
     context "when user has a profile" do
-      let(:profile) { create :profile, user: user }
+      let(:profile) { create :profile, user: }
       let(:friendship) { create :friendship, buddy: profile, status: :accepted }
 
       it "shows the user's friends" do

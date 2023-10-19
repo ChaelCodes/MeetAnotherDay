@@ -9,7 +9,7 @@ module FriendshipsHelper
     return request_friend(profile, my_profile) unless friendship
     return view_friendship(friendship) if friendship.accepted?
     return be_my_buddy_button(friendship) if friendship.requested?
-    return "Request Declined" if friendship.blocked?
+    "Request Declined" if friendship.blocked?
   end
 
   def be_my_buddy_button(friendship)

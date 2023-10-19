@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe EventsHelper, type: :helper do
+RSpec.describe EventsHelper do
   describe "#date_range" do
     subject { date_range(event) }
 

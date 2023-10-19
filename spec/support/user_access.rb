@@ -16,7 +16,7 @@ RSpec.shared_examples "unauthenticated user does not have access" do
   end
 
   context "when user is unconfirmed" do
-    let(:user) { create(:user, :unconfirmed) }
+    let(:user) { create :user, :unconfirmed }
 
     it "prompts the user to confirm email" do
       expect(page).to have_content "You have to confirm your email address before continuing."
