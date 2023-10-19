@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :friendship do
-    buddy { create :profile }
-    friend { create :profile }
+    buddy factory: :profile
+    friend factory: :profile
     status { :requested }
   end
 end
