@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "/profiles", type: :request do
+RSpec.describe "/profiles" do
   let(:profile) { create :profile }
   let(:json_headers) { { ACCEPT: "application/json" } }
 
@@ -22,7 +22,7 @@ RSpec.describe "/profiles", type: :request do
     let!(:not_friends_profile) { create :profile, visibility: :friends }
     let!(:friends_profile) { create :profile, visibility: :friends }
     let!(:private_profile) { create :profile, visibility: :myself }
-    let!(:my_profile) { create :profile, user: user }
+    let!(:my_profile) { create :profile, user: }
     let!(:friendship) { create :friendship, buddy: my_profile, friend: friends_profile, status: :accepted }
 
     context "when the profile belongs to a confirmed user" do
@@ -60,7 +60,7 @@ RSpec.describe "/profiles", type: :request do
   # rubocop:enable RSpec/MultipleExpectations
 
   describe "GET /show" do
-    subject(:get_show) { get profile_url(profile), headers: headers }
+    subject(:get_show) { get profile_url(profile), headers: }
 
     let(:headers) { nil }
 
@@ -68,11 +68,11 @@ RSpec.describe "/profiles", type: :request do
 
     context "when the profile is attending events" do
       let(:headers) { json_headers }
-      let!(:event_attendee) { create :event_attendee, profile: profile }
+      let!(:event_attendee) { create :event_attendee, profile: }
 
       it "send events" do
         get_show
-        expect(JSON.parse(response.body)["events"].first["id"]).to eq(event_attendee.event.id)
+        expect(response.parsed_body["events"].first["id"]).to eq(event_attendee.event.id)
       end
     end
 
@@ -253,12 +253,12 @@ RSpec.describe "/profiles", type: :request do
       let(:attributes) { { handle: "" } }
 
       it "does not create a new Profile" do
-        expect { post_create }.to change(Profile, :count).by(0)
+        expect { post_create }.not_to change(Profile, :count)
       end
 
       it "returns an unprocessable entity code" do
         post_create
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -314,7 +314,7 @@ RSpec.describe "/profiles", type: :request do
 
       it "returns an unprocessable entity code" do
         patch_update
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

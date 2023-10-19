@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Profile" do
-  let(:profile) { create(:profile) }
+  let(:profile) { create :profile }
   let(:user) { nil }
 
   before(:each) do
@@ -25,7 +25,7 @@ describe "Profile" do
     end
 
     context "when user has a profile" do
-      let(:profile) { create(:profile, user: user) }
+      let(:profile) { create :profile, user: }
 
       it "allows user to befriend another" do
         expect(page).to have_button "Request Friend"

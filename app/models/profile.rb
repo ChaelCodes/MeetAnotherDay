@@ -31,11 +31,11 @@ class Profile < ApplicationRecord
   end
 
   def attending?(event)
-    event_attendees.where(event: event).any?
+    event_attendees.where(event:).any?
   end
 
   def event_attendee(event)
-    event_attendees.where(event: event)
+    event_attendees.where(event:)
   end
 
   def friends

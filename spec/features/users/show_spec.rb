@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe "Users" do
   let(:user_profile) do
-    create(:user)
+    create :user
   end
 
   before(:each) do
@@ -30,7 +30,7 @@ describe "Users" do
   end
 
   context "when user is unconfirmed" do
-    let(:user) { create(:user, :unconfirmed) }
+    let(:user) { create :user, :unconfirmed }
 
     it "prompts the user to confirm email" do
       expect(page).to have_content "You have to confirm your email address before continuing."

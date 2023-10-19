@@ -3,7 +3,7 @@
 require "rails_helper"
 
 # #109 - Arbitrarily choose profiles as a base to test against.
-RSpec.describe "/profiles", type: :request do
+RSpec.describe "/profiles" do
   let(:profile) { create :profile }
 
   # Test all routes as an authenticated user

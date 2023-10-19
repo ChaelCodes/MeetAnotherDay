@@ -14,7 +14,7 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/users", type: :request do
+RSpec.describe "/users" do
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
@@ -29,11 +29,11 @@ RSpec.describe "/users", type: :request do
   let(:user) { create :user }
 
   let(:json_body) do
-    JSON.parse(response.body).with_indifferent_access
+    response.parsed_body.with_indifferent_access
   end
 
   let(:json_array) do
-    JSON.parse(response.body).map(&:with_indifferent_access)
+    response.parsed_body.map(&:with_indifferent_access)
   end
 
   before(:each) do

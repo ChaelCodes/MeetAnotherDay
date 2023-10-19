@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe "Users" do
   let(:user_profile) do
-    create(:user)
+    create :user
   end
 
   before(:each) do
@@ -22,7 +22,7 @@ describe "Users" do
   end
 
   context "when user logged in does not match" do
-    let(:user) { create(:user) }
+    let(:user) { create :user }
 
     it "permission to edit denied" do
       expect(page).to have_content "You are not authorized to perform this action."
@@ -30,7 +30,7 @@ describe "Users" do
   end
 
   context "when user overdue for confirmation" do
-    let(:user) { create(:user, :overdue_unconfirmed) }
+    let(:user) { create :user, :overdue_unconfirmed }
 
     it "prompts the user to confirm email" do
       expect(page).to have_content "You have to confirm your email address before continuing."

@@ -16,7 +16,7 @@ require "capybara/rails"
 require "capybara/rspec"
 Capybara.register_driver :chrome_headless do |app|
   chrome_capabilities =
-    ::Selenium::WebDriver::Remote::Capabilities.chrome("goog:chromeOptions" =>
+    Selenium::WebDriver::Remote::Capabilities.chrome("goog:chromeOptions" =>
     {
       args: %w[no-sandbox headless disable-gpu window-size=1400,1400]
     })
@@ -62,7 +62,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join("spec/fixtures").to_s
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

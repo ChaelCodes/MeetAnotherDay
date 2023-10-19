@@ -14,7 +14,7 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/event_attendees", type: :request do
+RSpec.describe "/event_attendees" do
   let(:event_attendee) { create :event_attendee }
 
   let(:user) { nil }
@@ -93,7 +93,7 @@ RSpec.describe "/event_attendees", type: :request do
     subject(:post_create) { post event_attendees_url, params: { event_attendee: attributes } }
 
     context "with valid parameters" do
-      let(:profile) { create(:profile) }
+      let(:profile) { create :profile }
       let(:attributes) do
         {
           profile_id: profile.id,
@@ -124,14 +124,14 @@ RSpec.describe "/event_attendees", type: :request do
 
       context "when user matches profile but is overdue on email confirmation" do
         let(:user) { create :user, :overdue_unconfirmed }
-        let(:profile) { create :profile, user: user }
+        let(:profile) { create :profile, user: }
 
         it_behaves_like "confirm your email"
       end
 
       context "when user matches profile and is unconfirmed" do
         let(:user) { create :user, :unconfirmed_with_trial }
-        let(:profile) { create :profile, user: user }
+        let(:profile) { create :profile, user: }
 
         it "creates a new EventAttendee" do
           expect { post_create }.to change(EventAttendee, :count).by(1)
@@ -146,16 +146,16 @@ RSpec.describe "/event_attendees", type: :request do
 
     context "with invalid parameters and valid user" do
       let(:attributes) { { profile_id: profile.id } }
-      let(:profile) { create(:profile) }
+      let(:profile) { create :profile }
       let(:user) { profile.user }
 
       it "does not create a new EventAttendee" do
-        expect { post_create }.to change(EventAttendee, :count).by(0)
+        expect { post_create }.not_to change(EventAttendee, :count)
       end
 
       it "returns an unprocessable entity code" do
         post_create
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -202,7 +202,7 @@ RSpec.describe "/event_attendees", type: :request do
 
       it "returns an unprocessable entity code" do
         patch_update
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it "updates the event name" do

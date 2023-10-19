@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "/events", type: :request do
+RSpec.describe "/events" do
   let(:user) { nil }
 
   before(:each) do
@@ -10,7 +10,7 @@ RSpec.describe "/events", type: :request do
   end
 
   describe "GET /index" do
-    let!(:event) { create(:event) }
+    let!(:event) { create :event }
 
     it "renders a successful response" do
       get events_url
@@ -19,7 +19,7 @@ RSpec.describe "/events", type: :request do
   end
 
   describe "GET /show" do
-    subject(:get_show) { get event_url(event), params: { format: format } }
+    subject(:get_show) { get event_url(event), params: { format: } }
 
     let(:event) { create :event }
     let(:format) { :html }
@@ -55,7 +55,7 @@ RSpec.describe "/events", type: :request do
       context "when profile has friend attending" do
         let(:user) { friendship.buddy.user }
         let!(:friendship) { create :friendship, status: :accepted }
-        let!(:event_attendee) { create :event_attendee, profile: friendship.friend, event: event }
+        let!(:event_attendee) { create :event_attendee, event:, profile: friendship.friend }
 
         it "includes friend's name" do
           get_show
@@ -66,7 +66,7 @@ RSpec.describe "/events", type: :request do
       context "when profile has no friend attending" do
         let(:profile) { create :profile }
         let(:user) { profile.user }
-        let!(:event_attendee) { create :event_attendee, event: event }
+        let!(:event_attendee) { create :event_attendee, event: }
 
         it "does not include stranger's name" do
           get_show
@@ -128,7 +128,7 @@ RSpec.describe "/events", type: :request do
   describe "POST /create" do
     subject(:post_create) { post events_url, params: { event: attributes } }
 
-    let(:attributes) { attributes_for(:event) }
+    let(:attributes) { attributes_for :event }
 
     include_examples "redirect to sign in"
 
@@ -159,12 +159,12 @@ RSpec.describe "/events", type: :request do
         it "does not create a new Event" do
           expect do
             post_create
-          end.to change(Event, :count).by(0)
+          end.not_to change(Event, :count)
         end
 
         it "returns an unprocessable entity code" do
           post_create
-          expect(response.status).to eq(422)
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
@@ -204,7 +204,7 @@ RSpec.describe "/events", type: :request do
         it "returns an unprocessable entity code" do
           patch_update
           event.reload
-          expect(response.status).to eq(422)
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
 
