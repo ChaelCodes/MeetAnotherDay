@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0.1
+        ruby-version: 3.2.2
     - run: docker-compose run web bundle exec rake db:test:prepare
     - name: RSpec
       run: docker-compose run -e CI=true web bundle exec rspec
