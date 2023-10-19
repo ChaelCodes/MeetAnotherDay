@@ -48,7 +48,7 @@ describe "Friendships" do
           expect(page).to have_content "You have Friend Requests!"
           within ".friend-requests" do
             expect(page).to have_link friendship.buddy.name, href: profile_path(friendship.buddy)
-            click_on("Be my buddy?")
+            click_button("Be my buddy?")
           end
           friendship.reload
           expect(friendship.status).to eq "accepted"
@@ -58,7 +58,7 @@ describe "Friendships" do
           expect(page).to have_content "You have Friend Requests!"
           within ".friend-requests" do
             expect(page).to have_link friendship.buddy.name, href: profile_path(friendship.buddy)
-            click_on("Ignore")
+            click_button("Ignore")
           end
           expect { friendship.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end

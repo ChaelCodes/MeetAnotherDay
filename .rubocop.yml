@@ -12,6 +12,13 @@ AllCops:
     - db/schema.rb
     - bin/**/*
 
+# I want locales one day, but not right now
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+FactoryBot/ConsistentParenthesesStyle:
+  EnforcedStyle: omit_parentheses
+
 Layout/CommentIndentation:
   Exclude:
     - "config/environments/**/*"
@@ -44,9 +51,6 @@ Rails/RequestReferer:
 
 RSpec/ExampleLength:
   Max: 10
-
-RSpec/FactoryBot/ConsistentParenthesesStyle:
-  EnforcedStyle: omit_parentheses
 
 RSpec/HookArgument:
   EnforcedStyle: each
