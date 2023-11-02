@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_02_154608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,16 +45,18 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.string "message"
-    t.string "notifiable_type", null: false
-    t.bigint "notifiable_id", null: false
-    t.bigint "notified_id"
-    t.bigint "notifier_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.string "message", null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.bigint "profile_id"
+    t.string "url"
+    t.string "created_by_type"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_type", "created_by_id"], name: "index_notifications_on_created_by"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
-    t.index ["notified_id"], name: "index_notifications_on_notified_id"
-    t.index ["notifier_id"], name: "index_notifications_on_notifier_id"
+    t.index ["profile_id"], name: "index_notifications_on_profile_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -93,6 +95,4 @@ ActiveRecord::Schema[7.0].define(version: 2021_10_24_152330) do
   add_foreign_key "event_attendees", "profiles"
   add_foreign_key "friendships", "profiles", column: "buddy_id"
   add_foreign_key "friendships", "profiles", column: "friend_id"
-  add_foreign_key "notifications", "profiles", column: "notified_id"
-  add_foreign_key "notifications", "profiles", column: "notifier_id"
 end
