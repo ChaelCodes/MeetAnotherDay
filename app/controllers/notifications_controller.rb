@@ -73,6 +73,6 @@ class NotificationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def notification_params
-    params.require(:notification).permit(:message, :notifiable_id, :notifiable_type, :notified_id, :notifier_id)
+    params.require(:notification).permit(:message, :notifiable_id, :notifiable_type, :profile_id, :url)
   end
 end
