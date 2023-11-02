@@ -7,6 +7,17 @@ RSpec.describe Friendship do
 
   it { expect(friendship).to be_valid }
 
+  describe "#create_notification" do
+    let(:notification) { Notification.find_by(notifiable: friendship) }
+    subject { friendship } # create_notification is called in an after_create callback
+
+    it "creates a new notification" do
+      expect { subject }.to change(Notification, :count).by(1)
+      expect(notification.message).to eq "Chael wants to be friends with Chael!"
+      expect(notification.profile).to eq friendship.friend
+    end
+  end
+
   describe "#not_my_profile" do
     subject { friendship.not_my_profile(profile) }
 
