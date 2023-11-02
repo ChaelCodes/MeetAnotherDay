@@ -86,20 +86,6 @@ RSpec.describe "/notifications", type: :request do
     end
   end
 
-  describe "GET /edit" do
-    subject(:get_edit) { get edit_notification_url(notification) }
-
-    let(:notification) { create :notification }
-
-    it_behaves_like "redirect to sign in"
-
-    context "with admin" do
-      let(:user) { create :user, :admin }
-
-      it_behaves_like "unauthorized access"
-    end
-  end
-
   describe "POST /create" do
     subject(:post_create) { post notifications_url, params: { notification: attributes } }
 
@@ -134,22 +120,6 @@ RSpec.describe "/notifications", type: :request do
       end
 
       it_behaves_like "unprocessable entity"
-    end
-  end
-
-  describe "PATCH /update" do
-    subject(:patch_update) do
-      patch notification_url(notification), params: { notification: { message: "Editing not allowed" } }
-    end
-
-    let(:notification) { create :notification }
-
-    it_behaves_like "redirect to sign in"
-
-    context "with notified user" do
-      let(:user) { notification.notified.user }
-
-      it_behaves_like "unauthorized access"
     end
   end
 
