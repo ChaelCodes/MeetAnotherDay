@@ -2,18 +2,11 @@
   <h1 class="title">Notifications</h1>
 
   <table class="table">
-    <thead>
-      <tr>
-        <th>Message</th>
-        <th colspan="1"></th>
-      </tr>
-    </thead>
-
     <tbody>
       <% @notifications.each do |notification| %>
         <tr>
-          <td><%= link_to notification.message, notification %></td>
-          <td><%= buttons(notification) %></td>
+          <td><%= link_to notification.message, notification.url %></td>
+          <td><%= button_to("", url_for(notification), method: :delete, class: "delete") %></td>
         </tr>
       <% end %>
     </tbody>

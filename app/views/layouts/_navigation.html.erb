@@ -7,9 +7,11 @@
     <% if current_user %>
       <% if current_user.profile&.id %>
         <%= link_to "Friends", friendships_path, class: "navbar-item is-hidden-mobile" %>
-        <%= link_to "🤝🧼", friendships_path, class: "navbar-item is-hidden-tablet" %>
+        <%= link_to "🤝", friendships_path, class: "navbar-item is-hidden-tablet" %>
         <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item is-hidden-mobile" %>
         <%= link_to "🦸", profile_path(current_user.profile), class: "navbar-item is-hidden-tablet" %>
+        <%= link_to "Notifications (#{@notification_count})", notifications_path, class: "navbar-item is-hidden-mobile" %>
+        <%= link_to "🔔 (#{@notification_count})", notifications_path, class: "navbar-item is-hidden-tablet" %>
       <% else %>
         <%= link_to "Create Profile", new_profile_path, class: "navbar-item" %>
       <% end %>
