@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Notification, type: :model do
+RSpec.describe Notification do
   let(:notification) { create :notification }
 
   it { expect(notification).to be_valid }

@@ -16,7 +16,8 @@ class Friendship < ApplicationRecord
   after_create :create_notification
 
   def create_notification
-    Notification.create(notifiable: self, profile: friend, url: friendship_url(self, only_path: true), message: self.to_s)
+    Notification.create(notifiable: self, profile: friend, url: friendship_url(self, only_path: true),
+                        message: to_s)
   end
 
   # Returns whichever profile is not the passed profile
@@ -28,12 +29,12 @@ class Friendship < ApplicationRecord
 
   def to_s
     case status
-      when "accepted"
-        "#{buddy} and #{friend} are friends!"
-      when "blocked"
-        "#{buddy} and #{friend} are NOT friends."
-      when "requested"
-        "#{buddy} wants to be friends with #{friend}!"
+    when "accepted"
+      "#{buddy} and #{friend} are friends!"
+    when "blocked"
+      "#{buddy} and #{friend} are NOT friends."
+    when "requested"
+      "#{buddy} wants to be friends with #{friend}!"
     end
   end
 end
