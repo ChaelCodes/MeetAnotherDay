@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :events
   resources :event_attendees
   resources :friendships
-  resources :notifications
+  resources :notifications, except: %i[edit update]
   resources :profiles
   resources :users, except: :create
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
