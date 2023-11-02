@@ -9,8 +9,8 @@ class NotificationPolicy < ApplicationPolicy
 
   # Only the Notified Profile can view event details
   def show?
-    return true if record.notified == current_profile
-    record.notified.nil? && admin?
+    return true if record.profile == current_profile
+    record.profile.nil? && admin?
   end
 
   # Logged in users can create Notifications
@@ -25,14 +25,14 @@ class NotificationPolicy < ApplicationPolicy
 
   # The user Notified and Admins can destroy Notifications
   def destroy?
-    current_profile == record.notified || user&.admin?
+    current_profile == record.profile || user&.admin?
   end
 
   # Rules governing a list of Notifications
   class Scope < Scope
     def resolve
-      return scope.where(notified: [current_profile, nil]) if admin?
-      scope.where(notified: current_profile)
+      return scope.where(profile: [current_profile, nil]) if admin?
+      scope.where(profile: current_profile)
     end
   end
 end

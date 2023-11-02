@@ -3,13 +3,12 @@
 FactoryBot.define do
   factory :notification do
     message { "You have a new Friend Request!" }
-    association :notifiable, factory: :friendship
-    association :notified, factory: :profile
-    association :notifier, factory: :profile
+    notifiable factory: :friendship
+    profile
 
     trait :report_abuse do
       message { "This event is being reported" }
-      notified { nil }
+      profile { nil }
     end
   end
 end

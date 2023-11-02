@@ -17,18 +17,23 @@
   </div>
 
   <div class="field">
+    <%= form.label :notifiable_type %>
+    <%= form.text_field :notifiable_type %>
+  </div>
+
+  <div class="field">
     <%= form.label :notifiable_id %>
     <%= form.text_field :notifiable_id %>
   </div>
 
   <div class="field">
-    <%= form.label :notified_id %>
-    <%= form.text_field :notified_id %>
+    <%= form.label :profile_id %>
+    <%= form.collection_select :profile_id, Profile.all, :id, :name %>
   </div>
 
   <div class="field">
-    <%= form.label :notifier_id %>
-    <%= form.text_field :notifier_id %>
+    <%= form.label :url %>
+    <%= form.text_field :url %>
   </div>
 
   <div class="actions">

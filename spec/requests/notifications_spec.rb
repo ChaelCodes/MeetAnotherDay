@@ -29,7 +29,7 @@ RSpec.describe "/notifications", type: :request do
       end
 
       context "with notifications" do
-        let!(:notification) { create :notification, notified: profile }
+        let!(:notification) { create :notification, profile: profile }
         let(:profile) { create :profile, user: user }
 
         it "returns the notification" do
@@ -48,18 +48,18 @@ RSpec.describe "/notifications", type: :request do
     it_behaves_like "redirect to sign in"
 
     context "with notified user" do
-      let(:user) { notification.notified.user }
+      let(:user) { notification.profile.user }
 
       it_behaves_like "renders a successful response"
     end
 
-    context "with any user" do
+    context "with any other user" do
       let(:user) { create :user }
 
       it_behaves_like "unauthorized access"
     end
 
-    context "with admin" do
+    context "with admin and abuse report notification" do
       let(:user) { create :user, :admin }
       let(:notification) { create :notification, :report_abuse }
 
@@ -78,6 +78,7 @@ RSpec.describe "/notifications", type: :request do
       it_behaves_like "unauthorized access"
     end
 
+    # This is available for testing purposes
     context "with admin" do
       let(:user) { create :user, :admin }
 
@@ -126,7 +127,7 @@ RSpec.describe "/notifications", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:attributes) { { message: "I forgot everything else!" } }
+      let(:attributes) { { url: "/forgot-the-message" } }
 
       it "does not create a new Notification" do
         expect { post_create }.to change(Notification, :count).by(0)
@@ -166,7 +167,7 @@ RSpec.describe "/notifications", type: :request do
     end
 
     context "with the notified user" do
-      let(:user) { notification.notified.user }
+      let(:user) { notification.profile.user }
 
       it "destroys the requested notification" do
         expect { delete_destroy }.to change(Notification, :count).by(-1)
