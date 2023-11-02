@@ -17,5 +17,8 @@ after "development:profiles" do
       end_at: 13.days.from_now
     }
   ]
-  Event.create(events)
+
+  events.each do |event|
+    Event.find_or_create_by(event)
+  end
 end

@@ -2,20 +2,19 @@
 
 users = [
   {
-    bio: "Hello. I am couch. Friends please? Ty.",
+    bio: "Hello. I am admin. Friends please? Ty.",
     email: "admin@example.com",
     name: "Chael",
-    password: "password",
-    confirmed_at: 1.day.ago,
     admin: true
   },
   {
     bio: "Hello. I am dev. Friends please? Ty.",
     email: "john@example.com",
     name: "John",
-    password: "password",
-    confirmed_at: 1.day.ago,
     admin: false
   }
 ]
-User.create(users)
+
+users.each do |user|
+  User.create_with(password: "P@55w0rd", confirmed_at: 1.day.ago).find_or_create_by(user)
+end
