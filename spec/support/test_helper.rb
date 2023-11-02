@@ -15,6 +15,6 @@ end
 RSpec.shared_examples "unprocessable entity" do
   it "returns an unprocessable entity code" do
     subject
-    expect(response.status).to eq(422)
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 end

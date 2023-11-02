@@ -8,13 +8,22 @@ RSpec.describe Friendship do
   it { expect(friendship).to be_valid }
 
   describe "#create_notification" do
-    let(:notification) { Notification.find_by(notifiable: friendship) }
     subject { friendship } # create_notification is called in an after_create callback
+
+    let(:notification) { Notification.find_by(notifiable: friendship) }
 
     it "creates a new notification" do
       expect { subject }.to change(Notification, :count).by(1)
-      expect(notification.message).to eq "Chael wants to be friends with Chael!"
-      expect(notification.profile).to eq friendship.friend
+    end
+
+    it "creates a notificattion for the friend request" do
+      friendship # Creates Friendship and Notification
+      expect(notification).to have_attributes(
+        {
+          message: "Chael wants to be friends with Chael!",
+          profile: friendship.friend
+        }
+      )
     end
   end
 
@@ -44,23 +53,24 @@ RSpec.describe Friendship do
 
   describe "#to_s" do
     subject { friendship.to_s }
-    let(:buddy) { create(:profile, name: "Xavier") }
-    let(:friend) { create(:profile, name: "Mr.Flibble") }
+
+    let(:buddy) { create :profile, name: "Xavier" }
+    let(:friend) { create :profile, name: "Mr.Flibble" }
 
     context "with accepted friendship" do
-      let(:friendship) { create :friendship, :accepted, buddy: buddy, friend: friend }
+      let(:friendship) { create :friendship, :accepted, buddy:, friend: }
 
       it { is_expected.to eq "Xavier and Mr.Flibble are friends!" }
     end
 
     context "with blocked friendship" do
-      let(:friendship) { create :friendship, :blocked, buddy: buddy, friend: friend }
+      let(:friendship) { create :friendship, :blocked, buddy:, friend: }
 
       it { is_expected.to eq "Xavier and Mr.Flibble are NOT friends." }
     end
 
     context "with requested friendship" do
-      let(:friendship) { create :friendship, :requested, buddy: buddy, friend: friend }
+      let(:friendship) { create :friendship, :requested, buddy:, friend: }
 
       it { is_expected.to eq "Xavier wants to be friends with Mr.Flibble!" }
     end

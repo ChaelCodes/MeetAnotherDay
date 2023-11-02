@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "/notifications", type: :request do
+RSpec.describe "/notifications" do
   let(:user) { nil }
   let(:json_headers) { { ACCEPT: "application/json" } }
 
@@ -11,7 +11,7 @@ RSpec.describe "/notifications", type: :request do
   end
 
   describe "GET /index" do
-    subject(:get_index) { get notifications_url, headers: headers }
+    subject(:get_index) { get notifications_url, headers: }
 
     it_behaves_like "redirect to sign in"
 
@@ -20,21 +20,21 @@ RSpec.describe "/notifications", type: :request do
       let(:headers) { json_headers }
 
       context "without notifications" do
-        let!(:notification_list) { create_list(:notification, 2) }
+        let!(:notification_list) { create_list :notification, 2 }
 
         it "returns 0 records" do
           get_index
-          expect(JSON.parse(response.body).length).to be_zero
+          expect(response.parsed_body.length).to be_zero
         end
       end
 
       context "with notifications" do
-        let!(:notification) { create :notification, profile: profile }
-        let(:profile) { create :profile, user: user }
+        let!(:notification) { create :notification, profile: }
+        let(:profile) { create :profile, user: }
 
         it "returns the notification" do
           get_index
-          expect(JSON.parse(response.body).dig(0, "id")).to eq notification.id
+          expect(response.parsed_body.dig(0, "id")).to eq notification.id
         end
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe "/notifications", type: :request do
       let(:attributes) { { url: "/forgot-the-message" } }
 
       it "does not create a new Notification" do
-        expect { post_create }.to change(Notification, :count).by(0)
+        expect { post_create }.not_to change(Notification, :count)
       end
 
       it_behaves_like "unprocessable entity"
