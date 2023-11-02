@@ -16,7 +16,14 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, only: %i[create new update edit destroy]
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
+  # TODO: logged out users don't count notifications
+  before_action :notification_count
+
   private
+
+  def notification_count
+    @notification_count = policy_scope(Notification).count
+  end
 
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
