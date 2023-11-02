@@ -70,6 +70,9 @@ RSpec/MultipleMemoizedHelpers:
     - "spec/features/**/*"
     - "spec/requests/**/*"
 
+RSpec/NamedSubject:
+  Enabled: false
+
 RSpec/NestedGroups:
   Enabled: false
 
