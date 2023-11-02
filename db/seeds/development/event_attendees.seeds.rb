@@ -11,5 +11,8 @@ after "development:events" do
     { profile_id: chael_profile.id, event_id: rails_conf.id },
     { profile_id: john_profile.id, event_id: vue_conf.id }
   ]
-  EventAttendee.create(event_attendees)
+
+  event_attendees.each do |event_attendee|
+    EventAttendee.find_or_create_by(event_attendee)
+  end
 end
