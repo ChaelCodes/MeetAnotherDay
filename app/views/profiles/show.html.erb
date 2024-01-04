@@ -1,18 +1,33 @@
-<div class="container">
-  <div class="block">
-    <h1 class="title"><%= @profile.name %></h1>
-    <h2 class="subtitle"><%= "@#{@profile.handle}" %></h2>
-    <%= friendship_button(@profile) %>
-  </div>
-  <div class="block">
-    <p><%= @profile.bio %></p>
-  </div>
-  <% if @profile.events.present? %>
-    <div class="block">
-      <%= render 'events/list', events: @events %>
+<div class="section">
+  <div class="container">
+    <div class="media is-flex-wrap-wrap mb-3" style="row-gap:1em">
+      <figure class="media-left image">
+        <img src="<%= profile_picture(@profile.email) %>" alt="Profile pic">
+      </figure>
+      <div class="media-content">
+        <p class="has-text-weight-bold is-size-4"><%= @profile.name %></p>
+        <p class="has-text-weight-semi-bold is-size-6"><%= "@#{@profile.handle}" %></p>
+      </div>
+      <div class="media-right">
+        <%= friendship_button(@profile) %>
+      </div>
     </div>
-  <% end %>
-  <div>
+    <div class="block">
+      <p><%= @profile.bio %></p>
+    </div>
+  </div>
+</div>
+<% if @profile.events.present? %>
+  <div class="section">
+    <div class="container">
+      <div class="block">
+        <%= render 'events/list', events: @events %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="section">
+  <div class="container">
     <%= buttons(@profile, include_nav: true) %>
   </div>
 </div>
