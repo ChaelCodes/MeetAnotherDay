@@ -18,6 +18,8 @@ class Profile < ApplicationRecord
   # Relationships
   belongs_to :user
 
+  delegate :email, to: :user
+
   has_many :event_attendees, dependent: :destroy
   has_many :events, through: :event_attendees
   # Friendship has a buddy_id and a friend_id (These are both profiles)
