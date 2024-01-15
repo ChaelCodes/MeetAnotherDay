@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   # TODO: logged out users don't count notifications
   before_action :notification_count
-  
+
   private
 
   def notification_count
