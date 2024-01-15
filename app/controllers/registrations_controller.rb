@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+#Define redirect route after registration for devise
 class RegistrationsController < Devise::RegistrationsController
   protected
   
