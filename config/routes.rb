@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   root "support#about"
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   resources :events
   resources :event_attendees
