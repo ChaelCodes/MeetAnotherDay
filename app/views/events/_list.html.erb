@@ -3,6 +3,9 @@
     <tr>
       <th>Name</th>
       <th class="is-hidden-mobile">Description</th>
+      <% if @friends_attending_count %>
+        <th colspan="3"></th>
+      <% end %>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -12,6 +15,9 @@
       <tr>
         <td><%= link_to event %></td>
         <td class="is-hidden-mobile"><%= kramdown_pure_text(event.description) %></td>
+        <% if @friends_attending_count %>
+          <td><%= "#{@friends_attending_count[event.id]} Friends Attending." %></td>
+        <% end %>
         <td><%= date_range(event) %></td>
         <td><%= buttons(event) %></td>
       </tr>
