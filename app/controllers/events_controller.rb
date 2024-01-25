@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @events = Event.ongoing_or_upcoming
+    return unless current_profile
     @friends_attending_count = {}
     @events.each do |event|
       @friends_attending_count[event.id] = EventAttendee.friends_attending(event:, profile: current_profile).count

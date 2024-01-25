@@ -2,7 +2,10 @@
   <h4><%= t(".buddies_attending", count: event_attendees.count) %></h4>
   <ul>
     <% event_attendees.each do |event_attendee| %>
-      <li><%= link_to event_attendee.profile %></li>
+      <li>
+        <img src="<%= profile_picture(event_attendee.profile.email, size: 16) %>" alt="Profile pic" />
+        <%= link_to event_attendee.profile %>
+      </li>
     <% end %>
   </ul>
 <% end %>

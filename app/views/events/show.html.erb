@@ -1,39 +1,41 @@
-<div class="container">
-  <div class="columns">
-    <div class="column">
-      <h1 class="title"><%= @event.name %></h1>
-      <p role="doc-subtitle" class="subtitle"><%= date_range(@event) %></p>
-      <p>
-        <%= kramdown(@event.description) %>
-      </p>
+<div class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title"><%= @event.name %></h1>
+        <p role="doc-subtitle" class="subtitle"><%= date_range(@event) %></p>
+        <p>
+          <%= kramdown(@event.description) %>
+        </p>
 
-      <p>
-        <%= buttons(@event, include_nav: true) %>
-      </p>
-    </div>
-
-    <div class="column is-one-quarter">
-      <div class="mb-3">
-        <% if current_user&.profile&.attending? @event %>
-          <%= button_to "Not Attending",
-          { controller: :event_attendees,
-          action: :destroy,
-          id: current_user&.profile&.event_attendee(@event)&.first&.id },
-          method: :delete,
-          class: "button is-danger" %>
-        <% elsif current_user %>
-          <%= button_to "Attend",
-            event_attendees_path(
-              event_attendee: {
-                                profile_id: current_user.profile&.id,
-                                event_id: @event.id
-                            }
-          ),
-          action: "create",
-          class: "button is-primary" %>
-        <% end %>
+        <p>
+          <%= buttons(@event, include_nav: true) %>
+        </p>
       </div>
-      <%= render "event_attendees/list", event_attendees: @event_attendees %>
+
+      <div class="column is-one-quarter">
+        <div class="mb-3">
+          <% if current_user&.profile&.attending? @event %>
+            <%= button_to "Not Attending",
+            { controller: :event_attendees,
+            action: :destroy,
+            id: current_user&.profile&.event_attendee(@event)&.first&.id },
+            method: :delete,
+            class: "button is-danger" %>
+          <% elsif current_user %>
+            <%= button_to "Attend",
+              event_attendees_path(
+                event_attendee: {
+                                  profile_id: current_user.profile&.id,
+                                  event_id: @event.id
+                              }
+            ),
+            action: "create",
+            class: "button is-primary" %>
+          <% end %>
+        </div>
+        <%= render "event_attendees/list", event_attendees: @event_attendees %>
+      </div>
     </div>
   </div>
 </div>

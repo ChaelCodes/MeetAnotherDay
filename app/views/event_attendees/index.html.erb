@@ -13,8 +13,8 @@
     <tbody>
       <% @event_attendees.each do |event_attendee| %>
         <tr>
-          <td><%= event_attendee.profile.name %></td>
-          <td><%= event_attendee.event.name %></td>
+          <td><%= link_to event_attendee.profile.name, event_attendee.profile %></td>
+          <td><%= link_to event_attendee.event.name, event_attendee.event %></td>
           <td>
             <%= buttons(event_attendee, include_show: true) %>
           </td>

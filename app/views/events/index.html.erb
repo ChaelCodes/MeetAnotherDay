@@ -1,4 +1,4 @@
-<div class="container">
+<div class="section container">
   <h1 class="title">Events</h1>
   <%= render 'list', events: @events %>
   <%= link_to 'New Event', new_event_path, class: "button is-primary" if policy(:event).new? %>
