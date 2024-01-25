@@ -8,7 +8,7 @@ class EventAttendeesController < ApplicationController
 
   # GET /event_attendees or /event_attendees.json
   def index
-    @event_attendees = EventAttendee.where(profile_id: current_user.profile.id)
+    @event_attendees = EventAttendee.where(profile: current_user.profile)
   end
 
   # GET /event_attendees/1 or /event_attendees/1.json
