@@ -81,8 +81,11 @@ To run rubocop:\
 
 To reset the database with the seed data:
 1. (If server was running) Shut down the web server: `docker compose stop web`
-2. Reset the DB: `docker-compose run web bundle exec rake db:reset`
+2. Reset the DB: `docker compose run web bundle exec rake db:reset`
 3. (If server was running) Bring the web server back up: `docker compose start web`
+
+To populate the existing database with seed data (idempotent):\
+`docker compose run web bundle exec rake db:seed`
 
 ## Updating Node Modules
 You'll have to update your node_modules folder if you see a message similar to the one below.
