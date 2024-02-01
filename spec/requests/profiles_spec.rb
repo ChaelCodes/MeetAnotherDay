@@ -17,23 +17,23 @@ RSpec.describe "/profiles" do
   describe "GET /index" do
     subject(:get_index) { get profiles_url }
 
-    let!(:public_profile) { create :profile, visibility: :everyone }
+    let!(:everyone_profile) { create :profile, visibility: :everyone }
     let!(:authenticated_profile) { create :profile, visibility: :authenticated }
     let!(:not_friends_profile) { create :profile, visibility: :friends }
     let!(:friends_profile) { create :profile, visibility: :friends }
-    let!(:private_profile) { create :profile, visibility: :myself }
-    let!(:my_profile) { create :profile, user: }
-    let!(:friendship) { create :friendship, buddy: my_profile, friend: friends_profile, status: :accepted }
+    let!(:myself_profile) { create :profile, visibility: :myself }
+    let!(:current_profile) { create :profile, user:, visibility: :myself }
+    let!(:friendship) { create :friendship, buddy: current_profile, friend: friends_profile, status: :accepted }
 
     context "when the profile belongs to a confirmed user" do
       it "renders a successful response" do
         get_index
-        expect(response.body).to include(public_profile.handle)
+        expect(response.body).to include(everyone_profile.handle)
         expect(response.body).to include(authenticated_profile.handle)
         expect(response.body).not_to include(not_friends_profile.handle)
-        expect(response.body).not_to include(private_profile.handle)
+        expect(response.body).not_to include(myself_profile.handle)
         expect(response.body).to include(friends_profile.handle)
-        expect(response.body).to include(my_profile.handle)
+        expect(response.body).to include(current_profile.handle)
       end
     end
 
@@ -42,16 +42,16 @@ RSpec.describe "/profiles" do
 
       it "shows only public profiles" do
         get_index
-        expect(response.body).to include(public_profile.handle)
+        expect(response.body).to include(everyone_profile.handle)
         expect(response.body).not_to include(authenticated_profile.handle)
         expect(response.body).not_to include(not_friends_profile.handle)
-        expect(response.body).not_to include(private_profile.handle)
+        expect(response.body).not_to include(myself_profile.handle)
         expect(response.body).to include(friends_profile.handle)
-        expect(response.body).to include(my_profile.handle)
+        expect(response.body).to include(current_profile.handle)
       end
     end
 
-    context "when the profile belongs to a overdue unconfirmed user" do
+    context "when the profile belongs to an overdue unconfirmed user" do
       let(:user) { create :user, :overdue_unconfirmed }
 
       it_behaves_like "confirm your email"
@@ -70,9 +70,44 @@ RSpec.describe "/profiles" do
       let(:headers) { json_headers }
       let!(:event_attendee) { create :event_attendee, profile: }
 
-      it "send events" do
-        get_show
-        expect(response.parsed_body["events"].first["id"]).to eq(event_attendee.event.id)
+      shared_examples "shows events" do
+        it "send events" do
+          get_show
+          expect(response.parsed_body["events"].first["id"]).to eq(event_attendee.event.id)
+        end
+      end
+
+      shared_examples "won't show events" do
+        it "don't send events" do
+          get_show
+          expect(response.parsed_body["events"]).to be_empty
+        end
+      end
+
+      it_behaves_like "shows events"
+
+      context "when profile is everyone" do
+        let(:profile) { create :profile, visibility: :everyone }
+
+        it_behaves_like "shows events"
+      end
+
+      context "when profile is authenticated" do
+        let(:profile) { create :profile, visibility: :authenticated }
+
+        it_behaves_like "shows events"
+      end
+
+      context "when profile is friends" do
+        let(:profile) { create :profile, visibility: :friends }
+
+        it_behaves_like "won't show events"
+      end
+
+      context "when profile is myself" do
+        let(:profile) { create :profile, visibility: :myself }
+
+        it_behaves_like "won't show events"
       end
     end
 
@@ -117,7 +152,7 @@ RSpec.describe "/profiles" do
     context "when profile is visible to friends" do
       let(:profile) { create :profile, visibility: :friends }
 
-      context "when user is signed in" do
+      context "when user is signed in but unconfirmed" do
         let(:user)  { create :user, :unconfirmed_with_trial }
 
         it_behaves_like "unauthorized access"
@@ -134,7 +169,7 @@ RSpec.describe "/profiles" do
         let(:user) { friendship.buddy.user }
         let(:friendship) { create :friendship, friend: profile, status: :requested }
 
-        it_behaves_like "unauthorized access"
+        it_behaves_like "show page renders a sucessful response"
       end
 
       context "when user is me" do
@@ -147,17 +182,23 @@ RSpec.describe "/profiles" do
     context "when profile is visible to myself" do
       let(:profile) { create :profile, visibility: :myself }
 
+      context "when user is signed in but unconfirmed" do
+        let(:user)  { create :user, :unconfirmed_with_trial }
+
+        it_behaves_like "unauthorized access"
+      end
+
       context "when user is friend" do
         let(:user) { friendship.buddy.user }
         let(:friendship) { create :friendship, friend: profile, status: :accepted }
 
-        it_behaves_like "unauthorized access"
+        it_behaves_like "show page renders a sucessful response"
       end
 
       context "when user is signed in" do
         let(:user)  { create :user }
 
-        it_behaves_like "unauthorized access"
+        it_behaves_like "show page renders a sucessful response"
       end
 
       context "when user is me" do

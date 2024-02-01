@@ -13,7 +13,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1 or /profiles/1.json
   def show
-    @events = @profile.events
+    @events = @profile.events if policy(@profile).show_details?
   end
 
   # GET /profiles/new

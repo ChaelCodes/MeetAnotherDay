@@ -13,11 +13,13 @@
       </div>
     </div>
     <div class="block">
-      <p><%= @profile.bio %></p>
+      <p>
+        <%= policy(@profile).show_details? ? @profile.bio : unauthorized_message(@profile) %>
+      </p>
     </div>
   </div>
 </div>
-<% if @profile.events.present? %>
+<% if policy(@profile).show_details? %>
   <div class="section">
     <div class="container">
       <div class="block">
