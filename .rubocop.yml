@@ -38,6 +38,7 @@ Metrics/BlockLength:
   Exclude:
     - "config/environments/**/*"
     - "spec/**/*"
+    - "db/seeds/**/*"
 
 Metrics/MethodLength:
   Exclude:
