@@ -12,6 +12,18 @@ users = [
     email: "john@example.com",
     name: "John",
     admin: false
+  },
+  {
+    email: "everyone@example.com"
+  },
+  {
+    email: "authenticated@example.com"
+  },
+  {
+    email: "friends@example.com"
+  },
+  {
+    email: "myself@example.com"
   }
 ]
 
