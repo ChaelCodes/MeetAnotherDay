@@ -13,14 +13,21 @@ class ProfilePolicy < ApplicationPolicy
     confirmed_user?
   end
 
-  # This method controls whether a user can view a profile.
+  # Whether the user can view the Profile's Handle, Bio, and Avatar.
+  def show?
+    return true if mine? || admin? || profile.visible_to_everyone?
+    confirmed_user?
+  end
+
+  # This method controls whether a user can view a profile's details.
+  # The details include the bio and event attendance.
   # Admins can always view profiles. Users can view their own profiles.
   # Profiles can set their own visibility.
   # * Everyone - anyone can view
   # * Authenticated - only logged in, and confirmed users can view
   # * Friends - only accepted friends can view
   # * Myself - only the user can view - NOT EVEN EXISTING FRIENDS!
-  def show?
+  def show_details?
     return true if mine? || admin? || profile.visible_to_everyone?
     return confirmed_user? if profile.visible_to_authenticated?
     current_profile&.friends_with? profile if profile.visible_to_friends?
