@@ -27,7 +27,7 @@ describe "Friendships" do
 
       it "shows the user's friends" do
         expect(page).to have_link friendship.friend.name, href: profile_path(friendship.friend)
-        expect(page).to have_link "#{friendship.buddy.name} and #{friendship.friend.name} are friends!",
+        expect(page).to have_link "#{friendship.buddy.name} feels friendly towards #{friendship.friend.name}!",
                                   href: friendship_path(friendship)
       end
 
