@@ -1,10 +1,10 @@
 <div class="container">
   <h1 class="title">Friendships</h1>
   <% if @profile.present? %>
-    <% if @profile.friend_requests.present? %>
+    <% if @friend_requests.present? %>
       <h2>You have Friend Requests!</h2>
       <table class="table friend-requests">
-        <% @profile.friend_requests.each do |friendship| %>
+        <% @friend_requests.each do |friendship| %>
           <tr>
             <td><%= link_to friendship.friend %></td>
             <td><%= accept_friendship_button(friendship, current_user&.profile) %></td>

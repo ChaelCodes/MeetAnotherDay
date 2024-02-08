@@ -27,6 +27,14 @@ class Friendship < ApplicationRecord
                         message: to_s)
   end
 
+  def self.blocks(profile)
+    Friendship.where(friend_id: profile.id).blocked
+  end
+
+  def self.friends_of(profile)
+    Friendship.where(friend_id: profile.id).accepted
+  end
+
   def to_s
     return "Friendship does not exist yet." unless persisted?
     case status
