@@ -24,7 +24,7 @@ RSpec.describe "/event_attendees" do
   end
 
   describe "GET /index" do
-    subject(:get_index) { get event_attendees_url }
+    subject(:get_index) { get event_attendees_url, params: { format: :json } }
 
     context "when user is logged in" do
       let!(:event_attendee) { create_list :event_attendee, 2, organizer: true }
@@ -32,12 +32,12 @@ RSpec.describe "/event_attendees" do
 
       it "renders a successful response" do
         get_index
-        expect(response.body).to include(event_attendee[0].profile_id.to_s)
+        expect(json_body.pluck("profile_id")).to include(event_attendee[0].profile_id)
       end
 
       it "don't render other users records" do
         get_index
-        expect(response.body).not_to include(event_attendee[1].profile_id.to_s)
+        expect(json_body.pluck("profile_id")).not_to include(event_attendee[1].profile_id)
       end
     end
   end
