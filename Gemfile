@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem "rails", "~> 7.1.x"
+gem "rails", "~> 7.1"
 
 gem "devise" # Use to authenticate user
 gem "kramdown", "~> 2.3", ">= 2.3.1" # Parse Markdown on Profile/Event pages
