@@ -26,7 +26,7 @@ class EventAttendeePolicy < ApplicationPolicy
   end
 
   def update?
-    record.organizer
+    false
   end
 
   def destroy?
