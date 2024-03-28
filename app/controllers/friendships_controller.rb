@@ -11,6 +11,7 @@ class FriendshipsController < ApplicationController
     return unless current_user.profile
     @profile = current_profile
     @friend_requests = @profile.friend_requests
+    @outgoing_friend_requests = policy_scope(Friendship.requested.where(friend_id: @profile.id))
     @friendships = policy_scope(Friendship.where(buddy_id: @profile.id, status: :accepted))
   end
 
