@@ -14,7 +14,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # View local server when hosted by GitHub Codespaces.
-  config.hosts << /^.+-confbuddies-.*-3000\.githubpreview\.dev$/
+  config.hosts << /^.+-meetanotherday-.*-3000\.githubpreview\.dev$/
 
   #####
   # Action Mailer

@@ -1,9 +1,9 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](https://www.contributor-covenant.org/version/2/0/code_of_conduct/)
 
-# ConfBuddies
+# Meet Another Day
 An app to help you find and meet up with your buddies at conferences.
 
-Have you ever gone to a conference, met someone really cool who lives halfway around the world, and then promptly fell out of touch as soon as the conference was over? A year later, you don't remember their name, but you remember that you met someone really cool at this conference last time you went. ConfBuddies help you manage those relationships! Friend someone while you're at the conference, and when you go to future conferences, find out who else is going!
+Have you ever gone to a conference, met someone really cool who lives halfway around the world, and then promptly fell out of touch as soon as the conference was over? A year later, you don't remember their name, but you remember that you met someone really cool at this conference last time you went. Meet Another Day helps you manage those relationships! Friend someone while you're at the conference, and when you go to future conferences, find out who else is going!
 
 [Check it out!](https://confbuddies.herokuapp.com/)
 
