@@ -71,7 +71,7 @@ To open the Rails console:\
 `docker compose run --rm web bin/rails c`
 
 To open the Postgres console:\
-`docker compose exec db psql -U postgres ConfBuddies_development`
+`docker compose exec db psql -U postgres MeetAnotherDay_development`
 
 To run your tests:\
 `docker compose run --rm web bundle exec rspec`
