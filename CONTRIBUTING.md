@@ -36,11 +36,11 @@ For example running `docker-compose` instead of `docker compose` listed in the e
 
   ![Forking a repo](https://github-images.s3.amazonaws.com/help/bootcamp/Bootcamp-Fork.png)
 
-  Once this is done you will have your own version of ConfBuddies in a url that looks like this `https://github.com/YOUR_USERNAME/ConfBuddies.git`. To get started on this you can clone the repository and make changes for your contributions. If you aren't sure how to do this then we recommend looking at this guide on [cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+  Once this is done you will have your own version of Meet Another Day in a url that looks like this `https://github.com/YOUR_USERNAME/MeetAnotherDay.git`. To get started on this you can clone the repository and make changes for your contributions. If you aren't sure how to do this then we recommend looking at this guide on [cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
   ### Keeping up to date (Syncing)
-  In order to keep a fork up to date we need to pull from the upstream repo which will be the original ConfBuddies repo.
-  This can be setup by running `git remote add upstream https://github.com/ChaelCodes/ConfBuddies.git`
+  In order to keep a fork up to date we need to pull from the upstream repo which will be the original Meet Another Day repo.
+  This can be setup by running `git remote add upstream https://github.com/ChaelCodes/MeetAnotherDay.git`
 
   Again if unsure please take a look at [Configuring a remote for a fork.](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-for-a-fork)
 
@@ -64,7 +64,7 @@ Run `docker ps` to see all of the running services which are defined in `docker-
 Run `docker compose run --rm web bundle exec rspec` to run the test suite. We have GitHub Actions setup to run the test suite automatically. We expect new tests for new functionality, and your PR to having a passing test suite before review.
 
 ## Teardown
-When you're done, run `docker compose down` to stop the containers. You can remove all containers, images, and volumes with `docker compose rm -v` when you're done contributing to ConfBuddies.
+When you're done, run `docker compose down` to stop the containers. You can remove all containers, images, and volumes with `docker compose rm -v` when you're done contributing to Meet Another Day.
 
 ## Helpful Docker Commands
 To open the Rails console:\
@@ -113,6 +113,6 @@ docker compose run --rm web bundle exec rake db:migrate
 ```
 
 ## Troubleshooting
-If you run into an issue with shared mounts on WSL, (`error message: Error response from daemon: path /home/<>/ConfBuddies is mounted on / but it is not a shared mount.`) you may want to try `sudo mount --make-shared /`.
+If you run into an issue with shared mounts on WSL, (`error message: Error response from daemon: path /home/<>/MeetAnotherDay is mounted on / but it is not a shared mount.`) you may want to try `sudo mount --make-shared /`.
 
 If you do not have permission to modify files created in Docker, you may need to run `sudo chown -R $USER:$USER .`
