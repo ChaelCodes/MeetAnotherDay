@@ -9,11 +9,10 @@ class FriendshipsController < ApplicationController
   # GET /friendships or /friendships.json
   def index
     return unless current_user.profile
-    @profile = current_user.profile
-    @friendships = Friendship.where(friend_id: @profile.id, status: :accepted)
-                             .or(Friendship.where(
-                                   buddy_id: @profile.id, status: :accepted
-                                 ))
+    @profile = current_profile
+    @friend_requests = @profile.friend_requests
+    @outgoing_friend_requests = policy_scope(Friendship.requested.where(friend_id: @profile.id))
+    @friendships = policy_scope(Friendship.where(buddy_id: @profile.id, status: :accepted))
   end
 
   # GET /friendships/1 or /friendships/1.json
@@ -72,7 +71,7 @@ class FriendshipsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_friendship
-    @friendship = policy_scope(Friendship).find(params[:id])
+    @friendship = Friendship.find(params[:id])
     authorize @friendship
   end
 
