@@ -1,7 +1,6 @@
 databases:
   - name: MeetAnotherDay
-    databaseName: MeetAnotherDay
-    user: MeetAnotherDay
+    ipAllowList: [] # only allow connections from services in this Render account
     plan: free
 
 services:
