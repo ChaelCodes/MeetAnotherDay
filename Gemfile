@@ -9,13 +9,12 @@ ruby "3.2.2"
 gem "rails", "~> 7.1"
 
 gem "devise" # Use to authenticate user
+gem "jsbundling-rails", "~> 1.3.0" # bundle js using webpack - https://github.com/rails/jsbundling-rails
 gem "kramdown", "~> 2.3", ">= 2.3.1" # Parse Markdown on Profile/Event pages
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
 gem "puma", "~> 6" # Use Puma as the app server
 gem "pundit" # use pundit to control app premissions and policies
 gem "sass-rails", ">= 6" # Use SCSS for stylesheets
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker", "~> 5.0"
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
