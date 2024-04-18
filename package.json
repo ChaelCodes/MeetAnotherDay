@@ -1,5 +1,5 @@
 {
-  "name": "conf-buddies",
+  "name": "meet-another-day",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^7.0.0",
@@ -10,5 +10,8 @@
     "webpack-cli": "^5.1.4"
   },
   "version": "0.1.0",
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js"
+  }
 }
