@@ -1,3 +1,3 @@
-const { environment } = require('@rails/webpacker')
+const { environment } = require('shakapacker')
 
 module.exports = environment
