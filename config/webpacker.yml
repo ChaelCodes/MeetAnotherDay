@@ -84,6 +84,8 @@ production:
 
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false
+  output:
+    hashFunction: "xxhash64"
 
   # Extract and emit a css file
   extract_css: true
