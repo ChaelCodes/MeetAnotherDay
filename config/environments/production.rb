@@ -64,7 +64,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "conf_buddies_production"
 
-  config.action_mailer.default_url_options = { host: "confbuddies.herokuapp.com" }
+  config.action_mailer.default_url_options = { host: "meetanotherday.onrender.com" }
   config.action_mailer.smtp_settings = {
     port: ENV.fetch("SENDGRID_PORT", nil),
     address: ENV.fetch("SENDGRID_SERVER", nil),
