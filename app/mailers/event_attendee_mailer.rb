@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# TODO: Is this an EventMailer, or EventAttendee Mailer?
-# Mailer responsible for email notifications around events
-class EventMailer < ApplicationMailer
+# Mailer responsible for email notifications around events to EventAttendees
+class EventAttendeeMailer < ApplicationMailer
   helper EventsHelper
 
   def pre_event_email
