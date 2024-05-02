@@ -2,15 +2,11 @@
 
 users = [
   {
-    bio: "Hello. I am admin. Friends please? Ty.",
     email: "admin@example.com",
-    name: "Chael",
     admin: true
   },
   {
-    bio: "Hello. I am dev. Friends please? Ty.",
     email: "john@example.com",
-    name: "John",
     admin: false
   },
   {
