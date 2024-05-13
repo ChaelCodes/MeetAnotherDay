@@ -23,16 +23,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   # Permissions and acess for a collection of Users
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      scope.all
-    end
+  class Scope < Scope
   end
 end

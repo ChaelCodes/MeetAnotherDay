@@ -35,8 +35,5 @@ class EventPolicy < ApplicationPolicy
 
   # Rules governing a list of Events
   class Scope < Scope
-    def resolve
-      scope.all
-    end
   end
 end

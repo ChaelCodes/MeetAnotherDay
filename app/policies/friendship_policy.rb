@@ -52,9 +52,9 @@ class FriendshipPolicy < ApplicationPolicy
   # Permissions and access for a collection of Users
   class Scope < Scope
     def resolve
-      return scope.none unless current_profile
-      scope.where(buddy: current_profile)
-           .or(scope.where(friend: current_profile, status: %i[accepted requested]))
+      return scope.none unless profile
+      scope.where(buddy: profile)
+           .or(scope.where(friend: profile, status: %i[accepted requested]))
     end
   end
 end

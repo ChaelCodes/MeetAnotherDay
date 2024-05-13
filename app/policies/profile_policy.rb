@@ -46,39 +46,15 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   # Permissions and access for a collection of Profiles
-  class Scope
-    attr_reader :current_profile, :user, :scope
-
-    AUTHENTICATED_ACCESS = %i[everyone authenticated].freeze
-    UNAUTHENTICATED_ACCESS = :everyone
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-      @current_profile = user&.profile
-    end
-
+  class Scope < Scope
     def resolve
-      collection = current_profile ? except_people_who_dont_like_you : scope
-      respecting_profile_visibility(collection)
+      if profile
+        profiles.nonblocked(profile).or(scope.befriended(profile)).or(scope.where(id: profile))
+      else
+        profiles
+      end
     end
 
-    private
-
-    def public_access_list
-      user&.confirmed? ? AUTHENTICATED_ACCESS : UNAUTHENTICATED_ACCESS
-    end
-
-    def except_people_who_dont_like_you
-      scope.where.not(id: Friendship.blocks(current_profile).select(:buddy_id))
-    end
-
-    def respecting_profile_visibility(collection)
-      profiles = collection.where(visibility: public_access_list)
-      return profiles unless current_profile
-      profiles.or(collection.where(id: Friendship.friends_of(current_profile).select(:buddy_id),
-                                   visibility: :friends))
-              .or(collection.where(id: current_profile.id))
-    end
+    private def profiles = confirmed? ? scope.with_authenticated : scope.visible_to_everyone
   end
 end
