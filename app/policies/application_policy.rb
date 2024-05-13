@@ -58,6 +58,6 @@ class ApplicationPolicy
       scope.all
     end
 
-    delegate :profile, :confirmed?, to: :user, allow_nil: true
+    delegate :profile, :admin?, :confirmed?, to: :user, allow_nil: true
   end
 end
