@@ -53,11 +53,11 @@ class ApplicationPolicy
   end
 
   # Default access scope for querying records.
-  class Scope < Data.define(:user, :scope)
-    private delegate :profile, :confirmed?, to: :user, allow_nil: true
-
+  Scope = Data.define(:user, :scope) do
     def resolve
       scope.all
     end
+
+    delegate :profile, :confirmed?, to: :user, allow_nil: true
   end
 end

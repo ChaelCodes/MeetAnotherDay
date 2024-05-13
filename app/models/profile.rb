@@ -15,9 +15,9 @@ class Profile < ApplicationRecord
     everyone: 4
   }, _prefix: :visible_to
 
-  scope :with_authenticated, -> { where(visibility: [:everyone, :authenticated]) }
-  scope :nonblocked, -> profile { where.not(id: Friendship.blocks(profile).select(:buddy_id)) }
-  scope :befriended, -> profile { where(id: Friendship.friends_of(profile).select(:buddy_id), visibility: :friends) }
+  scope :with_authenticated, -> { where(visibility: %i[everyone authenticated]) }
+  scope :nonblocked, ->(profile) { where.not(id: Friendship.blocks(profile).select(:buddy_id)) }
+  scope :befriended, ->(profile) { where(id: Friendship.friends_of(profile).select(:buddy_id), visibility: :friends) }
 
   # Relationships
   belongs_to :user

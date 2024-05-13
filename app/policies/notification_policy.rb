@@ -32,7 +32,7 @@ class NotificationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.where(profile: [profile, nil]) if admin?
-      scope.where(profile: profile)
+      scope.where(profile:)
     end
   end
 end

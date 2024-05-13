@@ -55,6 +55,8 @@ class ProfilePolicy < ApplicationPolicy
       end
     end
 
-    private def profiles = confirmed? ? scope.with_authenticated : scope.visible_to_everyone
+    private
+
+    def profiles = confirmed? ? scope.with_authenticated : scope.visible_to_everyone
   end
 end
