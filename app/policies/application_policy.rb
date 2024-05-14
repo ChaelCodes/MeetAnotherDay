@@ -53,23 +53,11 @@ class ApplicationPolicy
   end
 
   # Default access scope for querying records.
-  class Scope
-    attr_reader :current_profile, :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @current_profile = user&.profile
-      @scope = scope
-    end
-
+  Scope = Data.define(:user, :scope) do
     def resolve
       scope.all
     end
 
-    private
-
-    def admin?
-      user&.admin?
-    end
+    delegate :profile, :admin?, :confirmed?, to: :user, allow_nil: true
   end
 end

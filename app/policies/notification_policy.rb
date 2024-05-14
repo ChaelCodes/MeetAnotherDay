@@ -31,8 +31,8 @@ class NotificationPolicy < ApplicationPolicy
   # Rules governing a list of Notifications
   class Scope < Scope
     def resolve
-      return scope.where(profile: [current_profile, nil]) if admin?
-      scope.where(profile: current_profile)
+      return scope.where(profile: [profile, nil]) if admin?
+      scope.where(profile:)
     end
   end
 end
