@@ -50,6 +50,9 @@ Naming/BlockForwarding:
 Rails/RequestReferer:
   EnforcedStyle: referrer
 
+Rails/Validation:
+  Enabled: false
+
 RSpec/ExampleLength:
   Max: 10
 
