@@ -17,7 +17,10 @@ class Profile < ApplicationRecord
 
   scope :with_authenticated, -> { where(visibility: %i[everyone authenticated]) }
   scope :nonblocked, ->(profile) { where.not(id: Friendship.blocks(profile).select(:buddy_id)) }
-  scope :befriended, ->(profile) { where(id: Friendship.friends_of(profile).select(:buddy_id), visibility: :friends) }
+  scope :befriended, lambda { |profile|
+    where(id: Friendship.friends_of(profile).select(:buddy_id))
+      .where.not(visibility: :myself)
+  }
 
   # Relationships
   belongs_to :user

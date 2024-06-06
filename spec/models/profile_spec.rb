@@ -34,4 +34,35 @@ RSpec.describe Profile do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe "#befriended" do
+    subject { described_class.befriended(profile) }
+
+    context "with 'authenticated' visibility friend" do
+      let(:authenticated_profile) { create :profile, :authenticated }
+      let!(:friendship) { create :friendship, buddy: authenticated_profile, friend: profile, status: :accepted }
+
+      it "does include" do
+        expect(subject).to include authenticated_profile
+      end
+    end
+
+    context "with 'friends' visibility friend" do
+      let(:friends_profile) { create :profile, :friends }
+      let!(:friendship) { create :friendship, buddy: friends_profile, friend: profile, status: :accepted }
+
+      it "does include" do
+        expect(subject).to include friends_profile
+      end
+    end
+
+    context "with 'myself' visibility friend" do
+      let(:myself_profile) { create :profile, :myself }
+      let!(:friendship) { create :friendship, buddy: myself_profile, friend: profile, status: :accepted }
+
+      it "does not include" do
+        expect(subject).not_to include myself_profile
+      end
+    end
+  end
 end

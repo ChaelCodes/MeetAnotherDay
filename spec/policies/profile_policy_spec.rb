@@ -23,6 +23,67 @@ describe ProfilePolicy, type: :policy do
     end
   end
 
+  permissions :show? do
+    context "with viewing everyone profile" do
+      let(:profile) { build :profile, visibility: :everyone }
+
+      context "with no user" do
+        it { expect(described_class).to permit(nil, profile) }
+      end
+
+      context "with unconfirmed user" do
+        let(:user) { create :user, :unconfirmed }
+
+        it { expect(described_class).to permit(user, profile) }
+      end
+
+      context "with confirmed user" do
+        let(:user) { create :user }
+
+        it { expect(described_class).to permit(user, profile) }
+      end
+
+      context "with admin" do
+        let(:user) { create :user, :admin }
+
+        it { expect(described_class).to permit(user, profile) }
+      end
+    end
+
+    context "when viewing authenticated profile" do
+      let(:profile) { build :profile, visibility: :authenticated }
+
+      context "with no user" do
+        it { expect(described_class).not_to permit(nil, profile) }
+      end
+
+      context "with unconfirmed user" do
+        let(:user) { create :user, :unconfirmed }
+
+        it { expect(described_class).not_to permit(user, profile) }
+
+        context "when friends" do
+          let!(:user_profile) { create :profile, user: }
+          let!(:friendship) { create :friendship, buddy: profile, friend: user.profile, status: :accepted }
+
+          it { expect(described_class).to permit(user, profile) }
+        end
+      end
+
+      context "with confirmed user" do
+        let(:user) { create :user }
+
+        it { expect(described_class).to permit(user, profile) }
+      end
+
+      context "with admin" do
+        let(:user) { create :user, :admin }
+
+        it { expect(described_class).to permit(user, profile) }
+      end
+    end
+  end
+
   permissions :show_details? do
     context "with viewing everyone profile" do
       let(:profile) { build :profile, visibility: :everyone }
@@ -61,6 +122,13 @@ describe ProfilePolicy, type: :policy do
         let(:user) { create :user, :unconfirmed }
 
         it { expect(described_class).not_to permit(user, profile) }
+
+        context "when friends" do
+          let!(:user_profile) { create :profile, user: }
+          let!(:friendship) { create :friendship, buddy: profile, friend: user.profile, status: :accepted }
+
+          it { expect(described_class).to permit(user, profile) }
+        end
       end
 
       context "with confirmed user" do
@@ -191,6 +259,12 @@ describe ProfilePolicy, type: :policy do
         let!(:friendship) { create :friendship, buddy: current_profile, friend: friends, status: :accepted }
 
         it { is_expected.to match_array %w[everyone myself] }
+      end
+
+      context "when authenticated profile is friendly with you" do
+        let!(:friendship) { create :friendship, buddy: authenticated, friend: current_profile, status: :accepted }
+
+        it { is_expected.to match_array %w[everyone authenticated myself] }
       end
 
       context "when you are blocked" do
