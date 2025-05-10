@@ -25,7 +25,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2.2
-    - run: docker-compose run web bundle exec rake db:test:prepare
+    - run: docker compose run web bundle exec rake db:test:prepare
     - name: RSpec
-      run: docker-compose run -e CI=true web bundle exec rspec
-    - run: docker-compose down
+      run: docker compose run -e CI=true web bundle exec rspec
+    - run: docker compose down
