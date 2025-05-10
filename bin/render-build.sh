@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# exit on error
-set -o errexit
+# exit on any error or unset variable
+set -euo pipefail
 
 # ensures nokogiri uses ruby instead of native extensions so the render build will succeed.
 bundle config set force_ruby_platform true
