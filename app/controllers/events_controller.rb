@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.ongoing_or_upcoming
+    @events = params[:past] ? Event.past : Event.ongoing_or_upcoming
     return unless current_profile
     @friends_attending_count = {}
     @events.each do |event|

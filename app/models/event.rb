@@ -11,6 +11,7 @@ class Event < ApplicationRecord
   validates_comparison_of :end_at, greater_than: :start_at
 
   scope :ongoing_or_upcoming, -> { where("end_at >= ?", Time.zone.now) }
+  scope :past, -> { where("end_at < ?", Time.zone.now) }
 
   def to_s
     name
