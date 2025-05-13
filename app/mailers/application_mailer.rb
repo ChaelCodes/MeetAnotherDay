@@ -2,6 +2,6 @@
 
 # My app's customizations for the ActionMailer
 class ApplicationMailer < ActionMailer::Base
-  default from: "confbuddies@chael.codes"
+  default from: "no-reply@meetanother.day"
   layout "mailer"
 end

@@ -64,13 +64,13 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "conf_buddies_production"
 
-  config.action_mailer.default_url_options = { host: "meetanotherday.onrender.com" }
+  config.action_mailer.default_url_options = { host: "meetanother.day" }
   config.action_mailer.smtp_settings = {
-    port: ENV.fetch("SENDGRID_PORT", nil),
-    address: ENV.fetch("SENDGRID_SERVER", nil),
-    user_name: ENV.fetch("SENDGRID_USERNAME", nil),
-    password: ENV.fetch("SENDGRID_PASSWORD", nil),
-    domain: "chael.codes",
+    port: ENV.fetch("SMTP_PORT", nil),
+    address: ENV.fetch("SMTP_SERVER", nil),
+    user_name: ENV.fetch("SMTP_USERNAME", nil),
+    password: ENV.fetch("SMTP_PASSWORD", nil),
+    domain: "meetanother.day",
     authentication: :plain,
     ssl: true
   }
