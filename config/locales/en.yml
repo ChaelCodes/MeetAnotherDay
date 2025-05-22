@@ -16,6 +16,6 @@ en:
   event_attendees:
     list:
       buddies_attending:
-        zero: "Be the first!"
+        zero: "Invite your friends!"
         one: "Go with your buddy!"
         other: "%{count} buddies attending!"
