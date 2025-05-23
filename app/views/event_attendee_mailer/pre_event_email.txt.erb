@@ -1,0 +1,19 @@
+<%= @profile.name %> is attending <%= event.name %>!
+===============================================
+
+The event is <%= date_range(@event) %>.
+
+<% if @friends_attending.none? %>
+  None of your friends have said they're attending. :(
+  I guess it's time to make some new ones!
+  Does the event have a Slack or Discord? Try introducing yourself over there!
+  Make sure to share your "MAD" profile, so you can meet up another day with your new friends!
+  Good luck!
+<% else %>
+  Several of your friend are also attending! 
+  You could reach out and see if they want to get dinner or lunch together while you're there.
+
+  <% @friends_attending.each do |event_attendee| %>
+    <%= event_attendee.profile.name %>
+  <% end %>
+<% end %>

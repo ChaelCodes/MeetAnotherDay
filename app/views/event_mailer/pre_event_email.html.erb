@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style type="text/css">
+      body {
+        font-family: "Fira Sans", Roboto, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <%= tag.h1 "#{@profile.name} is attending #{@event.name}!" %>
+    <p>
+      The <%= tag.a "event", href: event_url(@event), target: '_blank' %> is <%= date_range(@event) %>.
+    </p>
+    <% if @friends_attending.none? %>
+      <p>None of your friends have said they're attending. :( </p>
+      <p>I guess it's time to make some new ones!</p>
+      <p>Does the event have a Slack or Discord? Try introducing yourself over there!</p>
+      <p>Make sure to share your "MAD" profile, so you can meet up another day with your new friends!
+         Good luck!
+      </p>
+    <% else %>
+      <p>
+        Several of your friend are also attending! 
+        You could reach out and see if they want to get dinner or lunch together while you're there.
+      </p>
+      <ul style="list-style-type: none;">
+        <% @friends_attending.each do |event_attendee| %>
+          <li>
+            <%= tag.a event_attendee.profile.name,
+                      href: profile_url(event_attendee.profile),
+                      target: '_blank' %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </body>
+</html>
