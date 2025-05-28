@@ -28,12 +28,15 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    @location_types = Event.location_types.keys
     @event = Event.new
     authorize @event
   end
 
   # GET /events/1/edit
-  def edit; end
+  def edit
+    @location_types = Event.location_types.keys
+  end
 
   # POST /events or /events.json
   def create
@@ -92,6 +95,6 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :handle, :description, :start_at, :end_at)
+    params.require(:event).permit(:name, :handle, :description, :start_at, :end_at, :location_type, :address)
   end
 end

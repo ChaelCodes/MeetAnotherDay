@@ -5,6 +5,27 @@
     <%= form.labelled_text_field :name %>
     <%= form.labelled_text_field :handle %>
     <%= form.labelled_text_area :description %>
+    
+    <div data-controller="location">
+      <div class="field">
+        <%= form.label :location_type, class: "label" %>
+        <div class="control">
+          <%= form.select :location_type, 
+              @location_types, 
+              {}, 
+              class: "select",
+              data: { action: "change->location#toggleAddress" } %>
+        </div>
+      </div>
+
+      <div class="field" data-location-target="addressField">
+        <%= form.label :address, class: "label" %>
+        <div class="control">
+          <%= form.text_field :address, class: "input" %>
+        </div>
+      </div>
+    </div>
+
     <div class="field">
       <label class="label">Date</label>
       <div class="control columns">
@@ -16,6 +37,7 @@
         </div>
       </div>
     </div>
+
     <div class="actions">
       <%= form.submit "Submit", class: "button is-primary" %>
     </div>

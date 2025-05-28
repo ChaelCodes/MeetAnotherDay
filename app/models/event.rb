@@ -4,6 +4,11 @@
 class Event < ApplicationRecord
   include ::Handleable
 
+  enum location_type: {
+    online: "online",
+    physical: "physical"
+    }
+
   geocoded_by :address
   after_validation :geocode, if: ->(obj) { obj.address.present? && obj.address_changed? }
 
