@@ -34,10 +34,4 @@ class Event < ApplicationRecord
   def online?
     location_type == "online"
   end
-
-  def short_description(length = 150)
-    return "" unless description.present?
-    desc = ActionView::Base.full_sanitizer.sanitize(description)
-    desc.length > length ? desc[0...length].rpartition(" ").first + "…" : desc
-  end
 end
