@@ -1,9 +1,49 @@
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
 <div class="section">
   <div class="container">
     <div class="columns">
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
         <p role="doc-subtitle" class="subtitle"><%= date_range(@event) %></p>
+        
+        <%# Location information %>
+        <div class="box">
+          <h2 class="subtitle">Location</h2>
+          <p class="mb-2">
+            <span class="icon">
+              <i class="fas fa-<%= @event.physical? ? 'map-marker-alt' : 'video' %>"></i>
+            </span>
+            <strong><%= @event.location_type.humanize if @event.online?%></strong>
+          </p>
+          
+          <% if @event.physical? && @event.address.present? %>
+            <p class="has-text-grey">
+              <span class="icon">
+                <i class="fas fa-location-dot"></i>
+              </span>
+              <%= @event.address %>
+            </p>
+            
+            <% if @event.latitude && @event.longitude %>
+              <div class="mt-3" style="height: 200px;" id="map"></div>
+              
+              <script>
+                var map = L.map('map').setView([<%= @event.latitude %>, <%= @event.longitude %>], 15);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  maxZoom: 19,
+                }).addTo(map);
+                
+                L.marker([<%= @event.latitude %>, <%= @event.longitude %>]).addTo(map);
+              </script>
+            <% end %>
+          <% end %>
+        </div>
+
         <p>
           <%= kramdown(@event.description) %>
         </p>
