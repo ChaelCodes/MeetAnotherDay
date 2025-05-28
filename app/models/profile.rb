@@ -51,4 +51,9 @@ class Profile < ApplicationRecord
   def friend_requests
     friendships.requested
   end
+
+  def friends_attending(event)
+    friend_ids = friendships.accepted.pluck(:friend_id)
+    event.attendees.where(id: friend_ids)
+  end
 end
