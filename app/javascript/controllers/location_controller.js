@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ["addressField"]
 
   connect() {
-    console.log("Location controller initialized")
     // Initial check on page load
     const select = this.element.querySelector('select')
     if (select) {
@@ -14,7 +13,6 @@ export default class extends Controller {
 
   toggleAddress(event) {
     const locationType = event.target.value
-    console.log("Toggling address for:", locationType)
     
     if (locationType === "physical") {
       this.addressFieldTarget.style.display = "block"
