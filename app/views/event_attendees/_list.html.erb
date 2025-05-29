@@ -1,5 +1,5 @@
-<% if @current_profile %>
-  <h4><%= pluralize(@friends_attending_count, "buddy", "buddies") %></h4>
+<% if current_profile %>
+  <h4><%= pluralize(friends_attending_count, "buddy", "buddies") %></h4>
 <% end %>
 
 <% if event_attendees %>
