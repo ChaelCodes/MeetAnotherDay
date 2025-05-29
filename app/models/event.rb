@@ -10,14 +10,14 @@ class Event < ApplicationRecord
     }
 
   geocoded_by :address
-  after_validation :geocode, if: ->(obj) { obj.address.present? && obj.address_changed? }
+  after_validation :geocode, if: :should_geocode?
 
   has_many :event_attendees, dependent: :delete_all
   has_many :attendees, through: :event_attendees, source: :profile
 
   validates :start_at, :end_at, :location_type, presence: true
   validates :address, presence: true, if: :physical?
-  validates :location_type, inclusion: { in: %w[physical online] }
+  validates :location_type, inclusion: { in: location_types.keys }
   validates_comparison_of :end_at, greater_than: :start_at
 
   scope :ongoing_or_upcoming, -> { where("end_at >= ?", Time.zone.now) }
@@ -33,5 +33,13 @@ class Event < ApplicationRecord
 
   def online?
     location_type == "online"
+  end
+
+  private
+
+  def should_geocode?
+    address.present? && 
+    address_changed? && 
+    physical?
   end
 end

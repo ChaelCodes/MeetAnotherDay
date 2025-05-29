@@ -20,28 +20,7 @@
             <strong><%= @event.location_type.humanize if @event.online?%></strong>
           </p>
           
-          <% if @event.physical? && @event.address.present? %>
-            <p class="has-text-grey">
-              <span class="icon">
-                <i class="fas fa-location-dot"></i>
-              </span>
-              <%= @event.address %>
-            </p>
-            
-            <% if @event.latitude && @event.longitude %>
-              <div class="mt-3" style="height: 200px;" id="map"></div>
-              
-              <script>
-                var map = L.map('map').setView([<%= @event.latitude %>, <%= @event.longitude %>], 15);
-                
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  maxZoom: 19,
-                }).addTo(map);
-                
-                L.marker([<%= @event.latitude %>, <%= @event.longitude %>]).addTo(map);
-              </script>
-            <% end %>
-          <% end %>
+          <%=render "map", event: @event%>
         </div>
 
         <p>

@@ -4,6 +4,7 @@
 class EventsController < ApplicationController
   before_action :create_event, only: :create
   before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_location_types, only: %i[new edit create update]
 
   # GET /events or /events.json
   def index
@@ -28,15 +29,12 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @location_types = Event.location_types.keys
     @event = Event.new
     authorize @event
   end
 
   # GET /events/1/edit
-  def edit
-    @location_types = Event.location_types.keys
-  end
+  def edit; end
 
   # POST /events or /events.json
   def create
@@ -91,6 +89,11 @@ class EventsController < ApplicationController
     @event = Event.find_by("LOWER(handle) = ?", params[:id]&.downcase)
     @event ||= Event.find(params[:id])
     authorize @event
+  end
+
+  # Sets the location types for the event form.
+  def set_location_types
+    @location_types = Event.location_types.keys
   end
 
   # Only allow a list of trusted parameters through.
