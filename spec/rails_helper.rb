@@ -95,6 +95,7 @@ RSpec.configure do |config|
 
   config.before(:each, type: :feature) do
     Capybara.app_host = "http://#{IPSocket.getaddress(Socket.gethostname)}:4444"
+    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
     Capybara.server_port = 4444
   end
 
