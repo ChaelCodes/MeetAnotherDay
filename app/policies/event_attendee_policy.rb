@@ -36,14 +36,7 @@ class EventAttendeePolicy < ApplicationPolicy
   # Rules governing a list of Events
   class Scope < Scope
     def resolve
-      if user.nil?
-        scope.none
-      else
-        # Permettre de voir les participations des amis
-        scope.where(
-          profile_id: user.profile.friendships.accepted.select(:friend_id)
-        )
-      end
+      scope.where(profile: ProfilePolicy::Scope.new(user, Profile).resolve)
     end
   end
 end

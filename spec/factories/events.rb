@@ -7,6 +7,12 @@ FactoryBot.define do
     description { "[RubyConf 2020](https://rubyconf.org/) will be held in `Denver`." }
     start_at { 1.month.from_now }
     end_at { start_at + 3.days }
+    location_type { "online" }
+
+    trait :physical do
+      location_type { "physical" }
+      address { "123 Main St" }
+    end
 
     trait :one_day do
       name { "HexDevs Open-Source" }
