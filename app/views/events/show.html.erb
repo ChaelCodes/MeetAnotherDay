@@ -9,6 +9,9 @@
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
         <p role="doc-subtitle" class="subtitle"><%= date_range(@event) %></p>
+        <p>
+          <%= kramdown(@event.description) %>
+        </p>
         
         <%# Location information %>
         <div class="box">
@@ -20,9 +23,6 @@
           <%=render "map", event: @event%>
         </div>
 
-        <p>
-          <%= kramdown(@event.description) %>
-        </p>
 
         <p>
           <%= buttons(@event, include_nav: true) %>
