@@ -14,9 +14,6 @@
         <div class="box">
           <h2 class="subtitle">Location</h2>
           <p class="mb-2">
-            <span class="icon">
-              <i class="fas fa-<%= @event.physical? ? 'map-marker-alt' : 'video' %>"></i>
-            </span>
             <strong><%= @event.location_type.humanize if @event.online?%></strong>
           </p>
           
