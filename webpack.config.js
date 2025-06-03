@@ -1,4 +1,4 @@
-const path    = require("path")
+const path = require("path")
 const webpack = require("webpack")
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 
@@ -20,5 +20,6 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     })
-  ]
+  ],
+  devtool: mode === 'development' ? 'inline-source-map' : false
 }
