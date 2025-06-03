@@ -2,6 +2,7 @@
   "name": "meet-another-day",
   "private": true,
   "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
     "@rails/actioncable": "^7.0.0",
     "@rails/activestorage": "^7.0.0",
     "@rails/ujs": "^7.0.0",
