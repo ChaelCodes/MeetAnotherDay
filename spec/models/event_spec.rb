@@ -13,15 +13,19 @@ RSpec.describe Event do
     it { is_expected.to validate_presence_of(:location_type) }
 
     context "when location_type is physical" do
-      before(:each) { allow(subject).to receive(:physical?).and_return(true) }
+      let(:event) { build :event, location_type: "physical" }
 
-      it { is_expected.to validate_presence_of(:address) }
+      it "requires an address" do
+        expect(event).to validate_presence_of(:address)
+      end
     end
 
     context "when location_type is online" do
-      before(:each) { allow(subject).to receive(:physical?).and_return(false) }
+      let(:event) { build :event, location_type: "online" }
 
-      it { is_expected.not_to validate_presence_of(:address) }
+      it "does not require an address" do
+        expect(event).not_to validate_presence_of(:address)
+      end
     end
   end
 
@@ -43,9 +47,13 @@ RSpec.describe Event do
     context "when physical event" do
       let(:event) { build :event, location_type: "physical", address: "123 Main St" }
 
-      it "geocodes the address", :vcr do
+      it "sets latitude when geocoding", :vcr do
         event.save
         expect(event.latitude).not_to be_nil
+      end
+
+      it "sets longitude when geocoding", :vcr do
+        event.save
         expect(event.longitude).not_to be_nil
       end
 
@@ -56,9 +64,13 @@ RSpec.describe Event do
     context "when online event" do
       let(:event) { build :event, location_type: "online", address: nil }
 
-      it "does not geocode" do
+      it "does not set latitude" do
         event.save
         expect(event.latitude).to be_nil
+      end
+
+      it "does not set longitude" do
+        event.save
         expect(event.longitude).to be_nil
       end
 

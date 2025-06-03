@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe EventsController, type: :controller do
+RSpec.describe EventsController do
   describe "GET #show" do
     let(:event) { create :event }
 
@@ -55,25 +57,33 @@ RSpec.describe EventsController, type: :controller do
         expect(assigns(:event)).to eq(event)
       end
     end
+  end
 
-    context "when event has physical location" do
+  describe "location display" do
+    context "when physical event" do
       let(:event) { create :event, :physical }
 
       before(:each) { get :show, params: { id: event.id } }
 
-      it "shows location details" do
-        expect(assigns(:event).physical?).to be true
+      it "shows address" do
         expect(assigns(:event).address).to be_present
+      end
+
+      it "is physical" do
+        expect(assigns(:event).physical?).to be true
       end
     end
 
-    context "when event is online" do
-      let(:event) { create :event, location_type: "online" }
+    context "when online event" do
+      let(:event) { create :event, :online }
 
       before(:each) { get :show, params: { id: event.id } }
 
-      it "shows online status" do
+      it "is online" do
         expect(assigns(:event).online?).to be true
+      end
+
+      it "has no address" do
         expect(assigns(:event).address).to be_nil
       end
     end
