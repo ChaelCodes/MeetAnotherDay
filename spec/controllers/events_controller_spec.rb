@@ -1,11 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe EventsController, type: :controller do
   describe "GET #show" do
-    let(:event) { create(:event) }
-    
+    let(:event) { create :event }
+
     context "when user is not logged in" do
-      before { get :show, params: { id: event.id } }
+      before(:each) { get :show, params: { id: event.id } }
 
       it "returns successful response" do
         expect(response).to be_successful
@@ -21,12 +21,12 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context "when user is logged in" do
-      let(:user) { create(:user) }
-      let(:profile) { create(:profile, user: user) }
-      let!(:friendship) { create(:friendship, buddy: profile, status: :accepted) }
-      let!(:event_attendee) { create(:event_attendee, event: event, profile: friendship.friend) }
+      let(:user) { create :user }
+      let(:profile) { create :profile, user: }
+      let!(:friendship) { create :friendship, buddy: profile, status: :accepted }
+      let!(:event_attendee) { create :event_attendee, event:, profile: friendship.friend }
 
-      before do
+      before(:each) do
         sign_in user
         get :show, params: { id: event.id }
       end
@@ -49,7 +49,7 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context "when accessing by handle" do
-      before { get :show, params: { id: event.handle } }
+      before(:each) { get :show, params: { id: event.handle } }
 
       it "finds the event by handle" do
         expect(assigns(:event)).to eq(event)
@@ -57,9 +57,9 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context "when event has physical location" do
-      let(:event) { create(:event, :physical) }
-      
-      before { get :show, params: { id: event.id } }
+      let(:event) { create :event, :physical }
+
+      before(:each) { get :show, params: { id: event.id } }
 
       it "shows location details" do
         expect(assigns(:event).physical?).to be true
@@ -68,9 +68,9 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context "when event is online" do
-      let(:event) { create(:event, location_type: "online") }
-      
-      before { get :show, params: { id: event.id } }
+      let(:event) { create :event, location_type: "online" }
+
+      before(:each) { get :show, params: { id: event.id } }
 
       it "shows online status" do
         expect(assigns(:event).online?).to be true

@@ -1,7 +1,9 @@
+# Add coordinates for event locations to support geocoding
 class AddCoordinatesToEvents < ActiveRecord::Migration[7.1]
   def change
-    add_column :events, :latitude, :float
-    add_column :events, :longitude, :float
-    add_column :events, :address, :string
+    change_table :events, bulk: true do |t|
+      t.float :latitude
+      t.float :longitude
+    end
   end
 end
