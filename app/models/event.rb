@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   enum location_type: {
     online: "online",
     physical: "physical"
-    }
+  }
 
   geocoded_by :address
   after_validation :geocode, if: :should_geocode?
@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   has_many :event_attendees, dependent: :delete_all
   has_many :attendees, through: :event_attendees, source: :profile
 
-  validates :start_at, :end_at, :location_type, presence: true
+  validates :name, :handle, :start_at, :end_at, :location_type, presence: true
   validates :address, presence: true, if: :physical?
   validates :location_type, inclusion: { in: location_types.keys }
   validates_comparison_of :end_at, greater_than: :start_at
@@ -27,19 +27,11 @@ class Event < ApplicationRecord
     name
   end
 
-  def physical?
-    location_type == "physical"
-  end
-
-  def online?
-    location_type == "online"
-  end
-
   private
 
   def should_geocode?
-    address.present? && 
-    address_changed? && 
-    physical?
+    address.present? &&
+      address_changed? &&
+      physical?
   end
 end
