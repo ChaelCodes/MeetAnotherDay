@@ -14,6 +14,7 @@ gem "kramdown", "~> 2.3", ">= 2.3.1" # Parse Markdown on Profile/Event pages
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
 gem "puma", "~> 6" # Use Puma as the app server
 gem "pundit" # use pundit to control app premissions and policies
+gem "rails_cloudflare_turnstile", "~> 0.4"
 gem "sass-rails", ">= 6" # Use SCSS for stylesheets
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"

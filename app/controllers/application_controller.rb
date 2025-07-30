@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   after_action :verify_authorized, except: %i[index about], unless: :devise_controller?
+  before_action :validate_cloudflare_turnstile, only: [:create], if: :devise_controller?
 
   protect_from_forgery with: :exception
 

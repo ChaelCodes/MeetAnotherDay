@@ -16,6 +16,10 @@
         <% form.labelled_check_box(:remember_me) %>
       <% end %>
 
+      <div class="field">
+        <%= cloudflare_turnstile %>
+      </div>
+
       <div class="field actions">
         <%= form.submit "Log in", class: "button is-primary" %>
       </div>

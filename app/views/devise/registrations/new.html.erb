@@ -21,6 +21,10 @@
         <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
       </div>
 
+      <div class="field">
+        <%= cloudflare_turnstile %>
+      </div>
+
       <div class="field actions">
         <%= f.submit "Sign up" %>
       </div>
