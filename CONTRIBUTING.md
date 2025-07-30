@@ -15,11 +15,21 @@ Prerequisites - 'ruby-3.2.2' and 'postgresql' for database
 # Dev Environment Setup (Using Docker)
 This application has a development environment that supports Docker. We believe this makes it easier to get started with the application.
 To get started, you will need either Docker [desktop](https://docs.docker.com/desktop/#download-and-install) or Docker [engine](https://docs.docker.com/engine/install) as well as
-Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing,
+Docker Compose which is a tool that is used for defining and running multi-container Docker applications. In our case for running the web application, database and selenium for testing.
 
 Please note:
 Older versions of Docker that were released before version 2 and the [new docker compose command](https://docs.docker.com/compose/cli-command/#compose-v2-and-the-new-docker-compose-command) will have to use a hyphen in these commands instead.
 For example running `docker-compose` instead of `docker compose` listed in the examples below.
+
+## Dev Containers
+If you are using VS Code, we have a devcontainer setup, which allows you to interact with a dockerized dev environment like it's a local environment!
+Install the Dev Containers extension, and reopen the folder in a container.
+`gh auth login` will handle auth with github. Please use the same protocol as you used to clone the repo (ssh or https).
+Once you are within the dev container - all commands will be run within the docker container, but you do not need to prepend docker compose.
+Just use `bundle exec rspec`, `bundle exec rails c` or any other commands as normal.
+The server should be running and forwarded to [localhost:3000](localhost:3000).
+Extensions in your editor that rely on libraries inside the container - test runners, ruby lsp, and herb will all run perfectly.
+You may need to reenable extensions to run inside the container.
 
 ## Working with the repository
 <details>
@@ -99,6 +109,18 @@ web_1           | ========================================
 If you update package.json or yarn.lock you'll want to rebuild that module. There might be a more efficient way, but you can run:
 ```
 > docker compose run --rm web yarn install --check-files
+```
+
+## Updating or adding gems
+
+Run this command or edit Gemfile to add the gem you want.
+```
+> docker compose run --rm web bundle add rails_cloudflare_turnstile
+```
+
+Rebuild container.
+```
+> docker compose up -d --build
 ```
 
 ## Running Migrations
