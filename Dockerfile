@@ -1,11 +1,6 @@
-FROM ruby:3.2.2-alpine
+FROM ruby:3.2.2
 
-RUN apk update && apk upgrade && apk add --update --no-cache \
-  build-base \
-  nodejs \
-  postgresql-dev \
-  tzdata \
-  yarn && rm -rf /var/cache/apk/*
+RUN apt-get update
 
 COPY Gemfile Gemfile.lock /app/
 
