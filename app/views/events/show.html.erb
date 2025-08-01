@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
-        <p role="doc-subtitle" class="subtitle"><%= date_range(@event) %></p>
+        <p class="subtitle"><%= date_range(@event) %></p>
         <p>
           <%= kramdown(@event.description) %>
         </p>
