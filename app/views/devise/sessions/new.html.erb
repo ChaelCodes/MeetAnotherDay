@@ -3,12 +3,12 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), builder: ApplicationFormBuilder) do |form| %>
       <%= render "layouts/errors", resource: resource %>
       <div class="field">
-        <label class="label">Email</label>
+        <%= form.label :email %>
         <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
       </div>
 
       <div class="field">
-        <label class="label">Password</label>
+        <%= form.label :password %>
         <%= form.password_field :password, autocomplete: "current-password" %>
       </div>
 
@@ -16,8 +16,12 @@
         <% form.labelled_check_box(:remember_me) %>
       <% end %>
 
+      <div class="field">
+        <%= cloudflare_turnstile %>
+      </div>
+
       <div class="field actions">
-        <%= form.submit "Log in", class: "button is-primary" %>
+        <%= form.submit "Log in" %>
       </div>
 
       <div class="field actions">

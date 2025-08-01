@@ -8,6 +8,10 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
       </div>
 
+      <div class="field">
+        <%= cloudflare_turnstile %>
+      </div>
+
       <div class="field actions">
         <%= f.submit "Resend confirmation instructions" %>
       </div>

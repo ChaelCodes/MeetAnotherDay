@@ -8,6 +8,10 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
       </div>
 
+      <div class="field">
+        <%= cloudflare_turnstile %>
+      </div>
+
       <div class="field actions">
         <%= f.submit "Send me reset password instructions" %>
       </div>
