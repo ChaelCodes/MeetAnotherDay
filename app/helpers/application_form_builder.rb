@@ -71,6 +71,10 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def label(method, text = nil, options = {}, &block)
+    super(method, text, options.merge(class: "label"), &block)
+  end
+
   def select(*args)
     tag.div class: "select" do
       super(*args)
