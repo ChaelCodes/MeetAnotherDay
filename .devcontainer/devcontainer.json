@@ -9,6 +9,9 @@
 		"../docker-compose.yml"
 	],
 
+	// git does not recognize the user in a devcontainer - https://www.kenmuse.com/blog/avoiding-dubious-ownership-in-dev-containers/
+	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+
 	// The 'service' property is the name of the service for the container that VS Code should
 	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
 	"service": "web",
