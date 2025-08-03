@@ -2,6 +2,9 @@
 
 # Any needed Application UI functions
 module ApplicationHelper
+  # Add pagination helpers
+  include Pagy::Frontend
+
   # Display buttons for the show page
   def buttons(resource, include_nav: false, include_show: false)
     buttons = []

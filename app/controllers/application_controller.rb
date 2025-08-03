@@ -17,6 +17,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, only: %i[create new update edit destroy]
   # rubocop:enable Rails/LexicallyScopedActionFilter
 
+  # Add Pagination
+  include Pagy::Backend
+
   # TODO: logged out users don't count notifications
   before_action :notification_count
 

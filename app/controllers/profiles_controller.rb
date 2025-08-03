@@ -5,6 +5,7 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :set_profile, only: %i[show edit update destroy]
   before_action :new_profile, only: :create
+  before_action :set_events, only: :show
 
   # GET /profiles or /profiles.json
   def index
@@ -13,7 +14,6 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1 or /profiles/1.json
   def show
-    @events = @profile.events if policy(@profile).show_details?
     @your_friendship = Friendship.find_or_initialize_by buddy: current_profile, friend: @profile
     @your_friendship = nil unless @your_friendship.valid? && policy(@your_friendship).show?
     @their_friendship = Friendship.find_or_initialize_by friend: current_profile, buddy: @profile
@@ -65,6 +65,11 @@ class ProfilesController < ApplicationController
   end
 
   private
+
+  def set_events
+    @all_events = policy(@profile).show_details? ? @profile.events : Event.none
+    @events_pagy, @events = pagy(@all_events)
+  end
 
   def new_profile
     @profile = Profile.new(profile_params)

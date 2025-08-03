@@ -1,6 +1,7 @@
 <div class="section container">
   <h1 class="title"><%= params[:past] ? 'Past Events' : 'Events' %></h1>
-  <%= render 'list', events: @events %>
+  <%= render 'list', events: @events, pagy: @pagy %>
+
   <% if params[:past] %>
     <%= link_to 'Upcoming and Ongoing Events', events_path, class: "button is-primary" %>
   <% else %>
