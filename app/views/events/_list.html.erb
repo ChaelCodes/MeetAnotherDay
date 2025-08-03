@@ -1,11 +1,10 @@
 <% unless events&.any? %>
   <p>There are no events to display.</p>
 <% else %>
-  <table class="table">
+  <table class="table is-fullwidth">
     <thead>
       <tr>
         <th>Name</th>
-        <th class="is-hidden-mobile">Description</th>
         <% if @friends_attending_count %>
           <th colspan="3"></th>
         <% end %>
@@ -17,7 +16,6 @@
       <% events.each do |event| %>
         <tr>
           <td><%= link_to event %></td>
-          <td class="is-hidden-mobile"><%= kramdown_pure_text(event.description) %></td>
           <% if @friends_attending_count %>
             <td><%= "#{@friends_attending_count[event.id]} Friends Attending." %></td>
           <% end %>
@@ -28,3 +26,5 @@
     </tbody>
   </table>
 <% end %>
+
+<%== pagy_bulma_nav(pagy) if pagy.pages > 1 %>

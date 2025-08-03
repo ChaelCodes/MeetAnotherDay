@@ -22,11 +22,11 @@
     </div>
   </div>
 </div>
-<% if policy(@profile).show_details? %>
+<% if policy(@profile).show_details? && @events.size > 0 %>
   <div class="section">
     <div class="container">
       <div class="block">
-        <%= render 'events/list', events: @events %>
+        <%= render 'events/list', events: @events, pagy: @events_pagy %>
       </div>
     </div>
   </div>

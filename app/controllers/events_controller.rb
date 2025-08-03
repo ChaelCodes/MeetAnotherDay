@@ -4,10 +4,10 @@
 class EventsController < ApplicationController
   before_action :create_event, only: :create
   before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_events, only: :index
 
   # GET /events or /events.json
   def index
-    @events = params[:past] ? Event.past : Event.ongoing_or_upcoming
     return unless current_profile
     @friends_attending_count = {}
     @events.each do |event|
@@ -85,6 +85,13 @@ class EventsController < ApplicationController
     @event = Event.find_by("LOWER(handle) = ?", params[:id]&.downcase)
     @event ||= Event.find(params[:id])
     authorize @event
+  end
+
+  def set_events
+    @all_events = params[:past] ? Event.past : Event.ongoing_or_upcoming
+    @all_events = @all_events.order(:start_at)
+    @pagy, @events = pagy(@all_events, page_param: :number)
+    @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
   end
 
   # Only allow a list of trusted parameters through.
