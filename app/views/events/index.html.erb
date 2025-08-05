@@ -1,11 +1,6 @@
 <div class="section container">
-  <h1 class="title"><%= params[:past] ? 'Past Events' : 'Events' %></h1>
-  <%= render 'list', events: @events, pagy: @pagy %>
+  <h1 class="title">Events</h1>
+  <%= render 'list', events: @events, pagy: @pagy, select_time: true %>
 
-  <% if params[:past] %>
-    <%= link_to 'Upcoming and Ongoing Events', events_path, class: "button is-primary" %>
-  <% else %>
-    <%= link_to 'Past Events', events_path(past: true), class: "button is-primary" %>
-  <% end %>
   <%= link_to 'New Event', new_event_path, class: "button is-primary" if policy(:event).new? %>
 </div>

@@ -23,20 +23,21 @@ RSpec.describe "/events" do
 
     context "with events" do
       let!(:past_event) { create :event, :past_event }
-      let!(:past_event2) { create :event, :past_event }
+      let!(:ongoing_event) { create :event, :ongoing_event }
       let!(:future_event) { create :event }
 
-      it "renders a list of only future events", :aggregate_failures do
+      it "renders a list of ongoing events", :aggregate_failures do
         subject
         events = json_body["events"]
         event_handles = events.pluck "handle"
         expect(events.count).to eq 1
-        expect(event_handles).to include future_event.handle
+        expect(event_handles).not_to include future_event.handle
+        expect(event_handles).to include ongoing_event.handle
         expect(event_handles).not_to include past_event.handle
       end
 
       context "with 10+ events" do
-        let!(:events) { create_list :event, 11 }
+        let!(:events) { create_list :event, 11, :ongoing_event }
 
         it "paginates the list", :aggregate_failures do
           subject
@@ -75,16 +76,45 @@ RSpec.describe "/events" do
         end
       end
 
-      context "with past events parameter" do
-        let(:params) { { past: true } }
+      context "when ongoing parameter" do
+        let(:params) { { when: :ongoing } }
+
+        it "renders a list of only ongoing events", :aggregate_failures do
+          subject
+          events = json_body["events"]
+          event_handles = events.pluck "handle"
+          expect(events.count).to eq 1
+          expect(event_handles).not_to include past_event.handle
+          expect(event_handles).to include ongoing_event.handle
+          expect(event_handles).not_to include future_event.handle
+        end
+      end
+
+      context "when past parameter" do
+        let(:params) { { when: :past } }
 
         it "renders a list of only past events", :aggregate_failures do
           subject
           events = json_body["events"]
           event_handles = events.pluck "handle"
-          expect(events.count).to eq 2
+          expect(events.count).to eq 1
           expect(event_handles).to include past_event.handle
+          expect(event_handles).not_to include ongoing_event.handle
           expect(event_handles).not_to include future_event.handle
+        end
+      end
+
+      context "when future parameter" do
+        let(:params) { { when: :future } }
+
+        it "renders a list of only future events", :aggregate_failures do
+          subject
+          events = json_body["events"]
+          event_handles = events.pluck "handle"
+          expect(events.count).to eq 1
+          expect(event_handles).not_to include past_event.handle
+          expect(event_handles).not_to include ongoing_event.handle
+          expect(event_handles).to include future_event.handle
         end
       end
     end
