@@ -43,10 +43,10 @@ RSpec.describe "/events" do
           events = json_body["events"]
           links = json_body["links"]
           expect(events.count).to eq 10
-          expect(links["first"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=1"
-          expect(links["last"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2"
+          expect(links["first"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+          expect(links["last"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
           expect(links["prev"]).to be_nil
-          expect(links["next"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2"
+          expect(links["next"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
         end
 
         context "when second page" do
@@ -57,15 +57,15 @@ RSpec.describe "/events" do
             events = json_body["events"]
             links = json_body["links"]
             expect(events.count).to eq 2
-            expect(links["first"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&format=json"
-            expect(links["last"]).to eq "http://www.example.com/events?page%5Bnumber%5D=2&format=json"
-            expect(links["prev"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&format=json"
+            expect(links["first"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=10&format=json"
+            expect(links["last"]).to eq "http://www.example.com/events?page%5Bnumber%5D=2&page%5Blimit%5D=10&format=json"
+            expect(links["prev"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=10&format=json"
             expect(links["next"]).to be_nil
           end
         end
 
-        context "when limit is passed", skip: "Limits are not working - I need to ask for help" do
-          let(:params) { { page: { size: 5 } } }
+        context "when limit is passed" do
+          let(:params) { { page: { limit: 5 } } }
 
           it "paginates in chunks of 5" do
             subject
