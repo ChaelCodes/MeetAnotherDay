@@ -1,17 +1,23 @@
+<% if select_time %>
+<div class="tabs is-centered is-fullwidth mb-0">
+  <ul>
+    <li class="<%= "is-active" if params[:when] == "future" %>">
+      <%= link_to "Future", events_path(when: :future) %>
+    </li>
+    <li class="<%= "is-active" if params[:when] == "ongoing" || params[:when].blank? %>">
+      <%= link_to "Ongoing", events_path(when: :ongoing) %>
+    </li>
+    <li class="<%= "is-active" if params[:when] == "past" %>">
+      <%= link_to "Past", events_path(when: :past) %>
+    </li>
+  </ul>
+</div>
+<% end %>
+
 <% unless events&.any? %>
   <p>There are no events to display.</p>
 <% else %>
   <table class="table is-fullwidth">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <% if @friends_attending_count %>
-          <th colspan="3"></th>
-        <% end %>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-
     <tbody>
       <% events.each do |event| %>
         <tr>

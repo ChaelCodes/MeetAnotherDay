@@ -88,9 +88,15 @@ class EventsController < ApplicationController
   end
 
   def set_events
-    @all_events = params[:past] ? Event.past : Event.ongoing_or_upcoming
-    @all_events = @all_events.order(:start_at)
-    @pagy, @events = pagy(@all_events, page_param: :number)
+    all_events = case params[:when]
+                 when "future"
+                   Event.future.order(:start_at)
+                 when "past"
+                   Event.past.order(start_at: :desc)
+                 else
+                   Event.ongoing.order(:start_at)
+                 end
+    @pagy, @events = pagy(all_events, page_param: :number)
     @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
   end
 

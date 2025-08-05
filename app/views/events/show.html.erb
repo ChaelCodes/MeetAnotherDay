@@ -4,9 +4,9 @@
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
         <p class="subtitle"><%= date_range(@event) %></p>
-        <p>
+        <div class="content">
           <%= kramdown(@event.description) %>
-        </p>
+        </div>
 
         <p>
           <%= buttons(@event, include_nav: true) %>
@@ -16,7 +16,7 @@
       <div class="column is-one-quarter">
         <div class="mb-3">
           <% if current_user&.profile&.attending? @event %>
-            <%= button_to "Not Attending",
+            <%= button_to "Cancel Attendance",
             { controller: :event_attendees,
             action: :destroy,
             id: current_user&.profile&.event_attendee(@event)&.first&.id },

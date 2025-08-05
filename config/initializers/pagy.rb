@@ -7,5 +7,6 @@ Pagy::DEFAULT[:size]  = 5 # nav bar links
 require 'pagy/extras/overflow'
 Pagy::DEFAULT[:overflow] = :last_page
 require 'pagy/extras/bulma'
+require 'pagy/extras/limit'
+# This extra must come last or it does not nest all params inside page properly
 require 'pagy/extras/jsonapi'
-# require 'pagy/extras/limit'

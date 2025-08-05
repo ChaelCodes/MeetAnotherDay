@@ -33,6 +33,30 @@ RSpec.describe Event do
     it { is_expected.not_to include(past_event) }
   end
 
+  describe "#future" do
+    subject { described_class.future }
+
+    let!(:past_event) { create :event, :past_event }
+    let!(:upcoming_event) { create :event, start_at: 3.days.from_now, end_at: 5.days.from_now }
+    let!(:ongoing_event) { create :event, start_at: 3.days.ago, end_at: 1.day.from_now }
+
+    it { is_expected.to include(upcoming_event) }
+    it { is_expected.not_to include(ongoing_event) }
+    it { is_expected.not_to include(past_event) }
+  end
+
+  describe "#ongoing" do
+    subject { described_class.ongoing }
+
+    let!(:past_event) { create :event, :past_event }
+    let!(:upcoming_event) { create :event, start_at: 3.days.from_now, end_at: 5.days.from_now }
+    let!(:ongoing_event) { create :event, start_at: 3.days.ago, end_at: 1.day.from_now }
+
+    it { is_expected.not_to include(upcoming_event) }
+    it { is_expected.to include(ongoing_event) }
+    it { is_expected.not_to include(past_event) }
+  end
+
   describe "#past" do
     subject { described_class.past }
 

@@ -1,16 +1,16 @@
-<div class="section">
+<section class="section">
   <div class="container">
-    <div class="media mb-3" style="row-gap:1em">
-      <figure class="media-left image">
-        <img src="<%= profile_picture(@profile.email) %>" alt="Profile pic">
-      </figure>
-      <div class="media-content">
-        <p class="has-text-weight-bold is-size-4"><%= @profile.name %></p>
-        <p class="has-text-weight-semi-bold is-size-6"><%= "@#{@profile.handle}" %></p>
-      </div>
-    </div>
-    <p><%= policy(@profile).show_details? ? @profile.bio : unauthorized_message(@profile) %></p>
     <div class="block">
+      <div class="media mb-3" style="row-gap:1em">
+        <figure class="media-left image">
+          <%= image_tag profile_picture(@profile.email), alt: "Profile pic" %>
+        </figure>
+        <div class="media-content">
+          <p class="has-text-weight-bold is-size-4"><%= @profile.name %></p>
+          <p class="has-text-weight-semi-bold is-size-6"><%= "@#{@profile.handle}" %></p>
+        </div>
+      </div>
+      <p><%= policy(@profile).show_details? ? @profile.bio : unauthorized_message(@profile) %></p>
       <p>
         <%= link_to_if @your_friendship, @your_friendship %>
         <div class="field is-grouped-multiline has-addons">
@@ -20,19 +20,14 @@
         <%= friendship_button(@their_friendship, current_user&.profile) %>
       </p>
     </div>
-  </div>
-</div>
-<% if policy(@profile).show_details? && @events.size > 0 %>
-  <div class="section">
-    <div class="container">
+    <% if policy(@profile).show_details? && @events.size > 0 %>
       <div class="block">
-        <%= render 'events/list', events: @events, pagy: @events_pagy %>
+        <h2 class="title is-3">Events</h2>
+        <%= render 'events/list', events: @events, pagy: @events_pagy, select_time: false %>
       </div>
+    <% end %>
+    <div class="block">
+      <%= buttons(@profile, include_nav: true) %>
     </div>
   </div>
-<% end %>
-<div class="section">
-  <div class="container">
-    <%= buttons(@profile, include_nav: true) %>
-  </div>
-</div>
+</section>

@@ -3,7 +3,7 @@
   <ul>
     <% event_attendees.each do |event_attendee| %>
       <li>
-        <img src="<%= profile_picture(event_attendee.profile.email, size: 16) %>" alt="Profile pic" />
+        <%= image_tag profile_picture(event_attendee.profile.email, size: 16), alt: "Profile pic of #{event_attendee.profile.handle}" %>
         <%= link_to event_attendee.profile %>
       </li>
     <% end %>

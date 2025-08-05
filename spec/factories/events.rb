@@ -15,6 +15,14 @@ FactoryBot.define do
       end_at { "2021-08-05 23:59:00" }
     end
 
+    trait :ongoing_event do
+      name { "NowConf" }
+      sequence(:handle) { |n| "NowConf#{n}" }
+      description { "The current event where you are searching for friends!" }
+      start_at { 1.day.ago }
+      end_at { 2.days.from_now }
+    end
+
     trait :past_event do
       name { "PastConf" }
       sequence(:handle) { |n| "PastConf#{n}" }

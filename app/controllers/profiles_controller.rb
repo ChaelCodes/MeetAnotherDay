@@ -67,7 +67,7 @@ class ProfilesController < ApplicationController
   private
 
   def set_events
-    @all_events = policy(@profile).show_details? ? @profile.events : Event.none
+    @all_events = policy(@profile).show_details? ? @profile.events.order(start_at: :desc) : Event.none
     @events_pagy, @events = pagy(@all_events)
   end
 

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Events" do
-  let!(:event) { create :event }
+  let!(:event) { create :event, :ongoing_event, name: "RubyConf" }
   let(:user) { nil }
 
   before(:each) do
