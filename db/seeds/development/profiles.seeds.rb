@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 after "development:users" do
-  chael = User.find_by!(email: "admin@example.com")
+  chael = User.find_by!(email: "chaelcodes@gmail.com")
   john = User.find_by!(email: "john@example.com")
   everyone = User.find_by!(email: "everyone@example.com")
   authenticated = User.find_by!(email: "authenticated@example.com")
@@ -9,8 +9,20 @@ after "development:users" do
   myself = User.find_by!(email: "myself@example.com")
 
   profiles = [
-    { name: "Chael's Profile", handle: "chaels_handle", user_id: chael.id },
-    { name: "John's Profile", handle: "john_handle", user_id: john.id },
+    {
+      name: "Rachael Wright-Munn",
+      handle: "chaelcodes",
+      user_id: chael.id,
+      bio: "Software Engineer since 2012 | Live coding on Twitch since 2019 | open-source contributor | " \
+           "Programming Game Enthusiast | Featured in 'One Dreamer' video game! ✨ " \
+           "Contact me on Discord or conference slack to meet up! " \
+           "[More Links](chael.codes/links)"
+    },
+    {
+      name: "John",
+      handle: "john_handle",
+      user_id: john.id
+    },
     {
       name: "Everyone Visibility",
       handle: "everyone_handle",
