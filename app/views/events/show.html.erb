@@ -4,9 +4,9 @@
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
         <p class="subtitle"><%= date_range(@event) %></p>
-        <p>
+        <div class="content">
           <%= kramdown(@event.description) %>
-        </p>
+        </div>
 
         <p>
           <%= buttons(@event, include_nav: true) %>
