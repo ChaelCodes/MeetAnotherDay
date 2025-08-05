@@ -2,6 +2,9 @@
 
 users = [
   {
+    email: "chaelcodes@gmail.com"
+  },
+  {
     email: "admin@example.com",
     admin: true
   },
