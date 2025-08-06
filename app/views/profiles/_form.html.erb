@@ -1,12 +1,39 @@
-<%= form_with(model: profile, builder: ApplicationFormBuilder) do |form| %>
-  <%= render 'layouts/errors', resource: profile %>
+<div class="block">
+  <%= form_with(model: profile, builder: ApplicationFormBuilder) do |form| %>
+    <%= render 'layouts/errors', resource: profile %>
 
-  <%= form.labelled_text_field :name %>
-  <%= form.labelled_text_field :handle %>
-  <%= form.labelled_select :visibility, Profile.visibilities.keys %>
-  <%= form.labelled_text_area :bio %>
+    <div class="field">
+      <label class="label">Avatar</label>
+      <div class="control">
+        <article class="message is-info">
+          <div class="message-body">
+            Our avatars are sourced from <a href="https://gravatar.com">Gravatar</a> - a service that links avatars to email addresses.
+            Create or update your account on Gravatar, set your avatar, refresh, and you should see it on your profile!
+          </div>
+        </article>
+      </div>
+    </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+    <%= form.labelled_text_field :name %>
+    <%= form.labelled_text_field :handle %>
+    <%= form.labelled_select :visibility, Profile.visibilities.keys, help: "More details on <a href=\"#visibilities-help\">profile visibilities below.</a>" %>
+    <%= form.labelled_text_area :bio %>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
+
+<div class="block">
+  <article id="visibilities-help" class="message is-info">
+    <div class="message-header">Profile Visibilities</div>
+    <div class="message-body">
+      <p class="mb-3">Location data, where you've been and where you're going, is sensitive information! We take that responsibility seriously. These permissions impact who can read your bio, and see which events you are attending. There are multiple layers of authorization for you to pick from.</p>
+      <p class="mb-2"><strong>everyone</strong> - Anyone can view your events. Authenticated, unauthenticated, robots, anyone! If you want to grab your events with an API call or embed them with an iFrame, this is the permission for you!</p>
+      <p class="mb-2"><strong>authenticated</strong> - Users of the site who have confirmed their email address can see which events you are attending. Recommended for those who have an audience, but still want some protections around their events.</p>
+      <p class="mb-2"><strong>friends</strong> - Only profiles that you have friended can see which events you will attend. This is the default. If someone friends you, they will not see your events until you friend them.</p>
+      <p><strong>myself</strong> - You are the only one who can see which events you are attending. Admins can still view your events for moderation purposes. Intended for bad situations where you need to hide info in a hurry, and people who'd just like to use the app as a diary for events they've attended.</p>
+    </div>
+  </article>
+</div>
