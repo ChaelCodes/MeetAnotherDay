@@ -4,41 +4,44 @@
 # It'll use Bulma styling and build labelled form fields
 # If you need a specific input not included here, please add it
 class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
-  delegate :tag, to: :@template
+  delegate :sanitize, :tag, to: :@template
 
-  def labelled_check_box(method, *input_options, label_options: {})
+  # This does not appear to be in use
+  # It's supposedly used by devise, but testing doesn't show the checkbox?
+  def labelled_check_box(method, *input_options, label_options: {}, help: "")
     tag.div(class: "field") do
       check_box(method, *input_options) +
-        label(method, label_options)
+        label(method, label_options) +
+        tag.p(sanitize(help), class: "help")
     end
   end
 
-  def labelled_collection_select(method, *input_options, label_options: {})
-    form_controls(method, label_options) do
+  def labelled_collection_select(method, *input_options, label_options: {}, help: "")
+    form_controls(method, label_options, help) do
       collection_select(method, *input_options)
     end
   end
 
-  def labelled_number_field(method, label_options: {}, input_options: {})
-    form_controls(method, label_options) do
+  def labelled_number_field(method, label_options: {}, input_options: {}, help: "")
+    form_controls(method, label_options, help) do
       number_field(method, input_options)
     end
   end
 
-  def labelled_select(method, *input_options, label_options: {})
-    form_controls(method, label_options) do
+  def labelled_select(method, *input_options, label_options: {}, help: "")
+    form_controls(method, label_options, help) do
       select(method, *input_options)
     end
   end
 
-  def labelled_text_area(method, label_options: {}, input_options: {})
-    form_controls(method, label_options) do
+  def labelled_text_area(method, label_options: {}, input_options: {}, help: "")
+    form_controls(method, label_options, help) do
       text_area(method, input_options)
     end
   end
 
-  def labelled_text_field(method, label_options: {}, input_options: {})
-    form_controls(method, label_options) do
+  def labelled_text_field(method, label_options: {}, input_options: {}, help: "")
+    form_controls(method, label_options, help) do
       text_field(method, input_options)
     end
   end
@@ -87,10 +90,11 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
-  def form_controls(method, label_options, &block)
+  def form_controls(method, label_options, help = "", &block)
     tag.div(class: "field") do
       label(method, label_options) +
-        tag.div(class: "control", &block)
+        tag.div(class: "control", &block) +
+        tag.p(sanitize(help), class: "help")
     end
   end
 end
