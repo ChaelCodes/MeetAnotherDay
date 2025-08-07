@@ -1,13 +1,23 @@
-<div class="container">
-  <p>
-    <strong>Profile:</strong>
-    <%= link_to @event_attendee.profile %>
-  </p>
+<div class="section">
+  <div class="container">
+    <div class="block">
+    <p>
+      <strong>Profile:</strong>
+      <%= link_to @event_attendee.profile %>
+    </p>
 
-  <p>
-    <strong>Event:</strong>
-    <%= link_to @event_attendee.event %>
-  </p>
+    <p>
+      <strong>Event:</strong>
+      <%= link_to @event_attendee.event %>
+    </p>
 
-  <%= buttons(@event_attendee) %>
+    <p>
+      <strong>Email scheduled on:</strong>
+      <%= l @event_attendee.email_scheduled_on, format: :long %>
+    </p>
+    </div>
+    <div class="block">
+    <%= buttons(@event_attendee) %>
+    </div>
+  </div>
 </div>

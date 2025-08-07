@@ -85,10 +85,11 @@ RSpec.describe "/event_attendees" do
 
     context "with valid parameters" do
       let(:profile) { create :profile }
+      let(:event) { create :event }
       let(:attributes) do
         {
           profile_id: profile.id,
-          event_id: create(:event).id
+          event_id: event.id
         }
       end
 
@@ -105,6 +106,12 @@ RSpec.describe "/event_attendees" do
 
         it "creates a new EventAttendee" do
           expect { post_create }.to change(EventAttendee, :count).by(1)
+        end
+
+        it "schedules an email" do
+          post_create
+          event_attendee = EventAttendee.find_by(event:, profile:)
+          expect(event_attendee.email_scheduled_on).not_to be_nil
         end
 
         it "redirects to the created event_attendee" do
