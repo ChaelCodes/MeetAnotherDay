@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_02_183823) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_07_191950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_183823) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "organizer", default: false
+    t.date "email_scheduled_on"
+    t.datetime "email_delivered_at"
+    t.index ["email_scheduled_on"], name: "index_event_attendees_on_email_scheduled_on", where: "(email_delivered_at IS NULL)"
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["profile_id"], name: "index_event_attendees_on_profile_id"
   end
