@@ -9,9 +9,9 @@ class Friendship < ApplicationRecord
   belongs_to :buddy, class_name: "Profile"
   belongs_to :friend, class_name: "Profile"
 
-  # accepted means that the buddy would like to events friend is
-  #    attending, and share their own event attendance
-  # blocked means the buddy wants no relationship nor the buddy
+  # accepted means that the buddy would like to see which events
+  #   friend is attending, and share their own event attendance
+  # blocked means the buddy wants no relationship nor the friend
   #    to see their profile or visibility into events
   # requested means buddy is considering being friends with friend
   enum status: { accepted: 0, blocked: 1, requested: 2 }

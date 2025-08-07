@@ -2,7 +2,7 @@
 
 after "development:events" do
   after "development:profiles" do
-    chael_profile = Profile.find_by!(handle: "ChaelCodes")
+    chael_profile = Profile.find_by!(handle: "chaelcodes")
     john_profile = Profile.find_by!(handle: "john_handle")
     everyone_profile = Profile.find_by!(handle: "everyone_handle")
 
