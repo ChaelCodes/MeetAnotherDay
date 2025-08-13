@@ -8,14 +8,20 @@ en:
         event:
           attributes:
             handle:
-              invalid: "only letters and numbers are allowed"
+              invalid: "only allows letters and numbers"
         profile:
           attributes:
             handle:
-              invalid: "only letters and numbers are allowed"
+              invalid: "only allows letters and numbers"
   event_attendees:
     list:
       buddies_attending:
-        zero: "Invite your friends!"
-        one: "Go with your buddy!"
-        other: "%{count} buddies attending!"
+        zero: "No friends yet."
+        one: "Go with your friend!"
+        other: "%{count} friends attending!"
+  events:
+    list:
+      friends:
+        zero: "No friends yet."
+        one: "1 friend!"
+        other: "%{count} friends!"

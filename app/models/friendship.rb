@@ -7,6 +7,7 @@ class Friendship < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :buddy, class_name: "Profile"
+  alias profile buddy # At some point, we need to rename buddy to profile
   belongs_to :friend, class_name: "Profile"
 
   # accepted means that the buddy would like to see which events

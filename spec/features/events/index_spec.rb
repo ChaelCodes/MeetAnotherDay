@@ -43,16 +43,5 @@ describe "Events" do
       expect(page).not_to have_link "Edit", href: edit_event_path(event)
       expect(page).not_to have_button "Delete"
     end
-
-    context "when user is admin" do
-      let(:user) { create :user, :admin }
-
-      it "allows user to edit and destroy event" do
-        expect(page).to have_link "RubyConf", href: event_path(event)
-        expect(page).to have_link "New Event", href: new_event_path
-        expect(page).to have_link "Edit", href: edit_event_path(event)
-        expect(page).to have_button "Delete"
-      end
-    end
   end
 end

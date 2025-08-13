@@ -1,5 +1,5 @@
-<div class="section">
-  <div class="container">
+<div class="container">
+  <div class="section">
     <div class="columns">
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
@@ -8,9 +8,6 @@
           <%= kramdown(@event.description) %>
         </div>
 
-        <p>
-          <%= buttons(@event, include_nav: true) %>
-        </p>
       </div>
 
       <div class="column is-one-quarter">
@@ -38,4 +35,6 @@
       </div>
     </div>
   </div>
+
+  <div class="section"><%= buttons(@event, include_nav: true) %></div>
 </div>

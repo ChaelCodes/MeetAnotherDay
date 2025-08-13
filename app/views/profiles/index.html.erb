@@ -1,26 +1,25 @@
 <div class="container">
-  <h1 class="title">Profiles</h1>
+  <div class="section">
+    <h1 class="title">Profiles</h1>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Handle</th>
-        <th class="is-hidden-mobile">Bio</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @profiles.each do |profile| %>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= link_to profile %></td>
-          <td><%= profile.handle %></td>
-          <td class="is-hidden-mobile"><%= profile.bio %></td>
-          <td><%= buttons(profile) %></td>
+          <th>Name</th>
+          <th>Handle</th>
+          <th class="is-hidden-mobile">Bio</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= link_to 'New Profile', new_profile_path, class: "button is-primary" %>
+      </thead>
+
+      <tbody>
+        <% @profiles.each do |profile| %>
+          <tr>
+            <td><%= link_to profile %></td>
+            <td><%= profile.handle %></td>
+            <td class="is-hidden-mobile"><%= profile.bio %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

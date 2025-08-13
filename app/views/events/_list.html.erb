@@ -23,10 +23,10 @@
         <tr>
           <td><%= link_to event %></td>
           <% if @friends_attending_count %>
-            <td><%= "#{@friends_attending_count[event.id]} Friends Attending." %></td>
+            <td><%= t(".friends", count: @friends_attending_count[event.id].to_i) %></td>
           <% end %>
-          <td><%= date_range(event) %></td>
-          <td><%= buttons(event) %></td>
+          <td class="is-hidden-mobile"><%= date_range(event) %></td>
+          <td class="is-hidden-tablet"><%= date_range(event, format: :short) %></td>
         </tr>
       <% end %>
     </tbody>

@@ -1,17 +1,29 @@
 <nav class="navbar <%= alert_color %> mb-3" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item is-hidden-mobile" href="/">Meet Another Day</a>
-    <a class="navbar-item is-hidden-tablet" href="/">MAD</a>
+    <a class="navbar-item is-hidden-tablet" href="/">mad</a>
     <%= link_to "Events", events_path, class: "navbar-item is-hidden-mobile" %>
-    <%= link_to "📅", events_path, class: "navbar-item is-hidden-tablet" %>
+    <%= link_to events_path, class: "navbar-item is-hidden-tablet" do %>
+      <span class="icon">
+        <%= icon "calendar", alt: "Events" %>
+      </span>
+    <% end %>
     <% if current_user %>
       <% if current_user.profile&.id %>
         <%= link_to "Friends", friendships_path, class: "navbar-item is-hidden-mobile" %>
-        <%= link_to "🤝", friendships_path, class: "navbar-item is-hidden-tablet" %>
+        <%= link_to friendships_path, class: "navbar-item is-hidden-tablet" do %>
+          <%= icon "friends", alt: "Friends" %>
+        <% end %>
         <%= link_to "My Profile", profile_path(current_user.profile), class: "navbar-item is-hidden-mobile" %>
-        <%= link_to "🦸", profile_path(current_user.profile), class: "navbar-item is-hidden-tablet" %>
-        <%= link_to "Notifications (#{@notification_count})", notifications_path, class: "navbar-item is-hidden-mobile" %>
-        <%= link_to "🔔 (#{@notification_count})", notifications_path, class: "navbar-item is-hidden-tablet" %>
+        <%= link_to profile_path(current_user.profile), class: "navbar-item is-hidden-tablet" do %>
+          <%= icon "badge", alt: "My Profile" %>
+        <% end %>
+        <%= link_to notifications_path, class: "navbar-item" do %>
+          <span class="icon">
+            <%= icon "bell", alt: "Notifications" %>
+            <%= "(#{@notification_count})" %>
+          </span>
+        <% end %>
       <% else %>
         <%= link_to "Create Profile", new_profile_path, class: "navbar-item" %>
       <% end %>

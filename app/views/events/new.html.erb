@@ -1,7 +1,9 @@
 <div class="container">
-  <h1 class="title">New Event</h1>
+  <div class="section">
+    <h1 class="title">New Event</h1>
 
-  <%= render 'form', event: @event %>
+    <%= render 'form', event: @event %>
 
-  <%= link_to 'Back', events_path, class: "button is-primary" %>
+    <%= link_to 'Back', events_path, class: "button is-primary" %>
+  </div>
 </div>

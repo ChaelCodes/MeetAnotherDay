@@ -1,14 +1,15 @@
-<div class="container">
+<div class="section">
   <h1 class="title">Notifications</h1>
 
-  <table class="table">
-    <tbody>
-      <% @notifications.each do |notification| %>
-        <tr>
-          <td><%= link_to notification.message, notification.url %></td>
-          <td><%= button_to("", url_for(notification), method: :delete, class: "delete") %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% @notifications.each do |notification| %>
+    <div class="message">
+      <div class="message-header">
+        <p><%= l(notification.created_at, format: :long) %></p>
+        <%= button_to("", @notification, method: :delete, class: "delete") %>
+      </div>
+      <div class="message-body">
+      <%= link_to notification.message, notification.url %>
+      </div>
+    </div>
+  <% end %>
 </div>
