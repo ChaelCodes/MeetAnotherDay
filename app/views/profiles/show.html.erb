@@ -10,7 +10,9 @@
           <p class="has-text-weight-semi-bold is-size-6"><%= "@#{@profile.handle}" %></p>
         </div>
       </div>
-      <p><%= policy(@profile).show_details? ? @profile.bio : unauthorized_message(@profile) %></p>
+      <div class="content">
+        <%= policy(@profile).show_details? ? kramdown(@profile.bio) : unauthorized_message(@profile) %>
+      </div>
       <p>
         <%= link_to_if @your_friendship, @your_friendship %>
         <div class="field is-grouped-multiline has-addons">
