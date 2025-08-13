@@ -25,6 +25,13 @@ module ApplicationHelper
               class: "button is-danger")
   end
 
+  # Display an icon stored in app/assets/icons
+  def icon(name, alt: nil)
+    tag.span(class: "icon") do
+      image_tag "#{name}.svg", alt:
+    end
+  end
+
   # Show Link if the user has permission
   def show_link(resource)
     return unless policy(resource).show?
