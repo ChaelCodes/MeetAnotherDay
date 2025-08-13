@@ -44,6 +44,15 @@ describe "Profile" do
       end
     end
 
+    context "when profile has markdown in bio" do
+      let(:profile) { create :profile, bio: "I have **bold** text and [a link](https://example.com)" }
+
+      it "renders markdown in bio" do
+        expect(page).to have_css "strong", text: "bold"
+        expect(page).to have_link "a link", href: "https://example.com"
+      end
+    end
+
     context "when user is admin" do
       let(:user) { create :user, :admin }
 
