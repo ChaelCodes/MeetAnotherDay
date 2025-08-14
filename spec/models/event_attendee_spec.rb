@@ -128,7 +128,7 @@ RSpec.describe EventAttendee do
       let(:event_attendee) { build :event_attendee, email_scheduled_on: }
       let(:email_scheduled_on) { 2.weeks.from_now.to_date }
 
-      it "leaves the email_scheduled_at" do
+      it "leaves the email_scheduled_on" do
         subject
         expect(event_attendee.email_scheduled_on).to eq email_scheduled_on
       end
