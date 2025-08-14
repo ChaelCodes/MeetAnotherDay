@@ -43,4 +43,15 @@ RSpec.describe EventAttendeeMailer do
       end
     end
   end
+
+  describe "#after_deliver" do
+    subject(:delivery) { described_class.with(event_attendee:).pre_event_email.deliver_now }
+
+    let(:event_attendee) { create :event_attendee }
+
+    it "updates event_attendee's email_delivered_at" do
+      subject
+      expect(event_attendee.reload.email_delivered_at).not_to be_nil
+    end
+  end
 end

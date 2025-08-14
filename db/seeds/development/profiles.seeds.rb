@@ -21,7 +21,8 @@ after "development:users" do
     {
       name: "John",
       handle: "john_handle",
-      user_id: john.id
+      user_id: john.id,
+      bio: ""
     },
     {
       name: "Everyone Visibility",
