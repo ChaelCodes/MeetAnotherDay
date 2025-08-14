@@ -4,6 +4,8 @@
 class EventAttendeeMailer < ApplicationMailer
   helper EventsHelper
 
+  after_deliver :mark_delivered
+
   def pre_event_email
     @event_attendee = params[:event_attendee]
     @event = @event_attendee.event
@@ -24,5 +26,9 @@ class EventAttendeeMailer < ApplicationMailer
       @user,
       EventAttendee.friends_attending(event: @event, profile: @profile)
     ).resolve.includes(:profile)
+  end
+
+  def mark_delivered
+    params[:event_attendee].update(email_delivered_at: Time.current)
   end
 end
