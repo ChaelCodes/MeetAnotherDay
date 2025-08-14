@@ -9,6 +9,11 @@ class EventAttendee < ApplicationRecord
 
   after_initialize :schedule_email
 
+  scope :for_email, lambda {
+    where(email_delivered_at: nil)
+      .where("email_scheduled_on <= ?", Date.current)
+  }
+
   def self.friends_attending(event:, profile:)
     EventAttendee.where(event:, profile_id: profile.friendships.accepted.select(:friend_id)).includes(:profile, :event)
   end

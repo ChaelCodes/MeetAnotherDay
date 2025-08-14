@@ -49,10 +49,45 @@ RSpec.describe EventAttendee do
   end
 
   describe ".for_email" do
-    # if existing event_attendee (email_scheduled_on and email_delivered_at is null)
-    # if future event (email_scheduled_on is set, email_delivered_at is null)
-    # if distant future event (same as above)
-    # if past event (email_scheduled_on is null and email_delivered_at is epoch)
+    subject { described_class.for_email }
+
+    let!(:event_attendee) { create :event_attendee, email_scheduled_on:, email_delivered_at: }
+
+    # Event Attendees before release/backfill
+    context "when existing event attendee" do
+      let(:email_scheduled_on) { nil }
+      let(:email_delivered_at) { nil }
+
+      it { is_expected.not_to include(event_attendee) }
+    end
+
+    context "when event is soon" do
+      let(:email_scheduled_on) { Date.current }
+      let(:email_delivered_at) { nil }
+
+      it { is_expected.to include(event_attendee) }
+    end
+
+    context "when distant future event" do
+      let(:email_scheduled_on) { 2.weeks.from_now }
+      let(:email_delivered_at) { nil }
+
+      it { is_expected.not_to include(event_attendee) }
+    end
+
+    context "when past event" do
+      let(:email_scheduled_on) { nil }
+      let(:email_delivered_at) { EventAttendee::NEVER_DELIVER }
+
+      it { is_expected.not_to include(event_attendee) }
+    end
+
+    context "when email has been sent" do
+      let(:email_scheduled_on) { 1.week.ago }
+      let(:email_delivered_at) { 1.week.ago }
+
+      it { is_expected.not_to include(event_attendee) }
+    end
   end
 
   describe "#schedule_email" do
