@@ -7,7 +7,7 @@ class EventAttendee < ApplicationRecord
 
   NEVER_DELIVER = Time.at(0).in_time_zone
 
-  after_initialize :schedule_email
+  before_create :schedule_email
 
   scope :for_email, lambda {
     where(email_delivered_at: nil)
