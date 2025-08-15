@@ -9,7 +9,7 @@ describe "Users" do
 
   before(:each) do
     sign_in user if user
-    visit "/users/#{user_profile.id}/edit".dup
+    visit(+"/users/#{user_profile.id}/edit")
   end
 
   context "when no user logged in" do
