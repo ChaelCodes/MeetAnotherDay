@@ -22,6 +22,12 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def labelled_date_field(method, label_options: {}, input_options: {}, help: "")
+    form_controls(method, label_options, help) do
+      date_field(method, input_options)
+    end
+  end
+
   def labelled_number_field(method, label_options: {}, input_options: {}, help: "")
     form_controls(method, label_options, help) do
       number_field(method, input_options)
