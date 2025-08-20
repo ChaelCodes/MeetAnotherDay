@@ -1,36 +1,64 @@
 databases:
   - name: MeetAnotherDay
     ipAllowList: [] # only allow connections from services in this Render account
-    plan: free
+    plan: basic-1gb
+    previewPlan: basic-1gb
+
+envVarGroups:
+  - name: production_api_keys
+    envVars:
+      - key: CLOUDFLARE_SITE_KEY
+        value: '' # These are all set in the Render dashboard
+      - key: CLOUDFLARE_SECRET_KEY
+        value: ''
+      - key: SMTP_PASSWORD
+        value: ''
+      - key: SMTP_PORT
+        value: ''
+      - key: SMTP_SERVER
+        value: ''
+      - key: SMTP_USERNAME
+        value: ''
 
 services:
   - type: web
     name: MeetAnotherDay
+    repo: https://github.com/ChaelCodes/MeetAnotherDay
+    branch: main
     runtime: ruby
     plan: starter
     buildCommand: "./bin/render-build.sh"
-    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
     startCommand: "bundle exec rails server"
+    autoDeployTrigger: checksPass
+    previews:
+      plan: starter
     domains:
       - meetanother.day
     envVars:
+      - fromGroup: production_api_keys
       - key: DATABASE_URL
         fromDatabase:
           name: MeetAnotherDay
           property: connectionString
       - key: SECRET_KEY_BASE
         generateValue: true
-      - key: CLOUDFLARE_SITE_KEY
-        sync: false
-      - key: CLOUDFLARE_SECRET_KEY
-        sync: false
-      - key: SMTP_PASSWORD
-        sync: false
-      - key: SMTP_PORT
-        sync: false
-      - key: SMTP_SERVER
-        sync: false
-      - key: SMTP_USERNAME
-        sync: false
       - key: WEB_CONCURRENCY
         value: 2 # sensible default
+
+  # Render doesn't allow us to run a cron job on another service, so we have to rebuild the app to run the cron job.
+  - type: cron
+    name: Send Event Attendee Emails
+    runtime: ruby
+    schedule: '0 8 * * *' # every day at 8am UTC
+    buildCommand: "./bin/render-build.sh"
+    startCommand: 'bundle exec rake send_mail:event_attendee'
+    envVars:
+      - fromGroup: production_api_keys
+      - key: DATABASE_URL
+        fromDatabase:
+          name: MeetAnotherDay
+          property: connectionString
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 1 # We're just running a cron job, so we can use a single worker
