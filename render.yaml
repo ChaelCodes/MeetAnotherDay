@@ -20,10 +20,6 @@ envVarGroups:
       - key: SMTP_USERNAME
         value: ''
 
-previews:
-  generation: manual
-  expireAfterDays: 3
-
 services:
   - type: web
     name: MeetAnotherDay
