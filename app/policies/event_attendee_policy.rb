@@ -13,6 +13,8 @@ class EventAttendeePolicy < ApplicationPolicy
     ProfilePolicy.new(user, @profile).show_details?
   end
 
+  # Allows users to see the index page, which currently only shows their records
+  # but the scope will filter to only those they should see
   def index?
     true
   end
@@ -26,14 +28,14 @@ class EventAttendeePolicy < ApplicationPolicy
   end
 
   def update?
-    false
+    profile.user == user
   end
 
   def destroy?
     profile.user == user
   end
 
-  # Rules governing a list of Events
+  # Rules governing a list of EventAttendees
   class Scope < Scope
     def resolve
       scope.where(profile: ProfilePolicy::Scope.new(user, Profile).resolve)

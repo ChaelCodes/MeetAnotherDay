@@ -3,6 +3,51 @@
 require "rails_helper"
 
 describe EventAttendeePolicy, type: :policy do
+  # Permissions should match show_details on the profile
+  permissions :show? do
+    context "with viewing event attendee" do
+      let(:event_attendee) { build :event_attendee }
+
+      context "with no user" do
+        it { expect(described_class).not_to permit(nil, event_attendee) }
+      end
+
+      context "with unconfirmed user" do
+        let(:user) { create :user, :unconfirmed }
+
+        it { expect(described_class).not_to permit(user, event_attendee) }
+      end
+
+      context "with confirmed user" do
+        let(:user) { create :user }
+
+        it { expect(described_class).to permit(user, event_attendee) }
+      end
+
+      context "with admin" do
+        let(:user) { create :user, :admin }
+
+        it { expect(described_class).to permit(user, event_attendee) }
+      end
+    end
+  end
+
+  permissions :update? do
+    let(:event_attendee) { build :event_attendee }
+
+    context "with profile matching current profile" do
+      let(:user) { event_attendee.profile.user }
+
+      it { expect(described_class).to permit(user, event_attendee) }
+    end
+
+    context "with profile not matching current profile" do
+      let(:user) { create :user }
+
+      it { expect(described_class).not_to permit(user, event_attendee) }
+    end
+  end
+
   permissions ".scope?" do
     subject { Pundit.policy_scope(user, EventAttendee.all) }
 

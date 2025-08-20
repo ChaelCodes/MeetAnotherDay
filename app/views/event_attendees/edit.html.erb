@@ -1,6 +1,11 @@
-<h1>Editing Event Attendee</h1>
+<div class="section">
+  <h1 class="title">Editing Event Attendee</h1>
 
-<%= render 'form', event_attendee: @event_attendee %>
+  <div class="block">
+    <%= render 'form', event_attendee: @event_attendee %>
+  </div>
 
-<%= link_to 'Show', @event_attendee %> |
-<%= link_to 'Back', event_attendees_path %>
+  <div class="block">
+    <%= buttons(@event_attendee) %>
+  </div>
+</div>

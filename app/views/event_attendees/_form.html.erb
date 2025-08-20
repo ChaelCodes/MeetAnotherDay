@@ -1,4 +1,4 @@
-<%= form_with(model: event_attendee) do |form| %>
+<%= form_with(model: event_attendee, builder: ApplicationFormBuilder) do |form| %>
   <% if event_attendee.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(event_attendee.errors.count, "error") %> prohibited this event_attendee from being saved:</h2>
@@ -21,6 +21,8 @@
     <%= form.collection_select :event_id, Event.all, :id, :name %>
   </div>
 
+  <%= form.labelled_date_field :email_scheduled_on, help: "The date you'll receive your event reminder email." %>
+
   <div class="field">
     <%= form.label :organizer %>
     <%= form.check_box :organizer %>
@@ -29,5 +31,4 @@
   <div class="actions">
     <%= form.submit %>
   </div>
-
 <% end %>
