@@ -5,7 +5,7 @@ An app to help you find and meet up with your buddies at conferences.
 
 Have you ever gone to a conference, met someone really cool who lives halfway around the world, and then promptly fell out of touch as soon as the conference was over? A year later, you don't remember their name, but you remember that you met someone really cool at this conference last time you went. Meet Another Day helps you manage those relationships! Friend someone while you're at the conference, and when you go to future conferences, find out who else is going!
 
-[Check it out!](https://confbuddies.herokuapp.com/)
+[Check it out!](https://meetanother.day/)
 
 # Tech Stack
 
