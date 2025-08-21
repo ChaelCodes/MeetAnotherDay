@@ -22,16 +22,16 @@ class ProfilePolicy < ApplicationPolicy
   # This method controls whether a user can view a profile's details.
   # The details include the bio and event attendance.
   # Admins can always view profiles. Users can view their own profiles.
+  # Blocked profiles cannot view details (unless they're an admin).
   # Profiles can set their own visibility.
   # * Everyone - anyone can view
   # * Authenticated - only logged in, and confirmed users can view
   # * Friends - only accepted friends can view
   # * Myself - only the user can view - NOT EVEN EXISTING FRIENDS!
   def show_details?
-    return true if mine? || admin? || profile.visible_to_everyone?
-    return false if profile.visible_to_myself?
-    return true if profile.friends_with? current_profile
-    confirmed_user? if profile.visible_to_authenticated?
+    return true if mine? || admin?
+    return false if blocked?
+    profile_visible?
   end
 
   def create?
@@ -44,6 +44,19 @@ class ProfilePolicy < ApplicationPolicy
 
   def destroy?
     mine? || admin?
+  end
+
+  private
+
+  def blocked?
+    Friendship.find_or_initialize_by(buddy: profile, friend: current_profile).blocked?
+  end
+
+  def profile_visible?
+    return true if profile.visible_to_everyone?
+    return false if profile.visible_to_myself?
+    return true if profile.friends_with? current_profile
+    confirmed_user? if profile.visible_to_authenticated?
   end
 
   # Permissions and access for a collection of Profiles
