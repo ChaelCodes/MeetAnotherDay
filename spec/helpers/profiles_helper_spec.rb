@@ -24,7 +24,7 @@ RSpec.describe ProfilesHelper do
     context "when visibility is authorized" do
       let(:visibility) { :authenticated }
 
-      it { is_expected.to eq "You must be logged in, and you email confirmed to view this profile." }
+      it { is_expected.to eq "You must be logged in, and your email confirmed to view this profile." }
     end
 
     context "when visibility is friends" do
@@ -35,6 +35,12 @@ RSpec.describe ProfilesHelper do
 
     context "when visibility is myself" do
       let(:visibility) { :myself }
+
+      it { is_expected.to eq "This profile is not visible to others at this time." }
+    end
+
+    context "when blocked is true" do
+      subject { helper.unauthorized_message(profile, blocked: true) }
 
       it { is_expected.to eq "This profile is not visible to others at this time." }
     end

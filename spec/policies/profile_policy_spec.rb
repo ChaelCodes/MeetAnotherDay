@@ -109,6 +109,14 @@ describe ProfilePolicy, type: :policy do
 
         it { expect(described_class).to permit(user, profile) }
       end
+
+      context "when profile is blocked" do
+        let(:user) { create :user }
+        let(:current_profile) { create :profile, user: }
+        let!(:friendship) { create :friendship, buddy: profile, friend: current_profile, status: :blocked }
+
+        it { expect(described_class).not_to permit(user, profile) }
+      end
     end
 
     context "when viewing authenticated profile" do
@@ -142,6 +150,14 @@ describe ProfilePolicy, type: :policy do
 
         it { expect(described_class).to permit(user, profile) }
       end
+
+      context "when profile is blocked" do
+        let(:user) { create :user }
+        let(:current_profile) { create :profile, user: }
+        let!(:friendship) { create :friendship, buddy: profile, friend: current_profile, status: :blocked }
+
+        it { expect(described_class).not_to permit(user, profile) }
+      end
     end
 
     context "when viewing friends profile" do
@@ -149,6 +165,14 @@ describe ProfilePolicy, type: :policy do
 
       context "with no user" do
         it { expect(described_class).not_to permit(nil, profile) }
+      end
+
+      context "when profile is blocked" do
+        let(:user) { create :user }
+        let(:current_profile) { create :profile, user: }
+        let!(:friendship) { create :friendship, buddy: profile, friend: current_profile, status: :blocked }
+
+        it { expect(described_class).not_to permit(user, profile) }
       end
 
       context "with unconfirmed user" do

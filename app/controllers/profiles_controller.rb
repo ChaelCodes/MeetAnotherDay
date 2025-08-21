@@ -17,7 +17,7 @@ class ProfilesController < ApplicationController
     @your_friendship = Friendship.find_or_initialize_by buddy: current_profile, friend: @profile
     @your_friendship = nil unless @your_friendship.valid? && policy(@your_friendship).show?
     @their_friendship = Friendship.find_or_initialize_by friend: current_profile, buddy: @profile
-    @their_friendship = nil unless @their_friendship.valid? && policy(@their_friendship).show?
+    @their_friendship = nil unless @their_friendship.valid?
   end
 
   # GET /profiles/new

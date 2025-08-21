@@ -11,15 +11,17 @@
         </div>
       </div>
       <div class="content">
-        <%= policy(@profile).show_details? ? kramdown(@profile.bio) : unauthorized_message(@profile) %>
+        <%= policy(@profile).show_details? ? kramdown(@profile.bio) : unauthorized_message(@profile, blocked: @their_friendship&.blocked?) %>
       </div>
       <p>
         <%= link_to_if @your_friendship, @your_friendship %>
         <div class="field is-grouped-multiline has-addons">
           <%= friendship_button(@your_friendship, current_user&.profile) %>
         </div>
-        <%= link_to_if @their_friendship, @their_friendship %>
-        <%= friendship_button(@their_friendship, current_user&.profile) %>
+        <% if @their_friendship && policy(@their_friendship).show? %>
+          <%= link_to @their_friendship %>
+          <%= friendship_button(@their_friendship, current_user&.profile) %>
+        <% end %>
       </p>
     </div>
     <% if policy(@profile).show_details? && @events.size > 0 %>
