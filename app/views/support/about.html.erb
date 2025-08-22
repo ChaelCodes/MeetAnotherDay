@@ -12,22 +12,29 @@
       <li>You're getting lunch on the first day, and you've messaged everyone you know who's going, and they're all busy! (Let's keep looking, maybe you know someone else too?)</li>
     </ul>
   </div>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">Meet Another Day</p>
+      <p class="subtitle">Get an email one week before an event, telling you which friends are going.</p>
+      <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary is-inverted is-outlined" %>
+    </div>
+  </section>
   <div class="section">
     <h1>How it works</h1>
-    <p>You create a profile with a name, handle, and description. (And your friends do too.)</p>
-    <figure class="image">
+    <p class="block">You create a profile with a name, handle, and description. (And your friends do too.)</p>
+    <figure class="image block">
       <%= image_tag "Profile.png", alt: "Screenshot of ChaelCodes' profile at /profiles/1." %>
     </figure>
-    <p>
+    <p class="block">
       You friend all the folks you think are cool. And they friend you! Then you can share info about which events you're going to! (By default, only your mutual friends will see which events you're attending.)
     </p>
-    <figure class="image">
+    <figure class="image block">
       <%= image_tag "RequestFriend.png", alt: "Screenshot of request friend button on the profile." %>
     </figure>
-    <p>
+    <p class="block">
       When you look at an Event, you'll see event details, and all your mutual friends who are attending! Hit the "Attend" button, and your friends will see you're going, and it'll be added to your profile!
     </p>
-    <figure class="image">
+    <figure class="image block">
       <%= image_tag "Event.png", alt: "Screenshot of the event page, with friends attending listed, and a giant attend button. Found at /events/2" %>
     </figure>
   </div>
@@ -39,7 +46,7 @@
     <div class="hero-body">
       <p class="title">Create a Profile</p>
       <p class="subtitle">Join your friends</p>
-      <%= link_to "Sign Up", new_user_registration_path, class: "button #{alert_color} is-inverted is-outlined" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary is-inverted is-outlined" %>
     </div>
   </section>
 </div>
