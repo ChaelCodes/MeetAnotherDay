@@ -1,0 +1,78 @@
+---
+name: Setup Development Environment for GitHub Copilot
+
+on:
+  workflow_dispatch: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: meet_another_day_development
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          bundle install
+          yarn install
+
+      - name: Setup database
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          DATABASE_URL: >-
+            postgres://postgres:password@localhost:5432/meet_another_day_development
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+
+      - name: Build JavaScript assets
+        run: npm run build
+
+      - name: Validate setup
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          DATABASE_URL: >-
+            postgres://postgres:password@localhost:5432/meet_another_day_development
+        run: |
+          echo "Testing database connectivity..."
+          bundle exec rails runner \
+            "puts 'Database connection: OK'; \
+            puts 'User count: ' + User.count.to_s"
+
+          echo "Testing asset compilation..."
+          bundle exec rails assets:precompile
+
+          echo "Running code style validation..."
+          bundle exec rubocop
+
+          echo "Running test suite..."
+          bundle exec rspec --format progress

@@ -6,37 +6,28 @@ Meet Another Day is a Ruby on Rails 7.1 web application that helps you find and 
 
 ## Working Effectively
 
-### Local Development Setup (Recommended)
+### Development Environment Setup
 
-**Prerequisites:**
-- Ruby 3.2.2 (if you have 3.2.3, temporarily update Gemfile ruby version to match)
-- PostgreSQL 13+ 
-- Node.js 20+ and Yarn for JavaScript assets
-- Bundler gem installed
+**Automated Setup (Recommended):**
+The repository includes a GitHub Action that automatically sets up a complete development environment. This action:
+- Installs Ruby 3.2.2 and all gem dependencies
+- Sets up PostgreSQL 13 with proper credentials
+- Installs Node.js 20+ and JavaScript dependencies
+- Creates and migrates the database
+- Builds JavaScript assets
+- Validates the complete setup
 
-**Complete setup commands (run in order):**
-```bash
-# 1. Install Ruby dependencies (2-3 minutes - NEVER CANCEL)
-bundle install --path vendor/bundle
+**To use the automated setup:**
+1. The GitHub Action `.github/workflows/copilot-setup.yml` provides a complete development environment
+2. This action can be referenced for exact setup steps and environment configuration
+3. All dependencies, database setup, and validation commands are included
 
-# 2. Install JavaScript dependencies (~6 seconds)
-yarn install
-
-# 3. Setup PostgreSQL service
-sudo service postgresql start
-sudo -u postgres createuser -s $(whoami)
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password';"
-
-# 4. Setup database with environment variables (~30 seconds)
-POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:create
-POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:migrate
-
-# 5. Build JavaScript assets (~1 second)
-npm run build
-
-# 6. Test the setup
-POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails runner "puts 'Database connection: OK'; puts 'User count: ' + User.count.to_s"
-```
+**Manual Setup (Alternative):**
+If manual setup is needed, refer to the GitHub Action file for the exact sequence of commands. Key requirements:
+- Ruby 3.2.2 (exact version - do not modify)
+- PostgreSQL 13+ with `postgres/password` credentials
+- Node.js 20+ with Yarn
+- Environment variables: `POSTGRES_USER=postgres POSTGRES_PASSWORD=password`
 
 **Running the application:**
 ```bash
@@ -124,9 +115,10 @@ The application uses these environment variables for database connection:
 Always include these environment variables when running Rails commands that touch the database.
 
 ### Ruby Version Compatibility
-- Gemfile specifies Ruby 3.2.2
-- If you have Ruby 3.2.3, temporarily change the Gemfile ruby version to match your installed version
-- Bundler will work with minor version differences but requires exact match in Gemfile
+- Gemfile specifies Ruby 3.2.2 (exact version required)
+- **CRITICAL:** Never change the Ruby version in Gemfile or Gemfile.lock as this can break deployment
+- Use Ruby version management tools (rbenv, rvm) to install the exact required version
+- If you need a different Ruby version, request it through a comment rather than changing files
 
 ### JavaScript Build Process
 - Uses Webpack 5 for bundling JavaScript
