@@ -7,7 +7,7 @@ FactoryBot.define do
     # and we'll need an index.
     message { "You have a new Friend Request!" }
     notifiable factory: :friendship
-    url { "friendships/#{notifiable.id}" }
+    url { "http://www.example.com/friendships/#{notifiable.id}" }
     profile { notifiable.buddy }
 
     trait :report_abuse do
