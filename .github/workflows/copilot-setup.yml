@@ -3,7 +3,7 @@ name: Setup Development Environment for GitHub Copilot
 permissions:
   contents: read
 
-on:
+'on':
   workflow_dispatch:
 
 jobs:
