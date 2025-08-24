@@ -15,7 +15,6 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: meet_another_day_development
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -42,8 +41,6 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          DATABASE_URL: >-
-            postgres://postgres:password@localhost:5432/meet_another_day_development
         run: |
           bundle exec rails db:create
           bundle exec rails db:migrate
@@ -52,8 +49,6 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          DATABASE_URL: >-
-            postgres://postgres:password@localhost:5432/meet_another_day_development
         run: |
           echo "Testing database connectivity..."
           bundle exec rails runner \

@@ -20,30 +20,12 @@ The repository includes a GitHub Action that automatically sets up a complete de
 2. This action can be referenced for exact setup steps and environment configuration
 3. All dependencies, database setup, and validation commands are included
 
-**Manual Setup (Alternative):**
-If manual setup is needed, refer to the GitHub Action file for the exact sequence of commands. Key requirements:
-- Ruby 3.2.2 (exact version - do not modify)
-- PostgreSQL 13+ with `postgres/password` credentials
-- Node.js 20+ with Yarn
-- Environment variables: `POSTGRES_USER=postgres POSTGRES_PASSWORD=password`
-
 **Running the application:**
 ```bash
 # Start the Rails server (starts in ~5 seconds)
 POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails server -b 0.0.0.0 -p 3000
 ```
 Server serves at http://localhost:3000 and should show "Meet Another Day" homepage.
-
-### Docker Development Setup (Alternative - Has Known Issues)
-
-**Current limitation:** Docker setup fails in some environments due to SSL certificate verification issues during bundle install. Use local development as primary approach.
-
-If Docker works in your environment:
-```bash
-# First time setup
-docker compose up -d          # NEVER CANCEL - takes 5+ minutes for initial build
-docker compose run --rm web bundle exec rake db:setup
-```
 
 ## Testing and Validation
 
@@ -157,12 +139,7 @@ docker compose run web bundle exec rake db:reset
 ### Test Failures
 - Ensure database is migrated: `POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:test:prepare`
 - Check test database permissions
-- Full test suite should take ~14 seconds and pass all 407 tests
-
-### Rubocop Warnings
-- Missing `rubocop-discourse` warnings are expected and can be ignored
-- These come from gem dependencies and don't affect functionality
-- Auto-correct still works: `bundle exec rubocop --auto-correct-all`
+- Full test suite should take ~14 seconds and pass all tests
 
 ## Application Architecture
 
