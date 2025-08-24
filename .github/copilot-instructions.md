@@ -12,9 +12,7 @@ Meet Another Day is a Ruby on Rails 7.1 web application that helps you find and 
 The repository includes a GitHub Action that automatically sets up a complete development environment. This action:
 - Installs Ruby 3.2.2 and all gem dependencies
 - Sets up PostgreSQL 13 with proper credentials
-- Installs Node.js 20+ and JavaScript dependencies
 - Creates and migrates the database
-- Builds JavaScript assets
 - Validates the complete setup
 
 **To use the automated setup:**
@@ -55,25 +53,14 @@ docker compose run --rm web bundle exec rake db:setup
 POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rspec --format progress
 ```
 **Critical notes:**
-- All 407 tests should pass
+- All tests should pass
 - Tests include Capybara/Selenium browser tests for UI validation
 - If Selenium tests fail, ensure Chrome/Chromium is available
 - Test database is automatically prepared before test runs
 
 ### Code Quality
 ```bash
-# Run linter (has warnings about missing rubocop-discourse but works)
 bundle exec rubocop --auto-correct-all
-```
-**Known issue:** Rubocop reports missing `rubocop-discourse` gem but continues to work. This is a dependency issue from bundled gems and can be ignored.
-
-### Asset Compilation
-```bash
-# JavaScript build
-npm run build                 # ~1 second
-
-# Rails asset precompilation  
-POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails assets:precompile  # ~3-4 seconds
 ```
 
 ## Validation Scenarios
@@ -86,45 +73,24 @@ POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails assets:preco
    curl http://localhost:3000  # Should return 200 status
    ```
 
-2. **Database connectivity test:**
-   ```bash
-   POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails console
-   # In console: User.count (should not error)
-   ```
-
-3. **Run test suite:**
+2. **Run test suite:**
    ```bash
    POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rspec
-   # Should complete in ~14 seconds with 407 passing tests
+   # Should complete in ~14 seconds and all tests should pass
    ```
 
 4. **Code style validation:**
    ```bash
    bundle exec rubocop
-   # May show warnings about rubocop-discourse but should complete
    ```
 
 ## Critical Environment Notes
-
-### Database Configuration
-The application uses these environment variables for database connection:
-- `POSTGRES_USER=postgres` 
-- `POSTGRES_PASSWORD=password`
-- `DATABASE_HOST=localhost` (default)
-
-Always include these environment variables when running Rails commands that touch the database.
 
 ### Ruby Version Compatibility
 - Gemfile specifies Ruby 3.2.2 (exact version required)
 - **CRITICAL:** Never change the Ruby version in Gemfile or Gemfile.lock as this can break deployment
 - Use Ruby version management tools (rbenv, rvm) to install the exact required version
 - If you need a different Ruby version, request it through a comment rather than changing files
-
-### JavaScript Build Process
-- Uses Webpack 5 for bundling JavaScript
-- Build output goes to `public/assets/`
-- Run `npm run build` after making JavaScript changes
-- May see browserslist warnings - these are safe to ignore
 
 ## Common Tasks and Commands
 
@@ -187,12 +153,6 @@ docker compose run web bundle exec rake db:reset
 ### Bundle Install Failures
 - Use `--path vendor/bundle` to install gems locally
 - Fix permissions: `sudo chown -R $USER:$USER .`
-- For Docker: SSL certificate issues may require local development instead
-
-### Asset Compilation Issues
-- Run `yarn install` first to ensure dependencies
-- Use `npm run build` for JavaScript compilation
-- Clear assets: `bundle exec rails assets:clean`
 
 ### Test Failures
 - Ensure database is migrated: `POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:test:prepare`
@@ -210,7 +170,6 @@ docker compose run web bundle exec rake db:reset
 - **Backend:** Ruby on Rails 7.1.x
 - **Database:** PostgreSQL 13
 - **Frontend:** Bulma CSS framework with Cyborg theme
-- **JavaScript:** Webpack 5 bundling, Turbolinks for navigation
 - **Authentication:** Devise gem
 - **Authorization:** Pundit gem
 - **Icons:** Material Design Icons
