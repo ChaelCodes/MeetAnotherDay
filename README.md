@@ -15,6 +15,11 @@ Tech | Version | Use
 [Postgres](https://www.postgresql.org/docs/13/index.html) | 13 | Database for storing events, users, and all other data
 [Bulma](https://bulma.io/) | 1.0.4 | A CSS framework for building web applications (we use [Cyborg](https://jenil.github.io/bulmaswatch/cyborg/))
 [Material Icons](https://pictogrammers.com/library/mdi) | 7.4.47 | Icons for the site. They're downloaded into assets.
+[Devise](https://github.com/heartcombo/devise) | | Used for authentication.
+[Pundit](https://github.com/varvet/pundit) | | Used for authorization.
+[RSpec](https://rspec.info) | | Used for testing.
+[Capybara](https://github.com/teamcapybara/capybara) | | Used for feature tests.
+[FactoryBot](https://github.com/thoughtbot/factory_bot) | | Used to mock data in tests.
 
 # Contributing
 Check out the [Contributing Guide!](/CONTRIBUTING.md)
