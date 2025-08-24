@@ -1,10 +1,10 @@
----
 name: Setup Development Environment for GitHub Copilot
+
 permissions:
   contents: read
 
 on:
-  workflow_dispatch: true
+  workflow_dispatch:
 
 jobs:
   setup:
