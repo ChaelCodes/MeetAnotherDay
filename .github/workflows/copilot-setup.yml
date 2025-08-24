@@ -1,0 +1,62 @@
+name: Setup Development Environment for GitHub Copilot
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          bundle install
+
+      - name: Setup database
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+
+      - name: Validate setup
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        run: |
+          echo "Testing database connectivity..."
+          bundle exec rails runner \
+            "puts 'Database connection: OK'; \
+            puts 'User count: ' + User.count.to_s"
+
+          echo "Running code style validation..."
+          bundle exec rubocop
+
+          echo "Running test suite..."
+          bundle exec rspec --format progress
