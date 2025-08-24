@@ -1,6 +1,6 @@
 # Meet Another Day
 
-Meet Another Day is a Ruby on Rails 7.1 web application that helps you find and meet up with your buddies at conferences. Built with Ruby 3.2.2, PostgreSQL 13, and uses Bulma CSS framework with Material Icons.
+Meet Another Day is a Ruby on Rails 7.1 web application that helps you meet up with your friends at conferences. One week before an event, you'll receive an email with a list of friends attending. Built with Ruby 3.2.2, PostgreSQL 13, and uses Bulma CSS framework with Material Icons.
 
 **Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.**
 
@@ -156,8 +156,8 @@ docker compose run web bundle exec rake db:reset
 - User (with Devise authentication)
 - Profile (user profile information)
 - Event (conference events)
-- EventAttendee (join table for user-event relationships)
-- Friendship (user relationships)
-- Notification (user notifications)
+- EventAttendee (join table for profile-event relationships)
+- Friendship (profile relationships)
+- Notification (profile notifications)
 
 The application is deployed on Render with automatic deployments from the main branch.
