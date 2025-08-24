@@ -100,3 +100,4 @@ Rails.application.configure do
 end
 
 Rack::MiniProfiler.config.start_hidden = true
+MeetAnotherDay::Application.default_url_options = MeetAnotherDay::Application.config.action_mailer.default_url_options
