@@ -5,7 +5,7 @@
     <div class="message">
       <div class="message-header">
         <p><%= l(notification.created_at, format: :long) %></p>
-        <%= button_to("", @notification, method: :delete, class: "delete") %>
+        <%= button_to("", notification, method: :delete, class: "delete") %>
       </div>
       <div class="message-body">
       <%= link_to notification.message, notification.url %>
