@@ -8,7 +8,7 @@ describe "Profile" do
 
   before(:each) do
     sign_in user if user
-    visit "/profiles/#{profile.id}".dup
+    visit(+"/profiles/#{profile.id}")
   end
 
   it "does not permit access" do

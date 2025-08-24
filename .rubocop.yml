@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-capybara
   - rubocop-factory_bot
+  - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
 
@@ -11,6 +12,7 @@ AllCops:
   Exclude:
     - db/schema.rb
     - bin/**/*
+    - vendor/**/*
 
 # I want locales one day, but not right now
 Rails/I18nLocaleTexts:
