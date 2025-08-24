@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe "Profile" do
   include_examples "unauthenticated user does not have access" do
-    let(:path) { "/profiles/new".dup }
+    let(:path) { +"/profiles/new" }
   end
 
   context "when user logged in" do
@@ -12,7 +12,7 @@ describe "Profile" do
 
     before(:each) do
       sign_in user
-      visit "/profiles/new".dup
+      visit(+"/profiles/new")
       fill_in "profile[name]", with: "Chael"
       fill_in "profile[handle]", with: "ChaelCodes"
     end
