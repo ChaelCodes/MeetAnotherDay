@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe "Support" do
   before(:each) do
-    visit "/".dup
+    visit(+"/")
   end
 
   it "shows the " do
