@@ -1,74 +1,188 @@
 # GitHub Copilot Environment Configuration
-# Based on the GitHub documentation for customizing the agent environment
+# This file defines the development environment for GitHub Copilot coding agent
+# Based on GitHub's documentation for customizing the agent environment
 
+# Environment metadata
+name: "Meet Another Day Development Environment"
+description: "Ruby on Rails 7.1 web application with PostgreSQL database"
+version: "1.0"
+
+# Development environment configuration
 environment:
-  name: "Meet Another Day Development"
-  description: "Ruby on Rails 7.1 application with PostgreSQL"
-  
-  # Base container image
+  # Base container for consistent environment
   image: "ubuntu-latest"
   
-  # Required tools and their versions
+  # Required development tools with specific versions
   tools:
     - name: "ruby" 
       version: "3.2.2"
+      manager: "rbenv"
     - name: "postgresql"
       version: "13"
+      client: true
     - name: "nodejs"
       version: "18"
+      package_manager: "yarn"
+    - name: "git"
+      version: "latest"
+    - name: "docker"
+      version: "latest"
+      optional: true
     
-  # Environment variables
+  # Required environment variables for development
   env:
     POSTGRES_USER: "postgres"
     POSTGRES_PASSWORD: "password"
     RAILS_ENV: "development"
+    BUNDLE_PATH: "vendor/bundle"
     
-  # Services needed for development
+  # External services required for development
   services:
-    postgres:
+    - name: postgres
       image: "postgres:13"
       environment:
         POSTGRES_USER: "postgres"  
         POSTGRES_PASSWORD: "password"
+        POSTGRES_HOST_AUTH_METHOD: "trust"
       ports:
         - "5432:5432"
       health_check:
-        test: ["CMD-SHELL", "pg_isready"]
-        interval: 10s
-        timeout: 5s
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: "10s"
+        timeout: "5s"
         retries: 5
 
-  # Setup commands to prepare the environment  
-  setup:
-    - name: "Install system dependencies"
-      run: |
-        apt-get update
-        apt-get install -y postgresql-client curl build-essential
-        
-    - name: "Install Ruby dependencies"
-      run: "bundle install"
+# Setup commands executed in order to prepare the environment  
+setup:
+  - name: "Update system packages"
+    description: "Install required system dependencies"
+    run: |
+      apt-get update
+      apt-get install -y postgresql-client curl build-essential git
       
-    - name: "Setup database"
-      run: |
-        bundle exec rails db:create
-        bundle exec rails db:migrate
-        
-    - name: "Install Node.js dependencies"
-      run: "yarn install"
-
-  # Validation commands to test the setup
-  validate:
-    - name: "Test database connection"
-      run: |
-        bundle exec rails runner \
-          "puts 'Database connection: OK'; \
-          puts 'User count: ' + User.count.to_s"
-          
-    - name: "Run code style check"
-      run: "bundle exec rubocop"
+  - name: "Configure Ruby environment"
+    description: "Set up Ruby with proper version management"
+    run: |
+      # Ruby version verification handled by bundler
+      gem install bundler --no-document
       
-    - name: "Run test suite"
-      run: "bundle exec rspec --format progress"
+  - name: "Install Ruby dependencies"
+    description: "Install all Ruby gems defined in Gemfile"
+    run: |
+      bundle config set --local path vendor/bundle
+      bundle install
+      
+  - name: "Setup database"
+    description: "Create and migrate the PostgreSQL database"
+    run: |
+      bundle exec rails db:create
+      bundle exec rails db:migrate
+      
+  - name: "Install Node.js dependencies"
+    description: "Install frontend packages and compile assets"
+    run: |
+      yarn install
+      bundle exec rails assets:precompile
 
-  # Default command to start development server
-  start: "bundle exec rails server -b 0.0.0.0 -p 3000"
+# Validation commands to verify the environment is working correctly
+validate:
+  - name: "Database connectivity test"
+    description: "Verify PostgreSQL connection and basic query execution"
+    run: |
+      bundle exec rails runner \
+        "puts 'Database connection: OK'; \
+        puts 'User count: ' + User.count.to_s; \
+        puts 'Environment: ' + Rails.env"
+        
+  - name: "Code style validation"
+    description: "Run RuboCop for code quality and style checking"
+    run: "bundle exec rubocop --auto-correct-all"
+    
+  - name: "Test suite execution"
+    description: "Run complete RSpec test suite (407 tests)"
+    run: "bundle exec rspec --format progress"
+    timeout: "300s"
+
+# Development workflow commands
+dev_commands:
+  # Primary development server
+  start: 
+    command: "bundle exec rails server -b 0.0.0.0 -p 3000"
+    description: "Start Rails development server"
+    ports: [3000]
+    
+  # Alternative using Docker
+  docker_start:
+    command: "docker compose up web"
+    description: "Start application using Docker (recommended for exact environment)"
+    ports: [3000]
+    
+  # Interactive console
+  console:
+    command: "bundle exec rails console"
+    description: "Open Rails interactive console"
+    
+  # Database console  
+  dbconsole:
+    command: "bundle exec rails dbconsole"
+    description: "Open PostgreSQL database console"
+
+# Testing and quality assurance
+test_commands:
+  # Run specific test files
+  test_file:
+    command: "bundle exec rspec {file}"
+    description: "Run specific test file"
+    
+  # Run tests for specific models/controllers
+  test_model:
+    command: "bundle exec rspec spec/models/{model}_spec.rb"
+    description: "Run tests for specific model"
+    
+  # Code coverage
+  coverage:
+    command: "bundle exec rspec --format=html --out coverage/index.html"
+    description: "Generate test coverage report"
+
+# Common development tasks
+tasks:
+  # Database operations
+  db_reset:
+    command: "bundle exec rails db:reset"
+    description: "Reset database with seed data"
+    
+  db_migrate:
+    command: "bundle exec rails db:migrate"
+    description: "Run database migrations"
+    
+  # Code quality
+  lint:
+    command: "bundle exec rubocop"
+    description: "Check code style and quality"
+    
+  lint_fix:
+    command: "bundle exec rubocop --auto-correct-all"
+    description: "Auto-fix code style issues"
+    
+  # Asset compilation
+  assets:
+    command: "bundle exec rails assets:precompile"
+    description: "Compile frontend assets"
+
+# Documentation and help
+documentation:
+  readme: "README.md"
+  contributing: "CONTRIBUTING.md"  
+  setup_guide: ".github/COPILOT_SETUP.md"
+  
+# Quick access URLs when server is running
+urls:
+  app: "http://localhost:3000"
+  
+# File patterns for common development tasks
+file_patterns:
+  models: "app/models/**/*.rb"
+  controllers: "app/controllers/**/*.rb"
+  views: "app/views/**/*.html.erb"
+  tests: "spec/**/*_spec.rb"
+  migrations: "db/migrate/*.rb"
