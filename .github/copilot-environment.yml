@@ -1,0 +1,74 @@
+# GitHub Copilot Environment Configuration
+# Based on the GitHub documentation for customizing the agent environment
+
+environment:
+  name: "Meet Another Day Development"
+  description: "Ruby on Rails 7.1 application with PostgreSQL"
+  
+  # Base container image
+  image: "ubuntu-latest"
+  
+  # Required tools and their versions
+  tools:
+    - name: "ruby" 
+      version: "3.2.2"
+    - name: "postgresql"
+      version: "13"
+    - name: "nodejs"
+      version: "18"
+    
+  # Environment variables
+  env:
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "password"
+    RAILS_ENV: "development"
+    
+  # Services needed for development
+  services:
+    postgres:
+      image: "postgres:13"
+      environment:
+        POSTGRES_USER: "postgres"  
+        POSTGRES_PASSWORD: "password"
+      ports:
+        - "5432:5432"
+      health_check:
+        test: ["CMD-SHELL", "pg_isready"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # Setup commands to prepare the environment  
+  setup:
+    - name: "Install system dependencies"
+      run: |
+        apt-get update
+        apt-get install -y postgresql-client curl build-essential
+        
+    - name: "Install Ruby dependencies"
+      run: "bundle install"
+      
+    - name: "Setup database"
+      run: |
+        bundle exec rails db:create
+        bundle exec rails db:migrate
+        
+    - name: "Install Node.js dependencies"
+      run: "yarn install"
+
+  # Validation commands to test the setup
+  validate:
+    - name: "Test database connection"
+      run: |
+        bundle exec rails runner \
+          "puts 'Database connection: OK'; \
+          puts 'User count: ' + User.count.to_s"
+          
+    - name: "Run code style check"
+      run: "bundle exec rubocop"
+      
+    - name: "Run test suite"
+      run: "bundle exec rspec --format progress"
+
+  # Default command to start development server
+  start: "bundle exec rails server -b 0.0.0.0 -p 3000"
