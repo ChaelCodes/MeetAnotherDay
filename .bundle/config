@@ -1,0 +1,5 @@
+---
+# Use a cache - save rubygems bandwidth
+BUNDLE_CACHE_ALL: "true"
+# Nokogiri should _behave_
+BUNDLE_FORCE_RUBY_PLATFORM: "true"
