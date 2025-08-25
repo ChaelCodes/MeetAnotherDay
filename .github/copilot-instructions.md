@@ -9,15 +9,15 @@ Meet Another Day is a Ruby on Rails 7.1 web application that helps you meet up w
 ### Development Environment Setup
 
 **Automated Setup (Recommended):**
-The repository includes a GitHub Action that automatically sets up a complete development environment. This action:
-- Installs Ruby 3.2.2 and all gem dependencies
+The repository includes a development environment configuration for GitHub Copilot. This setup:
+- Installs Ruby 3.2.2 and all gem dependencies  
 - Sets up PostgreSQL 13 with proper credentials
 - Creates and migrates the database
 - Validates the complete setup
 
 **To use the automated setup:**
-1. The GitHub Action `.github/workflows/copilot-setup.yml` provides a complete development environment
-2. This action can be referenced for exact setup steps and environment configuration
+1. The GitHub Copilot environment configuration in `.github/copilot.yml` provides complete development environment setup
+2. The devcontainer configuration in `.devcontainer/` can also be used for VS Code development
 3. All dependencies, database setup, and validation commands are included
 
 **Running the application:**

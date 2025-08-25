@@ -6,7 +6,8 @@
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
 	"dockerComposeFile": [
-		"../docker-compose.yml"
+		"../docker-compose.yml",
+		"docker-compose.yml"
 	],
 
 	// git does not recognize the user in a devcontainer - https://www.kenmuse.com/blog/avoiding-dubious-ownership-in-dev-containers/
@@ -27,19 +28,27 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000]
+	"forwardPorts": [3000],
+
+	// Setup commands to run after the container is created
+	"postCreateCommand": "bundle exec rails db:prepare && echo 'Development environment ready!'",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"shopify.ruby-lsp",
+				"bradlc.vscode-tailwindcss",
+				"formulahendry.auto-rename-tag"
+			]
+		}
+	}
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
 	// "runServices": [],
 
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
 	// "shutdownAction": "none",
-
-	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"

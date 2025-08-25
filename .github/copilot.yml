@@ -1,0 +1,78 @@
+# GitHub Copilot Development Environment Configuration
+# This file provides setup instructions for GitHub Copilot agents
+
+# Development Environment Setup
+setup:
+  # Ruby on Rails application with PostgreSQL database
+  description: "Meet Another Day - Rails 7.1 app for conference networking"
+  
+  # Core technologies
+  stack:
+    - Ruby 3.2.2
+    - Rails 7.1.x  
+    - PostgreSQL 13
+    - Node.js (for Webpack/Yarn)
+    - Bulma CSS framework
+  
+  # Quick start using existing devcontainer
+  quickstart: |
+    This project includes a devcontainer configuration for immediate development.
+    Alternatively, follow these manual setup steps:
+    
+    1. Install dependencies:
+       bundle install
+       yarn install
+       
+    2. Setup database (requires PostgreSQL):
+       POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:create
+       POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:migrate
+       POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:seed
+       
+    3. Start development server:
+       POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails server
+       
+    4. Run tests:
+       POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rspec
+       
+    5. Check code style:
+       bundle exec rubocop
+
+# Environment requirements
+requirements:
+  system:
+    - PostgreSQL 13+
+    - Node.js 16+
+    - Ruby 3.2.2
+  
+  # Database configuration
+  database:
+    adapter: postgresql
+    username: postgres
+    password: password
+    host: localhost
+    
+  # Environment variables needed
+  env_vars:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: password
+    RAILS_ENV: development
+
+# Development commands
+commands:
+  start: "POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails server -b 0.0.0.0 -p 3000"
+  console: "POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails console"
+  test: "POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rspec"
+  lint: "bundle exec rubocop"
+  migrate: "POSTGRES_USER=postgres POSTGRES_PASSWORD=password bundle exec rails db:migrate"
+
+# Server configuration  
+server:
+  port: 3000
+  host: "0.0.0.0"
+  url: "http://localhost:3000"
+
+# Testing framework
+testing:
+  framework: RSpec
+  browser_testing: "Capybara with Selenium Chrome"
+  factories: FactoryBot
