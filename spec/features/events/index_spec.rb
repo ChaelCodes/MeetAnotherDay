@@ -8,7 +8,7 @@ describe "Events" do
 
   before(:each) do
     sign_in user if user
-    visit "/events/".dup
+    visit(+"/events/")
   end
 
   it "shows the event" do
