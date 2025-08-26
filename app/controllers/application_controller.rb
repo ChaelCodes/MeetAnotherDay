@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # Ensure User is authorized to access route using Pundit
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from RailsCloudflareTurnstile::Forbidden, with: :handle_cloudflare_turnstile_failure
   after_action :verify_authorized, except: %i[index about], unless: :devise_controller?
   before_action :validate_cloudflare_turnstile, only: [:create], if: :devise_controller?
 
@@ -36,5 +37,31 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
+  end
+
+  def handle_cloudflare_turnstile_failure
+    flash[:alert] = "Uh oh! We need you to confirm you're not a bot in the cloudflare challenge."
+    redirect_to cloudflare_failure_redirect_path
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def cloudflare_failure_redirect_path
+    case [params[:controller], params[:action]]
+    when ["users/registrations", "create"]
+      new_user_registration_path
+    when ["devise/passwords", "create"]
+      new_user_password_path
+    when ["devise/confirmations", "create"]
+      new_user_confirmation_path
+    else
+      log_unexpected_cloudflare_failure
+      request.referrer || root_path
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def log_unexpected_cloudflare_failure
+    Rails.logger.warn "Cloudflare turnstile failure from unexpected controller/action: " \
+                      "#{params[:controller]}##{params[:action]}"
   end
 end
