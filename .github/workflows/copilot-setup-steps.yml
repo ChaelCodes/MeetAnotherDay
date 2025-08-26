@@ -39,11 +39,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.2
-
-      - name: Install dependencies
-        run: |
-          bundle install
+          bundler-cache: true
 
       - name: Setup database
         env:
