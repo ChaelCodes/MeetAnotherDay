@@ -30,6 +30,7 @@
         <%= render 'events/list', events: @events, pagy: @events_pagy, select_time: false %>
       </div>
     <% end %>
+    <%= qr_code(@profile) %>
     <div class="block">
       <%= buttons(@profile, include_nav: true) %>
     </div>

@@ -18,3 +18,16 @@
   padding-bottom: 2rem;
   padding-top: 2rem;
 }
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.qr-code-wrapper svg {
+  max-width: 150px;
+  max-height: 150px;
+  width: 100%;
+  height: auto;
+}
