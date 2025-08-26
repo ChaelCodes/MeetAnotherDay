@@ -81,6 +81,7 @@ module ApplicationHelper
           end
     
     # Generate QR code
+    # See: https://github.com/whomwah/rqrcode
     qr = RQRCode::QRCode.new(url)
     svg = qr.as_svg(
       color: "000",

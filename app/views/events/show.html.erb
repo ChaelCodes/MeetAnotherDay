@@ -8,8 +8,6 @@
           <%= kramdown(@event.description) %>
         </div>
 
-        <%= qr_code(@event) %>
-
       </div>
 
       <div class="column is-one-quarter">
@@ -36,6 +34,10 @@
         <%= render "event_attendees/list", event_attendees: @event_attendees %>
       </div>
     </div>
+  </div>
+
+  <div class="section">
+    <%= qr_code(@event) %>
   </div>
 
   <div class="section"><%= buttons(@event, include_nav: true) %></div>
