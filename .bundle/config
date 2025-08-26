@@ -1,4 +1,7 @@
 ---
 BUNDLE_CACHE_ALL: "true"
 BUNDLE_FORCE_RUBY_PLATFORM: "true"
-BUNDLE_PATH: "vendor/bundle"
+BUNDLE_PATH: "/home/runner/work/MeetAnotherDay/MeetAnotherDay/vendor/bundle"
+BUNDLE_DEPLOYMENT: "true"
+BUNDLE_JOBS: "4"
+BUNDLE_FROZEN: "false"

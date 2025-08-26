@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rqrcode"
-
 # Any needed Application UI functions
 module ApplicationHelper
   # Add pagination helpers
@@ -92,9 +90,9 @@ module ApplicationHelper
       use_path: true
     )
     
-    # Wrap in a styled container
+    # Wrap in a styled container using Bulma classes
     tag.div(class: "qr-code-container has-text-centered mb-4") do
-      tag.div(class: "qr-code-wrapper") do
+      tag.div(class: "is-inline-block", style: "max-width: 150px;") do
         svg.html_safe
       end
     end
