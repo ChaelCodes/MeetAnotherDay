@@ -14,7 +14,7 @@ jobs:
     permissions:
       contents: read
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
@@ -40,7 +40,7 @@ jobs:
           - 5432:5432
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true

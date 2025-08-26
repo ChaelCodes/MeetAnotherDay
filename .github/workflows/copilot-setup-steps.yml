@@ -34,7 +34,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+          with:
+            fetch-depth: 30 # Fetch past 30 commits, so all PR commits are included
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
