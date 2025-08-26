@@ -10,6 +10,9 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    # Only let github read the repository contents
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v2
     - uses: ruby/setup-ruby@v1
@@ -20,12 +23,40 @@ jobs:
       run: bundle exec rubocop
   test:
     runs-on: ubuntu-latest
+    # Only let github read the repository contents
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - uses: actions/checkout@v2
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - run: docker compose run web bundle exec rake db:test:prepare
+    - name: Setup database
+      env:
+        POSTGRES_PASSWORD: password
+      run: |
+        bundle exec rails db:setup
+    - name: Prepare test database
+      env:
+        POSTGRES_PASSWORD: password
+      run: |
+        bundle exec rails db:test:prepare
     - name: RSpec
-      run: docker compose run -e CI=true web bundle exec rspec
-    - run: docker compose down
+      run: bundle exec rspec
+      env:
+        POSTGRES_PASSWORD: password
+        CI: true
