@@ -18,7 +18,6 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - run: bundle install
     - name: Rubocop
       run: bundle exec rubocop
   test:
