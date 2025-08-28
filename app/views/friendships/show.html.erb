@@ -1,19 +1,27 @@
-<div class="container">
-  <div class="mb-3">
-    <%= link_to @friendship %>
-
-    <p>
-      <strong>Friend:</strong>
-      <%= link_to @friendship.friend %>
-    </p>
-
-    <p>
-      <strong>Status:</strong>
-      <%= @friendship.status %>
-    </p>
-  </div>
-
-  <div class="field is-grouped-multiline has-addons">
-    <%= friendship_button(@friendship, current_user&.profile) %>
+<section class="section">
+  <div class="container">
+    <div class="card">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <%= image_tag profile_picture(@relationship.other_profile.email), alt: "Profile pic" %>
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4"><%= link_to @relationship.other_profile.name, @relationship.other_profile %></p>
+            <p class="subtitle is-6">@<%= @relationship.other_profile.handle %></p>
+          </div>
+        </div>
+        <div class="content">
+          <p class="block">
+            <%= @relationship.description %>
+          </p>
+        </div>
+      </div>
+    <div class="card-footer field is-grouped-multiline has-addons">
+      <%= relationship_buttons(@relationship) %>
+    </div>
   </div>
 </div>
+</section>

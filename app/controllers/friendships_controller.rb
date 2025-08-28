@@ -16,7 +16,14 @@ class FriendshipsController < ApplicationController
   end
 
   # GET /friendships/1 or /friendships/1.json
-  def show; end
+  def show
+    @relationship =
+      if @friendship.buddy == current_profile
+        Relationship.new(friendship: @friendship)
+      else
+        Relationship.new(profile: current_profile, other_profile: @friendship.buddy)
+      end
+  end
 
   # GET /friendships/new
   def new
