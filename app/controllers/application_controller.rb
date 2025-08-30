@@ -41,27 +41,6 @@ class ApplicationController < ActionController::Base
 
   def handle_cloudflare_turnstile_failure
     flash[:alert] = "Uh oh! We need you to confirm you're not a bot in the cloudflare challenge."
-    redirect_to cloudflare_failure_redirect_path
-  end
-
-  # rubocop:disable Metrics/MethodLength
-  def cloudflare_failure_redirect_path
-    case [params[:controller], params[:action]]
-    when ["users/registrations", "create"]
-      new_user_registration_path
-    when ["devise/passwords", "create"]
-      new_user_password_path
-    when ["devise/confirmations", "create"]
-      new_user_confirmation_path
-    else
-      log_unexpected_cloudflare_failure
-      request.referrer || root_path
-    end
-  end
-  # rubocop:enable Metrics/MethodLength
-
-  def log_unexpected_cloudflare_failure
-    Rails.logger.warn "Cloudflare turnstile failure from unexpected controller/action: " \
-                      "#{params[:controller]}##{params[:action]}"
+    redirect_back fallback_location: root_path
   end
 end
