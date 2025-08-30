@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Cloudflare Turnstile" do
+  before(:each) do
+    allow_any_instance_of(ApplicationController).to receive(:cloudflare_turnstile_ok?).and_return(false)
+  end
+
   describe "User Registration Form" do
     it "shows error when cloudflare validation fails" do
       visit new_user_registration_path
