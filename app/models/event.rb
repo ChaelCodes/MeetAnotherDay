@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   has_many :event_attendees, dependent: :delete_all
   has_many :attendees, through: :event_attendees, source: :profile
 
-  validates_presence_of :start_at, :end_at
+  validates :start_at, :end_at, presence: true
   validates_comparison_of :end_at, greater_than: :start_at
 
   scope :future, -> { where("start_at > ?", Time.zone.now) }
