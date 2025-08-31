@@ -1,32 +1,30 @@
-<div class="container">
-  <div class="block">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), builder: ApplicationFormBuilder) do |form| %>
-      <%= render "layouts/errors", resource: resource %>
-      <div class="field">
-        <%= form.label :email %>
-        <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
-      </div>
+<section class="section">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), builder: ApplicationFormBuilder) do |form| %>
+    <%= render "layouts/errors", resource: resource %>
+    <div class="field">
+      <%= form.label :email %>
+      <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
 
-      <div class="field">
-        <%= form.label :password %>
-        <%= form.password_field :password, autocomplete: "current-password" %>
-      </div>
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.password_field :password, autocomplete: "current-password" %>
+    </div>
 
-      <% if devise_mapping.rememberable? %>
-        <% form.labelled_check_box(:remember_me) %>
-      <% end %>
-
-      <div class="field">
-        <%= cloudflare_turnstile %>
-      </div>
-
-      <div class="field actions">
-        <%= form.submit "Log in" %>
-      </div>
-
-      <div class="field actions">
-        <%= render "devise/shared/links" %>
-      </div>
+    <% if devise_mapping.rememberable? %>
+      <% form.labelled_check_box(:remember_me) %>
     <% end %>
-  </div>
-</div>
+
+    <div class="field">
+      <%= cloudflare_turnstile %>
+    </div>
+
+    <div class="field actions">
+      <%= form.submit "Log in" %>
+    </div>
+
+    <div class="field actions">
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>
+</section>
