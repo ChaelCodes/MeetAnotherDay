@@ -7,7 +7,6 @@ RSpec.describe "Cloudflare Turnstile" do
     RailsCloudflareTurnstile.configure do |c|
       c.mock_enabled = false
       c.enabled = true
-      c.fail_open = false
     end
   end
 
@@ -18,7 +17,7 @@ RSpec.describe "Cloudflare Turnstile" do
       fill_in "Email", with: "test@example.com"
       fill_in "Password", with: "password123"
       fill_in "Password confirmation", with: "password123"
-      
+
       click_button "Sign up"
 
       expect(page).to have_current_path(new_user_registration_path)
@@ -31,7 +30,7 @@ RSpec.describe "Cloudflare Turnstile" do
       visit new_user_password_path
 
       fill_in "Email", with: "test@example.com"
-      
+
       click_button "Send me reset password instructions"
 
       expect(page).to have_current_path(new_user_password_path)
@@ -44,7 +43,7 @@ RSpec.describe "Cloudflare Turnstile" do
       visit new_user_confirmation_path
 
       fill_in "Email", with: "test@example.com"
-      
+
       click_button "Resend confirmation instructions"
 
       expect(page).to have_current_path(new_user_confirmation_path)
@@ -60,7 +59,7 @@ RSpec.describe "Cloudflare Turnstile" do
 
       fill_in "Email", with: "test@example.com"
       fill_in "Password", with: "password123"
-      
+
       click_button "Log in"
 
       expect(page).to have_current_path(new_user_session_path)
@@ -71,7 +70,7 @@ RSpec.describe "Cloudflare Turnstile" do
   context "when cloudflare validation passes" do
     before(:each) do
       RailsCloudflareTurnstile.configure do |c|
-        c.mock_enabled = false
+        c.mock_enabled = true
         c.enabled = false
       end
     end
@@ -83,7 +82,7 @@ RSpec.describe "Cloudflare Turnstile" do
         fill_in "Email", with: "test@example.com"
         fill_in "Password", with: "password123"
         fill_in "Password confirmation", with: "password123"
-        
+
         click_button "Sign up"
 
         expect(page).to have_content("Welcome!")
@@ -98,7 +97,7 @@ RSpec.describe "Cloudflare Turnstile" do
         visit new_user_password_path
 
         fill_in "Email", with: "test@example.com"
-        
+
         click_button "Send me reset password instructions"
 
         expect(page).to have_content("You will receive an email with instructions on how to reset your password")
