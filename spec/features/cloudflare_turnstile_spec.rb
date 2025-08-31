@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe "Cloudflare Turnstile" do
   before(:each) do
     RailsCloudflareTurnstile.configure do |c|
+      # Use test keys from Cloudflare documentation
+      # https://developers.cloudflare.com/turnstile/troubleshooting/testing
+      c.site_key = "1x00000000000000000000AA"
+      c.secret_key = "2x0000000000000000000000000000000AA"
       c.mock_enabled = false
       c.enabled = true
     end
