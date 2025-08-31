@@ -12,4 +12,11 @@ module Handleable
                        format: { with: URL_POSSIBLE_REGEX },
                        uniqueness: { case_sensitive: false }
   end
+
+  class_methods do
+    # Find with handle - case insensitive search
+    def find_with_handle(handle)
+      find_by("UPPER(handle) = ?", handle.upcase)
+    end
+  end
 end

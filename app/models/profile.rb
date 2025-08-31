@@ -51,4 +51,8 @@ class Profile < ApplicationRecord
   def friend_requests
     friendships.requested
   end
+
+  def to_param
+    handle
+  end
 end

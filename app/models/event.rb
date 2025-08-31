@@ -18,6 +18,10 @@ class Event < ApplicationRecord
                   }
   scope :past, -> { where("end_at < ?", Time.zone.now) }
 
+  def to_param
+    handle
+  end
+
   def to_s
     name
   end

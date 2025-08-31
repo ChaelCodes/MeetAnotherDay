@@ -21,6 +21,20 @@ RSpec.describe Event do
     end
   end
 
+  describe "#find_with_handle" do
+    subject { described_class.find_with_handle handle }
+
+    let(:handle) { event.handle }
+
+    it { is_expected.to eq(event) }
+
+    context "when handle case does not match" do
+      let(:handle) { event.handle.upcase }
+
+      it { is_expected.to eq(event) }
+    end
+  end
+
   describe "#ongoing_or_upcoming" do
     subject { described_class.ongoing_or_upcoming }
 
