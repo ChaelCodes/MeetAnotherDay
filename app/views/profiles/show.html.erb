@@ -31,7 +31,7 @@
       </div>
     <% end %>
     <div class="block">
-      <%= qr_code(url_for(controller: :profiles, action: :show, id: @profile.handle, only_path: false)) %>
+      <%= qr_code(profile_url(@profile.handle)) %>
     </div>
     <div class="block">
       <%= buttons(@profile, include_nav: true) %>

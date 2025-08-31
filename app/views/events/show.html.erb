@@ -37,7 +37,7 @@
   </div>
 
   <section class="section">
-    <%= qr_code(url_for(controller: :events, action: :show, id: @event.handle, only_path: false)) %>
+    <%= qr_code(event_url(@event)) %>
   </section>
 
   <div class="section"><%= buttons(@event, include_nav: true) %></div>
