@@ -67,35 +67,22 @@ module ApplicationHelper
   end
 
   # Generate QR code for a resource with handle
-  def qr_code(resource)
-    return unless resource.respond_to?(:handle)
-    
-    # Build the full URL using the resource handle
-    url = case resource.class.name
-          when "Profile"
-            url_for(controller: :profiles, action: :show, id: resource.handle, only_path: false)
-          when "Event"
-            url_for(controller: :events, action: :show, id: resource.handle, only_path: false)
-          else
-            return
-          end
-    
+  def qr_code(url)
     # Generate QR code
     # See: https://github.com/whomwah/rqrcode
     qr = RQRCode::QRCode.new(url)
     svg = qr.as_svg(
       color: "000",
+      fill: "fff",
+      offset: 3,
       shape_rendering: "crispEdges",
-      module_size: 3,
+      module_size: 5,
       standalone: true,
       use_path: true
     )
-    
-    # Wrap in a styled container using Bulma classes
-    tag.div(class: "qr-code-container has-text-centered mb-4") do
-      tag.div(class: "is-inline-block", style: "max-width: 150px;") do
-        svg.html_safe
-      end
+
+    tag.div(class: "qr-code-container has-text-centered") do
+      svg.html_safe # rubocop:disable Rails/OutputSafety
     end
   end
 end
