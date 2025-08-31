@@ -1,24 +1,22 @@
-<div class="container">
-  <div class="block">
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, builder: ApplicationFormBuilder) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+<section class="section">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, builder: ApplicationFormBuilder) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-      </div>
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
 
-      <div class="field">
-        <%= cloudflare_turnstile %>
-      </div>
+    <div class="field">
+      <%= cloudflare_turnstile %>
+    </div>
 
-      <div class="field actions">
-        <%= f.submit "Send me reset password instructions" %>
-      </div>
+    <div class="field actions">
+      <%= f.submit "Send me reset password instructions" %>
+    </div>
 
-      <div class="field actions">
-        <%= render "devise/shared/links" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+    <div class="field">
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>
+</section>
