@@ -66,7 +66,7 @@ module ApplicationHelper
     sanitize kramdown(text), { tags: [] }
   end
 
-  # Generate QR code for a resource with handle
+  # Generate QR code for a given URL
   # See: https://github.com/whomwah/rqrcode
   def qr_code(url)
     qr = RQRCode::QRCode.new(url)
