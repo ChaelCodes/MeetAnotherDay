@@ -65,4 +65,16 @@ module ApplicationHelper
   def kramdown_pure_text(text)
     sanitize kramdown(text), { tags: [] }
   end
+
+  # Generate QR code for a given URL
+  # See: https://github.com/whomwah/rqrcode
+  def qr_code(url)
+    qr = RQRCode::QRCode.new(url)
+    svg = qr.as_svg(color: "000", fill: "fff", offset: 3, shape_rendering: "crispEdges", module_size: 5,
+                    standalone: true, use_path: true).html_safe # rubocop:disable Rails/OutputSafety
+
+    tag.div(class: "qr-code-container has-text-centered") do
+      svg
+    end
+  end
 end

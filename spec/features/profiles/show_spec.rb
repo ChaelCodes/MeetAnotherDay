@@ -22,6 +22,7 @@ describe "Profile" do
       expect(page).to have_content "ChaelCodes"
       expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
       expect(page).not_to have_button "Delete"
+      expect(page).to have_css ".qr-code-container"
     end
 
     context "when user has a profile" do

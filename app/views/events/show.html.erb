@@ -36,5 +36,9 @@
     </div>
   </div>
 
+  <section class="section">
+    <%= qr_code(event_url(@event)) %>
+  </section>
+
   <div class="section"><%= buttons(@event, include_nav: true) %></div>
 </div>

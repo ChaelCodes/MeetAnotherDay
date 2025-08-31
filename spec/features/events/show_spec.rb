@@ -16,6 +16,7 @@ describe "Events" do
     expect(page).not_to have_link "Edit", href: edit_event_path(event)
     expect(page).not_to have_button "Delete"
     expect(page).to have_link "All Events", href: events_path
+    expect(page).to have_css ".qr-code-container"
   end
 
   context "when user logged in" do
