@@ -67,22 +67,14 @@ module ApplicationHelper
   end
 
   # Generate QR code for a resource with handle
+  # See: https://github.com/whomwah/rqrcode
   def qr_code(url)
-    # Generate QR code
-    # See: https://github.com/whomwah/rqrcode
     qr = RQRCode::QRCode.new(url)
-    svg = qr.as_svg(
-      color: "000",
-      fill: "fff",
-      offset: 3,
-      shape_rendering: "crispEdges",
-      module_size: 5,
-      standalone: true,
-      use_path: true
-    )
+    svg = qr.as_svg(color: "000", fill: "fff", offset: 3, shape_rendering: "crispEdges", module_size: 5,
+                    standalone: true, use_path: true).html_safe # rubocop:disable Rails/OutputSafety
 
     tag.div(class: "qr-code-container has-text-centered") do
-      svg.html_safe # rubocop:disable Rails/OutputSafety
+      svg
     end
   end
 end
