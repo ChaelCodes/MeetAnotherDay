@@ -5,4 +5,5 @@ RailsCloudflareTurnstile.configure do |c|
   c.secret_key = ENV.fetch("CLOUDFLARE_SECRET_KEY", "")
   c.fail_open = true
   c.mock_enabled = !Rails.env.production? || ENV.fetch("IS_PULL_REQUEST") == "true"
+  c.enabled = Rails.env.production? && Env.fetch("IS_PULL_REQUEST") == "false"
 end
