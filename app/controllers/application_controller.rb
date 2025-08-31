@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # Ensure User is authorized to access route using Pundit
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from RailsCloudflareTurnstile::Forbidden, with: :handle_cloudflare_turnstile_failure
   after_action :verify_authorized, except: %i[index about], unless: :devise_controller?
   before_action :validate_cloudflare_turnstile, only: [:create], if: :devise_controller?
 
@@ -36,5 +37,10 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
+  end
+
+  def handle_cloudflare_turnstile_failure
+    flash[:alert] = "Uh oh! We need you to confirm you're not a bot in the cloudflare challenge."
+    redirect_back fallback_location: root_path
   end
 end
