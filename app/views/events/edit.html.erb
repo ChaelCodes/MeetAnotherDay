@@ -7,4 +7,18 @@
     <%= link_to 'Show', @event %> |
     <%= link_to 'Back', events_path %>
   </div>
+
+  <% if policy(@event).destroy? %>
+    <section class="section">
+      <div class="box">
+        <h3 class="title is-5 has-text-danger">Danger Zone</h3>
+        <p class="block">
+          Deleting this event is permanent and will remove all attendee registrations. This action cannot be undone.
+        </p>
+        <div class="block">
+          <%= delete_button(@event) %>
+        </div>
+      </div>
+    </section>
+  <% end %>
 </div>
