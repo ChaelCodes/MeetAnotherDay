@@ -25,6 +25,22 @@ module ApplicationHelper
               class: "button is-danger")
   end
 
+  def delete_icon(resource)
+    return unless policy(resource).destroy?
+    button_to("",
+              url_for(resource),
+              method: :delete,
+              data: { confirm: "Are you sure?" },
+              form_class: "delete",
+              class: "delete")
+  end
+
+  def error_header(resource)
+    return unless resource.errors.any?
+
+    "#{pluralize(resource.errors.count, 'error')} prohibited this #{resource} from being saved:"
+  end
+
   # Display an icon stored in app/assets/icons
   def icon(name, alt: nil)
     tag.span(class: "icon") do

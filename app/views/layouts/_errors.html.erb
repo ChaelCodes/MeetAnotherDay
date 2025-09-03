@@ -1,14 +1,9 @@
 <% if resource.errors.any? %>
-  <article class="message is-danger">
-    <div class="message-header">
-      <%= "#{pluralize(resource.errors.count, "error")} prohibited this #{resource.to_s} from being saved:" %>
-    </div>
-    <div class="message-body">
-      <ul>
-        <% resource.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  </article>
+  <%= render "components/message", css_class: "is-danger", message_header: error_header(resource) do %>
+    <ul>
+      <% resource.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>

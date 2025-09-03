@@ -1,0 +1,17 @@
+<% css_class ||= "" %>
+<% message_header ||= nil %>
+<% resource ||= nil %>
+<% include_delete ||= false %>
+<% include_delete = false unless resource&.persisted? %>
+
+<div class="message <%= css_class %>">
+  <% if message_header %>
+    <div class="message-header">
+      <p><%= message_header %></p>
+      <%= delete_button(resource) if include_delete %>
+    </div>
+  <% end %>
+  <div class="message-body">
+    <%= yield if block_given? %>
+  </div>
+</div>

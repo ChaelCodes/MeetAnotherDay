@@ -1,7 +1,5 @@
 <% if notice || alert %>
-<article class="message is-hidden-tablet <%= alert_color %>">
-  <div class="message-body">
+  <%= render "components/notification", css_class: "is-hidden-tablet #{alert_color}" do %>
     <%= notice || alert %>
-  </div>
-</article>
+  <% end %>
 <% end %>
