@@ -13,6 +13,27 @@
  *= require_tree .
  *= require_self
  */
+ :root {
+  --bulma-primary-h: 279deg;
+  --bulma-primary-s: 58%;
+  --bulma-primary-l: 66%;
+  --bulma-link-h: 184deg;
+  --bulma-link-s: 67%;
+  --bulma-link-l: 44%;
+  --bulma-info-h: 184deg;
+  --bulma-info-s: 67%;
+  --bulma-info-l: 44%;
+  --bulma-success-h: 158deg;
+  --bulma-success-s: 94%;
+  --bulma-success-l: 50%;
+  --bulma-warning-h: 9deg;
+  --bulma-warning-s: 78%;
+  --bulma-warning-l: 73%;
+  --bulma-danger-h: 346deg;
+  --bulma-danger-s: 77%;
+  --bulma-danger-l: 63%;
+}
+
 .footer {
   margin-top: 2rem;
   padding-bottom: 2rem;
