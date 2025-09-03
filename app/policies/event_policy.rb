@@ -25,7 +25,7 @@ class EventPolicy < ApplicationPolicy
   # Only Admins can update Events
   def update?
     event_attendee = EventAttendee.find_by(event_id: record&.id, profile_id: user&.profile&.id)
-    user&.admin? or event_attendee&.organizer
+    user&.admin? || event_attendee&.organizer
   end
 
   # Only Admins can destroy Events

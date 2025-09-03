@@ -1,10 +1,24 @@
 <div class="container">
-  <div class="section">
+  <section class="section">
     <h1>Editing Profile</h1>
 
     <%= render 'form', profile: @profile %>
 
     <%= link_to 'Show', @profile %> |
     <%= link_to 'Back', profiles_path %>
-  </div>
+  </section>
+
+  <% if policy(@profile).destroy? %>
+    <section class="section">
+    <div class="box">
+      <h3 class="title is-5 has-text-danger">Danger Zone</h3>
+      <p class="block">
+        Deleting your profile is permanent and will remove all your event attendance, friendships, and other data. This action cannot be undone.
+      </p>
+      <div class="block">
+        <%= delete_button(@profile) %>
+      </div>
+    </div>
+    </section>
+  <% end %>
 </div>

@@ -6,11 +6,11 @@ module ApplicationHelper
   include Pagy::Frontend
 
   # Display buttons for the show page
-  def buttons(resource, include_nav: false, include_show: false)
+  def buttons(resource, include_nav: false, include_show: false, include_delete: false)
     buttons = []
     buttons << show_link(resource) if include_show
     buttons << edit_link(resource)
-    buttons << delete_button(resource)
+    buttons << delete_button(resource) if include_delete
     buttons << index_link(resource) if include_nav
     tag.div(safe_join(buttons), class: "buttons")
   end

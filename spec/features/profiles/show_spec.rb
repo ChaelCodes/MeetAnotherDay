@@ -41,7 +41,7 @@ describe "Profile" do
 
       it "allows user to edit profile" do
         expect(page).to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).to have_button "Delete"
+        expect(page).not_to have_button "Delete" # Too dangerous, it's on the edit page
       end
     end
 
@@ -51,15 +51,6 @@ describe "Profile" do
       it "renders markdown in bio" do
         expect(page).to have_css "strong", text: "bold"
         expect(page).to have_link "a link", href: "https://example.com"
-      end
-    end
-
-    context "when user is admin" do
-      let(:user) { create :user, :admin }
-
-      it "allows user to destroy profile" do
-        expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).to have_button "Delete"
       end
     end
   end
