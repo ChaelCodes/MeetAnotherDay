@@ -2,14 +2,8 @@
   <h1 class="title">Notifications</h1>
 
   <% @notifications.each do |notification| %>
-    <div class="message">
-      <div class="message-header">
-        <p><%= l(notification.created_at, format: :long) %></p>
-        <%= button_to("", notification, method: :delete, class: "delete") %>
-      </div>
-      <div class="message-body">
+    <%= render "components/notification", css_class:"is-info", resource: notification, include_delete: true do %>
       <%= link_to notification.message, notification.url %>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 </div>

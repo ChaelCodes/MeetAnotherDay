@@ -16,13 +16,29 @@ module ApplicationHelper
   end
 
   # Delete Button if the user has permission
-  def delete_button(resource)
+  def delete_button(resource, title: "Delete")
     return unless policy(resource).destroy?
-    button_to("Delete",
+    button_to(title,
               url_for(resource),
               method: :delete,
               data: { confirm: "Are you sure?" },
               class: "button is-danger")
+  end
+
+  def delete_icon(resource)
+    return unless policy(resource).destroy?
+    button_to("",
+              url_for(resource),
+              method: :delete,
+              data: { confirm: "Are you sure?" },
+              form_class: "delete",
+              class: "delete")
+  end
+
+  def error_header(resource)
+    return unless resource.errors.any?
+
+    "#{pluralize(resource.errors.count, 'error')} prohibited this #{resource} from being saved:"
   end
 
   # Display an icon stored in app/assets/icons

@@ -1,0 +1,9 @@
+<% css_class ||= "" %>
+<% resource ||= nil %>
+<% include_delete ||= false %>
+<% include_delete = false unless resource&.persisted? %>
+
+<div class="notification <%= css_class %>">
+  <%= delete_icon(resource) if include_delete %>
+  <%= yield if block_given? %>
+</div>

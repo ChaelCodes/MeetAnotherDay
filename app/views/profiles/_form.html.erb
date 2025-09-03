@@ -9,11 +9,9 @@
             <%= image_tag profile_picture(@current_user.email), alt: "Profile pic" %>
           </figure>
         <div class="media-content">
-          <article class="message is-info">
-            <div class="message-body">
-              Our avatars are sourced from <a href="https://gravatar.com">Gravatar!</a> If you need <a href="#avatar-help">more help, see below.</a>
-            </div>
-          </article>
+          <%= render "components/message", css_class: "is-info" do %>
+            Our avatars are sourced from <a href="https://gravatar.com">Gravatar!</a> If you need <a href="#avatar-help">more help, see below.</a>
+          <% end %>
         </div>
       </div>
     </div>
@@ -29,51 +27,42 @@
   <% end %>
 </div>
 
-<div class="block">
-  <article id="avatar-help" class="message is-info">
-    <div class="message-header">Avatar Help</div>
-    <div class="message-body">
-      <p class="mb-3">
-        Your avatar is sourced from <a href="https://gravatar.com">Gravatar</a> - a free service that provides avatars based on your email address.
-        If you don't have an avatar set, a default image will be used.
-      </p>
-      <p class="mb-3">
-        To change your avatar, create or update your Gravatar account with the email address associated with your profile.
-        Once updated, your new avatar will appear here!
-      </p>
-      <p class="mb-3">
-        Gravatar is used by many sites, including Slack, WordPress, and GitHub, so your avatar will be consistent across those platforms as well.
-      </p>
-      <%= link_to "Back to Form", "#top" %>
-    </div>
-  </article>
+<div id="avatar-help" class="block">
+  <%= render "components/message", message_header: "Avatar Help", css_class: "is-info" do %>
+    <p class="mb-3">
+      Your avatar is sourced from <a href="https://gravatar.com">Gravatar</a> - a free service that provides avatars based on your email address.
+      If you don't have an avatar set, a default image will be used.
+    </p>
+    <p class="mb-3">
+      To change your avatar, create or update your Gravatar account with the email address associated with your profile.
+      Once updated, your new avatar will appear here!
+    </p>
+    <p class="mb-3">
+      Gravatar is used by many sites, including Slack, WordPress, and GitHub, so your avatar will be consistent across those platforms as well.
+    </p>
+    <%= link_to "Back to Form", "#top" %>
+  <% end %>
 </div>
 
-<div class="block">
-  <article id="bio-help" class="message is-info">
-    <div class="message-header">Bio Advice</div>
-    <div class="message-body">
-      <p class="mb-3">
-        Your bio is a brief introduction to yourself that is only visible to people who can see your profile and events.
-        It could include major professional accomplishments, conversation starters, and information about how to contact and refer to you.
-        We recommed including pronouns, links to social media profiles or email, and how you'd like to meet others at the event.
-        Check your friend's or public profiles for inspiration!
-      </p>
-      <%= link_to "Back to Form", "#top" %>
-    </div>
-  </article>
+<div id="bio-help" class="block">
+  <%= render "components/message", message_header: "Bio Advice", css_class: "is-info" do %>
+    <p class="mb-3">
+      Your bio is a brief introduction to yourself that is only visible to people who can see your profile and events.
+      It could include major professional accomplishments, conversation starters, and information about how to contact and refer to you.
+      We recommed including pronouns, links to social media profiles or email, and how you'd like to meet others at the event.
+      Check your friend's or public profiles for inspiration!
+    </p>
+    <%= link_to "Back to Form", "#top" %>
+  <% end %>
 </div>
 
-<div class="block">
-  <article id="visibilities-help" class="message is-info">
-    <div class="message-header">Profile Visibilities</div>
-    <div class="message-body">
-      <p class="mb-3">Location data, where you've been and where you're going, is sensitive information! We take that responsibility seriously. These permissions impact who can read your bio, and see which events you are attending. There are multiple layers of authorization for you to pick from.</p>
-      <p class="mb-2"><strong>everyone</strong> - Anyone can view your events. Authenticated, unauthenticated, robots, anyone! If you want to grab your events with an API call or embed them with an iFrame, this is the permission for you!</p>
-      <p class="mb-2"><strong>authenticated</strong> - Users of the site who have confirmed their email address can see which events you are attending. Recommended for those who have an audience, but still want some protections around their events.</p>
-      <p class="mb-2"><strong>friends</strong> - Only profiles that you have friended can see which events you will attend. This is the default. If someone friends you, they will not see your events until you friend them.</p>
-      <p class="mb-3"><strong>myself</strong> - You are the only one who can see which events you are attending. Admins can still view your events for moderation purposes. Intended for bad situations where you need to hide info in a hurry, and people who'd just like to use the app as a diary for events they've attended.</p>
-      <%= link_to "Back to Form", "#top" %>
-    </div>
-  </article>
+<div id="visibilities-help" class="block">
+  <%= render "components/message", message_header: "Profile Visibilities", css_class: "is-info" do %>
+    <p class="mb-3">Location data, where you've been and where you're going, is sensitive information! We take that responsibility seriously. These permissions impact who can read your bio, and see which events you are attending. There are multiple layers of authorization for you to pick from.</p>
+    <p class="mb-2"><strong>everyone</strong> - Anyone can view your events. Authenticated, unauthenticated, robots, anyone! If you want to grab your events with an API call or embed them with an iFrame, this is the permission for you!</p>
+    <p class="mb-2"><strong>authenticated</strong> - Users of the site who have confirmed their email address can see which events you are attending. Recommended for those who have an audience, but still want some protections around their events.</p>
+    <p class="mb-2"><strong>friends</strong> - Only profiles that you have friended can see which events you will attend. This is the default. If someone friends you, they will not see your events until you friend them.</p>
+    <p class="mb-3"><strong>myself</strong> - You are the only one who can see which events you are attending. Admins can still view your events for moderation purposes. Intended for bad situations where you need to hide info in a hurry, and people who'd just like to use the app as a diary for events they've attended.</p>
+    <%= link_to "Back to Form", "#top" %>
+  <% end %>
 </div>
