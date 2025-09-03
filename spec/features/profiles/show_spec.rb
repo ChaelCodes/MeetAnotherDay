@@ -53,14 +53,5 @@ describe "Profile" do
         expect(page).to have_link "a link", href: "https://example.com"
       end
     end
-
-    context "when user is admin" do
-      let(:user) { create :user, :admin }
-
-      it "allows user to destroy profile" do
-        expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).to have_button "Delete"
-      end
-    end
   end
 end

@@ -39,7 +39,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def update?
-    mine?
+    mine? || admin?
   end
 
   def destroy?

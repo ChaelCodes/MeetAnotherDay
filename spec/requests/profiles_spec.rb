@@ -343,12 +343,10 @@ RSpec.describe "/profiles" do
         let(:profile) { create :profile, handle: "Foo" }
         let(:user) { create :user, :admin }
 
-        include_examples "unauthorized access"
-
-        it "does not update the profile" do
+        it "updates the profile" do
           patch_update
           profile.reload
-          expect(profile.handle).to eq "Foo"
+          expect(profile.handle).to eq "ChaelChats"
         end
       end
     end

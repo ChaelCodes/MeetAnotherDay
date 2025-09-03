@@ -26,4 +26,17 @@ describe "Profile" do
       expect(profile.handle).to eq("ChaelChats")
     end
   end
+
+  context "when user is admin" do
+    let(:user) { create :user, :admin }
+
+    it "allows user to destroy profile" do
+      # Do not allow admin to edit profiles
+      expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
+      expect(page).to have_content "Danger Zone"
+      expect(page).to have_button "Delete"
+      click_button "Delete"
+      expect(page).to have_content("Profile was successfully destroyed.")
+    end
+  end
 end
