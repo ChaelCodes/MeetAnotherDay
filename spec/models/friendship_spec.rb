@@ -55,6 +55,41 @@ RSpec.describe Friendship do
     end
   end
 
+  describe "#manage_notification" do
+    let(:buddy) { create :profile }
+    let(:friend) { create :profile }
+
+    context "when friendship status changes from requested to accepted" do
+      let!(:friendship) { create :friendship, :requested, buddy:, friend: }
+      let!(:notification) { Notification.find_by(notifiable: friendship) }
+
+      it "removes the notification" do
+        expect(notification).to be_present
+        expect { friendship.update!(status: :accepted) }.to change(Notification, :count).by(-1)
+      end
+    end
+
+    context "when friendship status changes from requested to blocked" do
+      let!(:friendship) { create :friendship, :requested, buddy:, friend: }
+      let!(:notification) { Notification.find_by(notifiable: friendship) }
+
+      it "removes the notification" do
+        expect(notification).to be_present
+        expect { friendship.update!(status: :blocked) }.to change(Notification, :count).by(-1)
+      end
+    end
+
+    context "when friendship is destroyed" do
+      let!(:friendship) { create :friendship, :requested, buddy:, friend: }
+      let!(:notification) { Notification.find_by(notifiable: friendship) }
+
+      it "removes the notification" do
+        expect(notification).to be_present
+        expect { friendship.destroy! }.to change(Notification, :count).by(-1)
+      end
+    end
+  end
+
   describe "#to_s" do
     subject { friendship.to_s }
 
