@@ -18,6 +18,7 @@ pickle-email-*.html
 !/tmp/.keep
 
 # Ignore bundler caches - use caching in CI instead
+.bundle/config
 /vendor/bundle
 /vendor/cache
 
