@@ -34,7 +34,7 @@ describe "Events" do
       it "allows user to edit and destroy event" do
         expect(page).to have_content "RubyConf"
         expect(page).to have_link "Edit", href: edit_event_path(event)
-        expect(page).to have_button "Delete"
+        expect(page).not_to have_button "Delete"
       end
     end
   end

@@ -40,5 +40,7 @@
     <%= qr_code(event_url(@event)) %>
   </section>
 
-  <div class="section"><%= buttons(@event, include_nav: true) %></div>
+  <div class="section">
+    <%= buttons(@event, include_nav: true, include_delete: false) %>
+  </div>
 </div>
