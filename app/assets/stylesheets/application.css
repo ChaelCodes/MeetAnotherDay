@@ -13,6 +13,149 @@
  *= require_tree .
  *= require_self
  */
+
+/* Bulma Color Customization - Horizon Theme */
+/* Primary Color: #B877DB */
+.button.is-primary {
+  background-color: #B877DB;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-primary:hover,
+.button.is-primary.is-hovered {
+  background-color: #a866d1;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-primary:focus,
+.button.is-primary.is-focused {
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-primary:active,
+.button.is-primary.is-active {
+  background-color: #9955c7;
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Link Color: #E95678 */
+a {
+  color: #E95678;
+}
+
+a:hover {
+  color: #e43f65;
+}
+
+.button.is-link {
+  background-color: #E95678;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-link:hover,
+.button.is-link.is-hovered {
+  background-color: #e43f65;
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Info Color: #25B2BC */
+.button.is-info {
+  background-color: #25B2BC;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-info:hover,
+.button.is-info.is-hovered {
+  background-color: #209ca6;
+  border-color: transparent;
+  color: #fff;
+}
+
+.message.is-info {
+  background-color: #e6f7f8;
+}
+
+.message.is-info .message-header {
+  background-color: #25B2BC;
+  color: #fff;
+}
+
+/* Success Color: #09F7A0 */
+.button.is-success {
+  background-color: #09F7A0;
+  border-color: transparent;
+  color: #000;
+}
+
+.button.is-success:hover,
+.button.is-success.is-hovered {
+  background-color: #08de90;
+  border-color: transparent;
+  color: #000;
+}
+
+.message.is-success {
+  background-color: #e8fef7;
+}
+
+.message.is-success .message-header {
+  background-color: #09F7A0;
+  color: #000;
+}
+
+/* Warning Color: #F09383 */
+.button.is-warning {
+  background-color: #F09383;
+  border-color: transparent;
+  color: #000;
+}
+
+.button.is-warning:hover,
+.button.is-warning.is-hovered {
+  background-color: #ed7a67;
+  border-color: transparent;
+  color: #000;
+}
+
+.message.is-warning {
+  background-color: #fef4f2;
+}
+
+.message.is-warning .message-header {
+  background-color: #F09383;
+  color: #000;
+}
+
+/* Error/Danger Color: #F43E5C */
+.button.is-danger {
+  background-color: #F43E5C;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-danger:hover,
+.button.is-danger.is-hovered {
+  background-color: #f22144;
+  border-color: transparent;
+  color: #fff;
+}
+
+.message.is-danger {
+  background-color: #feecef;
+}
+
+.message.is-danger .message-header {
+  background-color: #F43E5C;
+  color: #fff;
+}
+
 .footer {
   margin-top: 2rem;
   padding-bottom: 2rem;
