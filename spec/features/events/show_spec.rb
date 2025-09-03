@@ -19,23 +19,84 @@ describe "Events" do
     expect(page).to have_css ".qr-code-container"
   end
 
-  context "when user logged in" do
+  it "does not allow you to attend" do
+    expect(page).not_to have_button "Attend"
+  end
+
+  context "when user without profile" do
     let(:user) { create :user }
 
     it "shows the event" do
       expect(page).to have_content "RubyConf"
       expect(page).not_to have_link "Edit", href: edit_event_path(event)
       expect(page).not_to have_button "Delete"
+      expect(page).not_to have_button "Attend"
+    end
+  end
+
+  context "when user with profile" do
+    let(:profile) { create :profile }
+    let(:user) { profile.user }
+
+    it "allows profile to attend" do
+      expect(page).not_to have_link "Edit", href: edit_event_path(event)
+      expect(page).not_to have_button "Delete"
+      expect(page).to have_button "Attend"
+      click_button "Attend"
+      expect(EventAttendee.find_by(event:, profile:)).to be_present
+    end
+  end
+
+  context "when profile is attending" do
+    let(:event_attendee) { create :event_attendee, event: }
+    let(:profile) { event_attendee.profile }
+    let(:user) { profile.user }
+
+    it "shows attending message" do
+      expect(page).to have_content "You are attending this event."
+      expect(page).to have_link "attending", href: event_attendee_path(event_attendee)
+      click_link "attending"
+      expect(page).to have_content profile.name
     end
 
-    context "when user is admin" do
-      let(:user) { create :user, :admin }
+    it "shows cancel attendance button" do
+      expect(page).to have_button "Cancel Attendance"
+      click_button "Cancel Attendance"
+      expect(EventAttendee.find_by(event:, profile:)).not_to be_present
+    end
+  end
 
-      it "allows user to edit and destroy event" do
-        expect(page).to have_content "RubyConf"
-        expect(page).to have_link "Edit", href: edit_event_path(event)
-        expect(page).not_to have_button "Delete"
-      end
+  context "when profile is event organizer" do
+    let(:event_attendee) { create :event_attendee, event:, organizer: true }
+    let(:profile) { event_attendee.profile }
+    let(:user) { profile.user }
+
+    it "shows edit link" do
+      expect(page).to have_link "Edit", href: edit_event_path(event)
+      expect(page).not_to have_button "Delete"
+    end
+
+    it "shows cancel attendance button" do
+      expect(page).to have_button "Cancel Attendance"
+      click_button "Cancel Attendance"
+      expect(EventAttendee.find_by(event:, profile:)).not_to be_present
+    end
+
+    it "shows attending message" do
+      expect(page).to have_content "You are organizing this event."
+      expect(page).to have_link "organizing", href: event_attendee_path(event_attendee)
+      click_link "organizing"
+      expect(page).to have_content profile.name
+    end
+  end
+
+  context "when user is admin" do
+    let(:user) { create :user, :admin }
+
+    it "allows user to edit and destroy event" do
+      expect(page).to have_content "RubyConf"
+      expect(page).to have_link "Edit", href: edit_event_path(event)
+      expect(page).not_to have_button "Delete"
     end
   end
 end

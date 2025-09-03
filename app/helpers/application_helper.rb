@@ -16,9 +16,9 @@ module ApplicationHelper
   end
 
   # Delete Button if the user has permission
-  def delete_button(resource)
+  def delete_button(resource, title: "Delete")
     return unless policy(resource).destroy?
-    button_to("Delete",
+    button_to(title,
               url_for(resource),
               method: :delete,
               data: { confirm: "Are you sure?" },

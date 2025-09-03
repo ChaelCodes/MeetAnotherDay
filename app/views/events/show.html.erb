@@ -1,46 +1,43 @@
 <div class="container">
-  <div class="section">
+  <section class="section">
     <div class="columns">
       <div class="column">
         <h1 class="title"><%= @event.name %></h1>
         <p class="subtitle"><%= date_range(@event) %></p>
-        <div class="content">
+
+        <% if @event_attendee %>
+          <div class="block">
+            <%= render "components/message", css_class: "is-info" do %>
+              You are <%= link_to @event_attendee.organizer? ? "organizing" : "attending", event_attendee_path(@event_attendee) %> this event.
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="content block">
           <%= kramdown(@event.description) %>
         </div>
 
+        <div class="block">
+          <%= qr_code(event_url(@event)) %>
+        </div>
+
+        <div class="block">
+          <%= buttons(@event, include_nav: true, include_delete: false) %>
+        </div>
       </div>
 
       <div class="column is-one-quarter">
-        <div class="mb-3">
-          <% if current_user&.profile&.attending? @event %>
-            <%= button_to "Cancel Attendance",
-            { controller: :event_attendees,
-            action: :destroy,
-            id: current_user&.profile&.event_attendee(@event)&.first&.id },
-            method: :delete,
-            class: "button is-danger" %>
-          <% elsif current_user %>
-            <%= button_to "Attend",
-              event_attendees_path(
-                event_attendee: {
-                                  profile_id: current_user.profile&.id,
-                                  event_id: @event.id
-                              }
-            ),
-            action: "create",
-            class: "button is-primary" %>
+        <div class="block">
+          <% if @event_attendee %>
+            <%= delete_button @event_attendee, title: "Cancel Attendance" %>
+          <% elsif current_user&.profile %>
+            <%= attend_event_button event: @event, profile: current_user.profile %>
           <% end %>
         </div>
-        <%= render "event_attendees/list", event_attendees: @event_attendees %>
+        <div class="block">
+          <%= render "event_attendees/list", event_attendees: @event_attendees %>
+        </div>
       </div>
     </div>
-  </div>
-
-  <section class="section">
-    <%= qr_code(event_url(@event)) %>
   </section>
-
-  <div class="section">
-    <%= buttons(@event, include_nav: true, include_delete: false) %>
-  </div>
 </div>
