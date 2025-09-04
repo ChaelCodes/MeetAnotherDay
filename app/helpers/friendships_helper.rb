@@ -92,7 +92,7 @@ module FriendshipsHelper
   end
 
   def view_friendship(friendship)
-    link_to friendship
+    link_to "View", friendship, class: "button is-info"
   end
 
   def relationship_buttons(relationship)

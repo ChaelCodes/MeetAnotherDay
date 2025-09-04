@@ -1,51 +1,46 @@
-<div class="container">
+<section class="section">
   <h1 class="title">Friendships</h1>
-  <% if @profile.present? %>
-    <% if @friend_requests.present? %>
-      <table class="table friend-requests">
-        <thead><tr>
-          <th colspan="3">You have Friend Requests!</th>
-        </tr></thead>
-        <% @friend_requests.each do |friendship| %>
-          <tr>
-            <td><%= link_to friendship.friend %></td>
-            <td><%= view_friendship(friendship) %></td>
-            <td><%= accept_friendship_button(friendship, current_user&.profile) %></td>
-          </tr>
-        <% end %>
-      </table>
-    <% end %>
-
-    <table class="table">
-      <thead>
+  <% if @friend_requests.present? %>
+    <table class="table friend-requests is-fullwidth">
+      <thead><tr>
+        <th colspan="2">You have Friend Requests!</th>
+      </tr></thead>
+      <% @friend_requests.each do |friendship| %>
         <tr>
-          <th colspan="3">Friends</th>
+          <td><%= profile_with_icon(friendship.friend) %></td>
+          <td class="has-text-right"><%= view_friendship(friendship) %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @friendships.each do |friendship| %>
-          <tr>
-            <td><%= link_to friendship.friend %></td>
-            <td><%= view_friendship(friendship) %></td>
-          </tr>
-        <% end %>
-      </tbody>
+      <% end %>
     </table>
-
-    <% if @outgoing_friend_requests.present? %>
-      <table class="table">
-        <thead><tr>
-          <th colspan="2">Requests awaiting response</th>
-        </tr></thead>
-        <% @outgoing_friend_requests.each do |friendship| %>
-          <tr>
-            <td><%= link_to friendship.buddy %></td>
-            <td><%= link_to friendship %></td>
-          </tr>
-        <% end %>
-      </table>
-    <% end %>
-  <% else %>
-    <h2><%= link_to "Make a Profile", new_profile_path %> to start making friends!</h2>
   <% end %>
-</div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th colspan="2">Friends</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @friendships.each do |friendship| %>
+        <tr>
+          <td><%= profile_with_icon(friendship.friend) %></td>
+          <td class="has-text-right"><%= view_friendship(friendship) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if @outgoing_friend_requests.present? %>
+    <table class="table is-fullwidth">
+      <thead><tr>
+        <th colspan="2">Requests awaiting response</th>
+      </tr></thead>
+      <% @outgoing_friend_requests.each do |friendship| %>
+        <tr>
+          <td><%= profile_with_icon(friendship.buddy) %></td>
+          <td class="has-text-right"><%= view_friendship(friendship) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</section>
