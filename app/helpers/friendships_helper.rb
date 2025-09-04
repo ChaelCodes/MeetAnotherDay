@@ -2,17 +2,6 @@
 
 # methods to help with displaying friendship!
 module FriendshipsHelper
-  # Show likely Friendship options
-  def friendship_button(friendship, current_profile)
-    return nil unless friendship && current_profile
-    safe_join([
-      accept_friendship_button(friendship, current_profile),
-      befriend_button(friendship, current_profile),
-      request_friend_button(friendship, current_profile),
-      block_button(friendship, current_profile)
-    ].compact)
-  end
-
   # Accept a Friendship Request
   def accept_friendship_button(friendship, current_profile)
     return nil unless friendship&.requested? && friendship&.persisted?
