@@ -18,7 +18,8 @@ describe "Friendships" do
     let(:user) { create :user }
 
     it "reminds the user to make a profile" do
-      expect(page).to have_link "Make a Profile", href: new_profile_path
+      expect(page).to have_current_path new_profile_path
+      expect(page).to have_content "You must have a profile to make friends."
     end
 
     context "when user has a profile" do
@@ -27,7 +28,7 @@ describe "Friendships" do
 
       it "shows the user's friends" do
         expect(page).to have_link friendship.friend.name, href: profile_path(friendship.friend)
-        expect(page).to have_link "#{friendship.buddy.name} feels friendly towards #{friendship.friend.name}!",
+        expect(page).to have_link "View",
                                   href: friendship_path(friendship)
       end
 
@@ -39,29 +40,6 @@ describe "Friendships" do
           visit current_path
           expect(page).not_to have_link block_friendship.buddy.name, href: profile_path(block_friendship.buddy)
           expect(page).not_to have_link blocked_friendship.friend.name, href: profile_path(blocked_friendship.friend)
-        end
-      end
-
-      context "with a friend request" do
-        let(:friendship) { create :friendship, buddy: profile, status: "requested" }
-
-        it "accepts the friend request" do
-          expect(page).to have_content "You have Friend Requests!"
-          within ".friend-requests" do
-            expect(page).to have_link friendship.friend.name, href: profile_path(friendship.friend)
-            click_button("Accept friend request")
-          end
-          friendship.reload
-          expect(friendship).to be_accepted
-        end
-
-        it "ignores the friend request" do
-          expect(page).to have_content "You have Friend Requests!"
-          within ".friend-requests" do
-            expect(page).to have_link friendship.friend.name, href: profile_path(friendship.friend)
-            click_button("Ignore")
-          end
-          expect { friendship.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end

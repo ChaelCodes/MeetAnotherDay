@@ -22,9 +22,9 @@ RSpec.describe "/friendships" do
     context "when user is signed in" do
       let(:user) { create :user }
 
-      it "renders a successful response" do
+      it "redirect to new profile page", :aggregate_failures do
         get_index
-        expect(response).to be_successful
+        expect(response).to redirect_to new_profile_path
       end
 
       context "when user has profile" do

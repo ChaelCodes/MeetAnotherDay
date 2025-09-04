@@ -5,10 +5,10 @@ class FriendshipsController < ApplicationController
   before_action :authenticate_user!
   before_action :create_friendship, only: :create
   before_action :set_friendship, only: %i[show edit update destroy]
+  before_action :profile_warning, only: %i[index]
 
   # GET /friendships or /friendships.json
   def index
-    return unless current_user.profile
     @profile = current_profile
     @friend_requests = @profile.friend_requests
     @outgoing_friend_requests = policy_scope(Friendship.requested.where(friend_id: @profile.id))
@@ -16,7 +16,14 @@ class FriendshipsController < ApplicationController
   end
 
   # GET /friendships/1 or /friendships/1.json
-  def show; end
+  def show
+    @relationship =
+      if @friendship.buddy == current_profile
+        Relationship.new(friendship: @friendship)
+      else
+        Relationship.new(profile: current_profile, other_profile: @friendship.buddy)
+      end
+  end
 
   # GET /friendships/new
   def new
@@ -63,6 +70,12 @@ class FriendshipsController < ApplicationController
   end
 
   private
+
+  def profile_warning
+    return if current_profile
+    flash[:alert] = "You must have a profile to make friends."
+    redirect_to new_profile_path
+  end
 
   def create_friendship
     @friendship = Friendship.new(friendship_params)
