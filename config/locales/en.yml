@@ -8,11 +8,11 @@ en:
         event:
           attributes:
             handle:
-              invalid: "only allows letters and numbers"
+              invalid: "only allows letters, numbers, underscores, and hyphens"
         profile:
           attributes:
             handle:
-              invalid: "only allows letters and numbers"
+              invalid: "only allows letters, numbers, underscores, and hyphens"
   event_attendees:
     list:
       buddies_attending:

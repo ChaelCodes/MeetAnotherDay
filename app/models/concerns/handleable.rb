@@ -5,7 +5,7 @@
 module Handleable
   extend ActiveSupport::Concern
 
-  URL_POSSIBLE_REGEX = /\A[A-z0-9\-]+\z/
+  URL_POSSIBLE_REGEX = /\A[A-Za-z0-9\-_]+\z/
 
   included do
     validates :handle, presence: true,
