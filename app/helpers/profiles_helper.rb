@@ -14,6 +14,13 @@ module ProfilesHelper
       "?s=#{size}&d=retro&r=pg"
   end
 
+  def profile_with_icon(profile, link: true)
+    tag.span class: "icon-text" do
+      tag.span(image_tag(profile_picture(profile.email), alt: "Profile pic"), class: "icon") +
+        tag.span(link ? link_to(profile) : profile.name)
+    end
+  end
+
   def unauthorized_message(profile, blocked: false)
     return UNAUTHORIZED_PROFILE_MESSAGES[:myself] if blocked
     UNAUTHORIZED_PROFILE_MESSAGES.with_indifferent_access[profile.visibility]
