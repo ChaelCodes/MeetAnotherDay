@@ -46,12 +46,14 @@ jobs:
       - name: Setup database
         env:
           POSTGRES_PASSWORD: password
+          BUNDLE_FORCE_RUBY_PLATFORM: true
         run: |
           bundle exec rails db:setup
 
       - name: Validate setup
         env:
           POSTGRES_PASSWORD: password
+          BUNDLE_FORCE_RUBY_PLATFORM: true
         run: |
           echo "Testing database connectivity..."
           bundle exec rails runner \

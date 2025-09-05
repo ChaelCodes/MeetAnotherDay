@@ -20,6 +20,8 @@ jobs:
         bundler-cache: true
     - name: Rubocop
       run: bundle exec rubocop
+      env:
+        BUNDLE_FORCE_RUBY_PLATFORM: true
   test:
     runs-on: ubuntu-latest
     # Only let github read the repository contents
@@ -47,11 +49,13 @@ jobs:
     - name: Setup database
       env:
         POSTGRES_PASSWORD: password
+        BUNDLE_FORCE_RUBY_PLATFORM: true
       run: |
         bundle exec rails db:setup
     - name: Prepare test database
       env:
         POSTGRES_PASSWORD: password
+        BUNDLE_FORCE_RUBY_PLATFORM: true
       run: |
         bundle exec rails db:test:prepare
     - name: RSpec
@@ -59,3 +63,4 @@ jobs:
       env:
         POSTGRES_PASSWORD: password
         CI: true
+        BUNDLE_FORCE_RUBY_PLATFORM: true
