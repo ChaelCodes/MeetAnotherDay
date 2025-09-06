@@ -22,9 +22,7 @@ RSpec.describe Notification do
   describe ".from_friendship" do
     subject { described_class.from_friendship friendship }
 
-    let(:buddy) { create :profile }
-    let(:friend) { create :profile }
-    let(:friendship) { create :friendship, buddy:, friend:, status: }
+    let(:friendship) { create :friendship, status: }
 
     before(:each) do
       # Ensure no pre-existing notifications
@@ -40,7 +38,7 @@ RSpec.describe Notification do
 
       it "creates notification with correct attributes" do
         expect(subject).to have_attributes(
-          profile: buddy,
+          profile: friendship.buddy,
           message: friendship.to_s,
           url: "http://www.example.com/friendships/#{friendship.id}"
         )
@@ -54,7 +52,7 @@ RSpec.describe Notification do
 
     context "when friendship is accepted" do
       let(:status) { :accepted }
-      let!(:existing_notification) { create :notification, notifiable: friendship, profile: buddy }
+      let!(:existing_notification) { create :notification, notifiable: friendship }
 
       it "deletes existing notification" do
         expect { described_class.from_friendship(friendship) }.to change(described_class, :count).by(-1)
@@ -68,7 +66,7 @@ RSpec.describe Notification do
 
     context "when friendship is blocked" do
       let(:status) { :blocked }
-      let!(:existing_notification) { create :notification, notifiable: friendship, profile: buddy }
+      let!(:existing_notification) { create :notification, notifiable: friendship }
 
       it "deletes existing notification" do
         expect { described_class.from_friendship(friendship) }.to change(described_class, :count).by(-1)
@@ -76,7 +74,7 @@ RSpec.describe Notification do
     end
 
     context "when friendship is not persisted" do
-      let(:friendship) { build :friendship, :requested, buddy:, friend: }
+      let(:friendship) { build :friendship, :requested }
 
       it "does not create a notification" do
         expect { subject }.not_to change(described_class, :count)
