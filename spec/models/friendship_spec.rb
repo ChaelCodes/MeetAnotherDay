@@ -74,17 +74,15 @@ RSpec.describe Friendship do
       let!(:notification) { Notification.find_by(notifiable: friendship) }
 
       it "removes the notification" do
-        expect(notification).to be_present
         expect { friendship.update!(status: :blocked) }.to change(Notification, :count).by(-1)
       end
     end
 
     context "when friendship is destroyed" do
       let!(:friendship) { create :friendship, :requested, buddy:, friend: }
-      let!(:notification) { Notification.find_by(notifiable: friendship) }
+      let(:notification) { Notification.find_by(notifiable: friendship) }
 
       it "removes the notification" do
-        expect(notification).to be_present
         expect { friendship.destroy! }.to change(Notification, :count).by(-1)
       end
     end

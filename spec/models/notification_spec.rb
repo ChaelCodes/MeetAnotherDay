@@ -20,23 +20,29 @@ RSpec.describe Notification do
   end
 
   describe ".from_friendship" do
+    subject { described_class.from_friendship friendship }
+
     let(:buddy) { create :profile }
     let(:friend) { create :profile }
     let(:friendship) { create :friendship, buddy:, friend:, status: }
+
+    before(:each) do
+      # Ensure no pre-existing notifications
+      friendship.notifications.destroy_all
+    end
 
     context "when friendship is requested" do
       let(:status) { :requested }
 
       it "creates a notification" do
-        expect { described_class.from_friendship(friendship) }.to change(described_class, :count).by(1)
+        expect { subject }.to change(described_class, :count).by(1)
       end
 
       it "creates notification with correct attributes" do
-        described_class.from_friendship(friendship)
-        notification = described_class.find_by(notifiable: friendship)
-        expect(notification).to have_attributes(
+        expect(subject).to have_attributes(
           profile: buddy,
-          message: friendship.to_s
+          message: friendship.to_s,
+          url: "http://www.example.com/friendships/#{friendship.id}"
         )
       end
 
@@ -69,7 +75,17 @@ RSpec.describe Notification do
       end
     end
 
+    context "when friendship is not persisted" do
+      let(:friendship) { build :friendship, :requested, buddy:, friend: }
+
+      it "does not create a notification" do
+        expect { subject }.not_to change(described_class, :count)
+      end
+    end
+
     context "when friendship is nil" do
+      let(:status) { :requested }
+
       it "does not error" do
         expect { described_class.from_friendship(nil) }.not_to raise_error
       end

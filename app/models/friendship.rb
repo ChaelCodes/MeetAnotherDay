@@ -4,11 +4,11 @@
 # The status describes their feelings towards "friend"
 #   - whether they would like to meet up at an event
 class Friendship < ApplicationRecord
-  include Rails.application.routes.url_helpers
-
   belongs_to :buddy, class_name: "Profile"
   alias profile buddy # At some point, we need to rename buddy to profile
   belongs_to :friend, class_name: "Profile"
+
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   # accepted means that the buddy would like to see which events
   #   friend is attending, and share their own event attendance
@@ -20,8 +20,7 @@ class Friendship < ApplicationRecord
   validates :status, presence: true
   validates :friend, comparison: { other_than: :buddy }
 
-  after_commit :manage_notification, on: %i[create update]
-  after_destroy_commit :cleanup_notification
+  after_commit :manage_notification
 
   def create_notification
     return unless requested?
@@ -31,14 +30,6 @@ class Friendship < ApplicationRecord
 
   def manage_notification
     Notification.from_friendship(self)
-  end
-
-  def cleanup_notification
-    # When friendship is destroyed, clean up any associated notifications
-    Notification.where(notifiable: self).destroy_all
-  rescue StandardError => e
-    # Failing notification cleanup shouldn't block friendship destruction
-    Rails.logger.warn "Failed to cleanup notification for destroyed friendship: #{e.message}"
   end
 
   def self.blocks(profile)
