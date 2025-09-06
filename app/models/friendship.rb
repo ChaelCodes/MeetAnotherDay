@@ -20,13 +20,7 @@ class Friendship < ApplicationRecord
   validates :status, presence: true
   validates :friend, comparison: { other_than: :buddy }
 
-  after_commit :manage_notification
-
-  def create_notification
-    return unless requested?
-    Notification.create_with(message: to_s, url: friendship_url(self, only_path: true))
-                .find_or_create_by(notifiable: self, profile: buddy)
-  end
+  after_commit :manage_notification, on: %i[create update]
 
   def manage_notification
     Notification.from_friendship(self)
