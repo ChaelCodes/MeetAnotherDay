@@ -24,20 +24,88 @@ RSpec.describe "/event_attendees" do
   end
 
   describe "GET /index" do
-    subject(:get_index) { get event_attendees_url, params: { format: :json } }
+    subject(:get_index) { get event_attendees_url, params: }
+
+    let(:params) { { format: :json } }
 
     context "when user is logged in" do
       let!(:event_attendee) { create_list :event_attendee, 2, organizer: true }
       let(:user) { event_attendee[0].profile.user }
 
-      it "renders a successful response" do
-        get_index
-        expect(json_body.pluck("profile_id")).to include(event_attendee[0].profile_id)
+      context "without event_id parameter" do
+        it "renders a successful response" do
+          get_index
+          expect(json_body["event_attendees"].pluck("profile_id")).to include(event_attendee[0].profile_id)
+        end
+
+        it "don't render other users records" do
+          get_index
+          expect(json_body["event_attendees"].pluck("profile_id")).not_to include(event_attendee[1].profile_id)
+        end
+
+        it "includes pagination links" do
+          get_index
+          expect(json_body).to have_key("links")
+        end
       end
 
-      it "don't render other users records" do
-        get_index
-        expect(json_body.pluck("profile_id")).not_to include(event_attendee[1].profile_id)
+      context "with event_id parameter" do
+        let!(:event) { create :event }
+        let!(:event_attendee_list) { create_list :event_attendee, 3, event: }
+        let(:params) { { format: :json, event_id: event.id } }
+
+        before do
+          # Make all profiles visible to everyone for this test
+          event_attendee_list.each { |ea| ea.profile.update!(visibility: 'everyone') }
+        end
+
+        it "returns attendees for the specified event" do
+          get_index
+          expect(json_body["event_attendees"].length).to eq(3)
+          expect(json_body["event_attendees"].pluck("event_id")).to all(eq(event.id))
+        end
+
+        it "includes pagination links" do
+          get_index
+          expect(json_body).to have_key("links")
+        end
+
+        context "with pagination" do
+          let!(:many_attendees) { create_list :event_attendee, 15, event: }
+          let(:params) { { format: :json, event_id: event.id, page: { number: 2 } } }
+
+          before do
+            many_attendees.each { |ea| ea.profile.update!(visibility: 'everyone') }
+          end
+
+          it "paginates the results" do
+            get_index
+            expect(json_body["event_attendees"].count).to be <= 10
+            expect(json_body["links"]).to have_key("prev")
+          end
+        end
+
+        context "with different profile visibilities" do
+          let!(:public_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'everyone') }
+          let!(:private_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'myself') }
+          let!(:friends_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'friends') }
+          let!(:authenticated_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'authenticated') }
+
+          it "respects profile visibility settings" do
+            get_index
+            returned_profile_ids = json_body["event_attendees"].pluck("profile_id")
+            
+            # Should include public and authenticated profiles
+            expect(returned_profile_ids).to include(public_attendee.profile_id)
+            expect(returned_profile_ids).to include(authenticated_attendee.profile_id)
+            
+            # Should not include private profiles
+            expect(returned_profile_ids).not_to include(private_attendee.profile_id)
+            
+            # Should not include friends-only profiles (since we're not friends)
+            expect(returned_profile_ids).not_to include(friends_attendee.profile_id)
+          end
+        end
       end
     end
   end

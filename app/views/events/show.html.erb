@@ -36,6 +36,9 @@
         </div>
         <div class="block">
           <%= render "event_attendees/list", event_attendees: @event_attendees %>
+          <div class="has-text-centered mt-3">
+            <%= link_to "All Attendees", event_attendees_path(event_id: @event.id), class: "button is-small is-link" %>
+          </div>
         </div>
       </div>
     </div>
