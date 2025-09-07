@@ -19,6 +19,23 @@ RSpec.describe Profile do
         expect(duplicate_handle.errors.full_messages).to include("Handle has already been taken")
       end
     end
+
+    context "with duplicate user" do
+      let(:duplicate_user_profile) { build :profile, user: profile.user }
+
+      it "does not allow two profiles for the same user" do
+        profile
+        duplicate_user_profile.valid?
+        expect(duplicate_user_profile.errors.full_messages).to include("User has already been taken")
+      end
+
+      it "prevents saving a second profile for the same user" do
+        profile
+        duplicate_user_profile = build :profile, user: profile.user, handle: "different_handle"
+        expect { duplicate_user_profile.save! }.to raise_error(ActiveRecord::RecordInvalid,
+                                                               /User has already been taken/)
+      end
+    end
   end
 
   describe "#attending?" do

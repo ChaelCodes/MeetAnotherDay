@@ -6,6 +6,9 @@
 class Profile < ApplicationRecord
   include ::Handleable
 
+  # Validations
+  validates :user_id, uniqueness: true # rubocop:disable Rails/UniqueValidationWithoutIndex
+
   # Attributes
   enum visibility: {
     myself: 0,
