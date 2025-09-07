@@ -4,11 +4,11 @@
 # The status describes their feelings towards "friend"
 #   - whether they would like to meet up at an event
 class Friendship < ApplicationRecord
-  include Rails.application.routes.url_helpers
-
   belongs_to :buddy, class_name: "Profile"
   alias profile buddy # At some point, we need to rename buddy to profile
   belongs_to :friend, class_name: "Profile"
+
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   # accepted means that the buddy would like to see which events
   #   friend is attending, and share their own event attendance
@@ -20,12 +20,10 @@ class Friendship < ApplicationRecord
   validates :status, presence: true
   validates :friend, comparison: { other_than: :buddy }
 
-  after_create_commit :create_notification
+  after_commit :manage_notification, on: %i[create update]
 
-  def create_notification
-    return unless requested?
-    Notification.create_with(message: to_s, url: friendship_url(self, only_path: true))
-                .find_or_create_by(notifiable: self, profile: buddy)
+  def manage_notification
+    Notification.from_friendship(self)
   end
 
   def self.blocks(profile)

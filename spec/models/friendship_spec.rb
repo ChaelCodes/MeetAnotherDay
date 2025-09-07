@@ -14,43 +14,58 @@ RSpec.describe Friendship do
     it { expect(friendship).not_to be_valid }
   end
 
-  describe "#create_notification" do
-    subject { friendship } # create_notification is called in an after_create callback
+  describe "#manage_notification" do
+    context "when friendship is created as accepted" do
+      let!(:friendship) { create :friendship, :accepted }
 
-    let(:friendship) { create :friendship, status: }
-    let(:notification) { Notification.find_by(notifiable: friendship) }
-
-    context "when profile is following a friend" do
-      let(:status) { :accepted }
-
-      it "does not create a new notification" do
-        expect { subject }.not_to change(Notification, :count)
+      it "does not create a notification" do
+        expect(Notification.find_by(notifiable: friendship)).to be_nil
       end
     end
 
-    context "when profile is blocking a 'friend'" do
-      let(:status) { :blocked }
+    context "when friendship is created as blocked" do
+      let!(:friendship) { create :friendship, :blocked }
 
-      it "does not create a new notification" do
-        expect { subject }.not_to change(Notification, :count)
+      it "does not create a notification" do
+        expect(Notification.find_by(notifiable: friendship)).to be_nil
       end
     end
 
-    context "when requesting a friend" do
-      let(:status) { :requested }
+    context "when creating a friendship request" do
+      let!(:friendship) { create :friendship, :requested }
+      let(:notification) { Notification.find_by(notifiable: friendship) }
 
-      it "creates a new notification" do
-        expect { subject }.to change(Notification, :count).by(1)
-      end
-
-      it "creates a notification for the friend request" do
-        friendship # Creates Friendship and Notification
+      it "creates a notification" do
         expect(notification).to have_attributes(
           {
             message: "Chael wants to be friends with Chael!",
             profile: friendship.buddy
           }
         )
+      end
+    end
+
+    context "when friendship status changes from requested to accepted" do
+      let!(:friendship) { create :friendship, :requested }
+
+      it "removes the notification" do
+        expect { friendship.update(status: :accepted) }.to change(Notification, :count).by(-1)
+      end
+    end
+
+    context "when friendship status changes from requested to blocked" do
+      let!(:friendship) { create :friendship, :requested }
+
+      it "removes the notification" do
+        expect { friendship.update(status: :blocked) }.to change(Notification, :count).by(-1)
+      end
+    end
+
+    context "when friendship is destroyed" do
+      let!(:friendship) { create :friendship, :requested }
+
+      it "removes the notification" do
+        expect { friendship.destroy }.to change(Notification, :count).by(-1)
       end
     end
   end
