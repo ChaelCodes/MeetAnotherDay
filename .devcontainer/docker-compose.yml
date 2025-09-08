@@ -1,26 +1,28 @@
-version: '3.8'
-services:
-  # Update this to the name of the service you want to work with in your docker-compose.yml file
-  web:
-    # Uncomment if you want to override the service's Dockerfile to one in the .devcontainer 
-    # folder. Note that the path of the Dockerfile and context is relative to the *primary* 
-    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
-    # array). The sample below assumes your primary file is in the root of your project.
-    #
-    # build:
-    #   context: .
-    #   dockerfile: .devcontainer/Dockerfile
+# This file is not currently working, nor in use
 
+services:
+  web:
+    build: ..
+    # command: sleep infinity # Overrides default command so things don't shut down after the process ends.
+    depends_on:
+      - db
+    env_file:
+      - ../config/docker.env
+    ports:
+      - "3000:3000"
     volumes:
       # Update this to wherever you want VS Code to mount the folder of your project
-      - ../..:/workspaces:cached
+      - "../:/app"
 
-    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
-    # cap_add:
-    #   - SYS_PTRACE
-    # security_opt:
-    #   - seccomp:unconfined
+  db:
+    image: postgres:13
+    env_file:
+      - ../config/docker.env
+    ports:
+      - "5432"
+    volumes:
+      - data:/var/lib/postgresql/data
 
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
- 
+volumes:
+  # Volume to hold the Postgres database on the host system
+  data:
