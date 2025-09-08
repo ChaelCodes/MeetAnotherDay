@@ -50,7 +50,7 @@ RSpec.describe "/event_attendees" do
       end
     end
 
-    context "with event_id parameter", :agggregate_failures do
+    context "with event_id parameter", :aggregate_failures do
       let(:event) { create :event }
       let!(:event_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
       let!(:other_event_attendee) { create :event_attendee }
