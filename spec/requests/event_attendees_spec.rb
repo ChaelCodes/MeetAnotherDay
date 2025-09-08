@@ -27,84 +27,101 @@ RSpec.describe "/event_attendees" do
     subject(:get_index) { get event_attendees_url, params: }
 
     let(:params) { { format: :json } }
+    let(:user) { create :user }
+    let(:profile) { create :profile, user: }
 
-    context "when user is logged in" do
-      let!(:event_attendee) { create_list :event_attendee, 2, organizer: true }
-      let(:user) { event_attendee[0].profile.user }
+    context "without event_id parameter" do
+      let!(:event_attendee) { create :event_attendee, profile: }
+      let!(:other_event_attendee) { create :event_attendee }
 
-      context "without event_id parameter" do
-        it "renders a successful response" do
-          get_index
-          expect(json_body["event_attendees"].pluck("profile_id")).to include(event_attendee[0].profile_id)
-        end
-
-        it "don't render other users records" do
-          get_index
-          expect(json_body["event_attendees"].pluck("profile_id")).not_to include(event_attendee[1].profile_id)
-        end
-
-        it "includes pagination links" do
-          get_index
-          expect(json_body).to have_key("links")
-        end
+      it "returns your event attendees" do
+        get_index
+        expect(json_body["event_attendees"].pluck("profile_id")).to include(event_attendee.profile_id)
       end
 
-      context "with event_id parameter" do
-        let!(:event) { create :event }
-        let!(:event_attendee_list) { create_list :event_attendee, 3, event: }
-        let(:params) { { format: :json, event_id: event.id } }
+      it "don't render other users records" do
+        get_index
+        expect(json_body["event_attendees"].pluck("profile_id")).not_to include(other_event_attendee.profile_id)
+      end
 
-        before do
-          # Make all profiles visible to everyone for this test
-          event_attendee_list.each { |ea| ea.profile.update!(visibility: 'everyone') }
+      it "includes pagination links" do
+        get_index
+        expect(json_body).to have_key("links")
+      end
+    end
+
+    context "with event_id parameter", :agggregate_failures do
+      let(:event) { create :event }
+      let!(:event_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
+      let!(:other_event_attendee) { create :event_attendee }
+      let(:params) { { format: :json, event_id: event.id } }
+
+      it "returns attendees for the specified event", :aggregate_failures do
+        get_index
+        event_attendees = json_body["event_attendees"]
+        expect(event_attendees.length).to eq 1
+        expect(event_attendees.pluck("id")).to include event_attendee.id
+        expect(event_attendees.pluck("id")).not_to include other_event_attendee.id
+      end
+
+      it "includes pagination links" do
+        get_index
+        expect(json_body).to have_key("links")
+      end
+
+      context "with different profile visibilities", :aggregate_failures do
+        let(:friend) { create :profile, visibility: "friends" }
+        let!(:friendship) { create :friendship, buddy: friend, friend: profile, status: "accepted" }
+        let(:stranger) { create :profile, visibility: "friends" }
+        let!(:everyone_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
+        let!(:authenticated_attendee) do
+          create :event_attendee, event:, profile: create(:profile, visibility: "authenticated")
         end
+        let!(:friends_attendee) { create :event_attendee, event:, profile: friend }
+        let!(:stranger_attendee) { create :event_attendee, event:, profile: stranger }
+        let!(:myself_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "myself") }
 
-        it "returns attendees for the specified event" do
+        it "respects profile visibility settings", :aggregate_failures do
           get_index
-          expect(json_body["event_attendees"].length).to eq(3)
-          expect(json_body["event_attendees"].pluck("event_id")).to all(eq(event.id))
-        end
+          event_attendee_ids = json_body["event_attendees"].pluck("id")
 
-        it "includes pagination links" do
+          expect(event_attendee_ids.count).to eq 4
+          expect(event_attendee_ids).to include(event_attendee.id)
+          expect(event_attendee_ids).to include(everyone_attendee.id)
+          expect(event_attendee_ids).to include(authenticated_attendee.id)
+          expect(event_attendee_ids).to include(friends_attendee.id)
+          expect(event_attendee_ids).not_to include(stranger_attendee.id)
+          expect(event_attendee_ids).not_to include(myself_attendee.id)
+        end
+      end
+    end
+
+    context "with 10+ records" do
+      let!(:event_attendee) { create_list :event_attendee, 11, profile: }
+
+      it "paginates the results", :aggregate_failures do
+        get_index
+        event_attendees = json_body["event_attendees"]
+        links = json_body["links"]
+        expect(event_attendees.count).to eq 10
+        expect(links["first"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+        expect(links["last"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+        expect(links["prev"]).to be_nil
+        expect(links["next"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+      end
+
+      context "when on second page" do
+        let(:params) { { format: :json, page: { number: 2 } } }
+
+        it "paginates the results", :aggregate_failures do
           get_index
-          expect(json_body).to have_key("links")
-        end
-
-        context "with pagination" do
-          let!(:many_attendees) { create_list :event_attendee, 15, event: }
-          let(:params) { { format: :json, event_id: event.id, page: { number: 2 } } }
-
-          before do
-            many_attendees.each { |ea| ea.profile.update!(visibility: 'everyone') }
-          end
-
-          it "paginates the results" do
-            get_index
-            expect(json_body["event_attendees"].count).to be <= 10
-            expect(json_body["links"]).to have_key("prev")
-          end
-        end
-
-        context "with different profile visibilities" do
-          let!(:public_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'everyone') }
-          let!(:private_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'myself') }
-          let!(:friends_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'friends') }
-          let!(:authenticated_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: 'authenticated') }
-
-          it "respects profile visibility settings" do
-            get_index
-            returned_profile_ids = json_body["event_attendees"].pluck("profile_id")
-            
-            # Should include public and authenticated profiles
-            expect(returned_profile_ids).to include(public_attendee.profile_id)
-            expect(returned_profile_ids).to include(authenticated_attendee.profile_id)
-            
-            # Should not include private profiles
-            expect(returned_profile_ids).not_to include(private_attendee.profile_id)
-            
-            # Should not include friends-only profiles (since we're not friends)
-            expect(returned_profile_ids).not_to include(friends_attendee.profile_id)
-          end
+          event_attendees = json_body["event_attendees"]
+          links = json_body["links"]
+          expect(event_attendees.count).to eq 1
+          expect(links["first"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+          expect(links["last"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+          expect(links["prev"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+          expect(links["next"]).to be_nil
         end
       end
     end

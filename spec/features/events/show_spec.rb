@@ -45,6 +45,12 @@ describe "Events" do
       click_button "Attend"
       expect(EventAttendee.find_by(event:, profile:)).to be_present
     end
+
+    it "navigates to event attendees page when clicking All Attendees" do
+      click_link "All Attendees"
+      expect(page).to have_current_path(event_attendees_path(event_id: event.id))
+      expect(page).to have_content "Event Attendees"
+    end
   end
 
   context "when profile is attending" do
@@ -97,27 +103,6 @@ describe "Events" do
       expect(page).to have_content "RubyConf"
       expect(page).to have_link "Edit", href: edit_event_path(event)
       expect(page).not_to have_button "Delete"
-    end
-  end
-
-  context "when viewing event attendees" do
-    let(:user) { create :user }
-    let(:profile) { create :profile, user: }
-
-    before do
-      # Create some attendees with different visibility levels
-      create :event_attendee, event:, profile: create(:profile, visibility: 'everyone')
-      create :event_attendee, event:, profile: create(:profile, visibility: 'everyone')
-    end
-
-    it "shows All Attendees link" do
-      expect(page).to have_link "All Attendees", href: event_attendees_path(event_id: event.id)
-    end
-
-    it "navigates to event attendees page when clicking All Attendees" do
-      click_link "All Attendees"
-      expect(page).to have_current_path(event_attendees_path(event_id: event.id))
-      expect(page).to have_content "Event Attendees"
     end
   end
 end

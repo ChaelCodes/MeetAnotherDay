@@ -13,7 +13,7 @@ class EventAttendeesController < ApplicationController
                       else
                         EventAttendee.where(profile: current_user.profile)
                       end
-    
+
     @pagy, @event_attendees = pagy(event_attendees, page_param: :number)
     @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
   end
