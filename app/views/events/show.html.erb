@@ -37,6 +37,9 @@
         <div class="block">
           <%= render "event_attendees/list", event_attendees: @event_attendees %>
         </div>
+        <div class="block">
+          <%= link_to "All Attendees", event_attendees_path(event_id: @event.id) %>
+        </div>
       </div>
     </div>
   </section>

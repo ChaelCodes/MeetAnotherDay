@@ -45,6 +45,12 @@ describe "Events" do
       click_button "Attend"
       expect(EventAttendee.find_by(event:, profile:)).to be_present
     end
+
+    it "navigates to event attendees page when clicking All Attendees" do
+      click_link "All Attendees"
+      expect(page).to have_current_path(event_attendees_path(event_id: event.id))
+      expect(page).to have_content "Event Attendees"
+    end
   end
 
   context "when profile is attending" do

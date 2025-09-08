@@ -24,20 +24,105 @@ RSpec.describe "/event_attendees" do
   end
 
   describe "GET /index" do
-    subject(:get_index) { get event_attendees_url, params: { format: :json } }
+    subject(:get_index) { get event_attendees_url, params: }
 
-    context "when user is logged in" do
-      let!(:event_attendee) { create_list :event_attendee, 2, organizer: true }
-      let(:user) { event_attendee[0].profile.user }
+    let(:params) { { format: :json } }
+    let(:user) { create :user }
+    let(:profile) { create :profile, user: }
 
-      it "renders a successful response" do
+    context "without event_id parameter" do
+      let!(:event_attendee) { create :event_attendee, profile: }
+      let!(:other_event_attendee) { create :event_attendee }
+
+      it "returns your event attendees" do
         get_index
-        expect(json_body.pluck("profile_id")).to include(event_attendee[0].profile_id)
+        expect(json_body["event_attendees"].pluck("profile_id")).to include(event_attendee.profile_id)
       end
 
       it "don't render other users records" do
         get_index
-        expect(json_body.pluck("profile_id")).not_to include(event_attendee[1].profile_id)
+        expect(json_body["event_attendees"].pluck("profile_id")).not_to include(other_event_attendee.profile_id)
+      end
+
+      it "includes pagination links" do
+        get_index
+        expect(json_body).to have_key("links")
+      end
+    end
+
+    context "with event_id parameter", :aggregate_failures do
+      let(:event) { create :event }
+      let!(:event_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
+      let!(:other_event_attendee) { create :event_attendee }
+      let(:params) { { format: :json, event_id: event.id } }
+
+      it "returns attendees for the specified event", :aggregate_failures do
+        get_index
+        event_attendees = json_body["event_attendees"]
+        expect(event_attendees.length).to eq 1
+        expect(event_attendees.pluck("id")).to include event_attendee.id
+        expect(event_attendees.pluck("id")).not_to include other_event_attendee.id
+      end
+
+      it "includes pagination links" do
+        get_index
+        expect(json_body).to have_key("links")
+      end
+
+      context "with different profile visibilities", :aggregate_failures do
+        let(:friend) { create :profile, visibility: "friends" }
+        let!(:friendship) { create :friendship, buddy: friend, friend: profile, status: "accepted" }
+        let(:stranger) { create :profile, visibility: "friends" }
+        let!(:everyone_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
+        let!(:authenticated_attendee) do
+          create :event_attendee, event:, profile: create(:profile, visibility: "authenticated")
+        end
+        let!(:friends_attendee) { create :event_attendee, event:, profile: friend }
+        let!(:stranger_attendee) { create :event_attendee, event:, profile: stranger }
+        let!(:myself_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "myself") }
+
+        it "respects profile visibility settings", :aggregate_failures do
+          get_index
+          event_attendee_ids = json_body["event_attendees"].pluck("id")
+
+          expect(event_attendee_ids.count).to eq 4
+          expect(event_attendee_ids).to include(event_attendee.id)
+          expect(event_attendee_ids).to include(everyone_attendee.id)
+          expect(event_attendee_ids).to include(authenticated_attendee.id)
+          expect(event_attendee_ids).to include(friends_attendee.id)
+          expect(event_attendee_ids).not_to include(stranger_attendee.id)
+          expect(event_attendee_ids).not_to include(myself_attendee.id)
+        end
+      end
+    end
+
+    context "with 10+ records" do
+      let!(:event_attendee) { create_list :event_attendee, 11, profile: }
+
+      it "paginates the results", :aggregate_failures do
+        get_index
+        event_attendees = json_body["event_attendees"]
+        links = json_body["links"]
+        expect(event_attendees.count).to eq 10
+        expect(links["first"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+        expect(links["last"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+        expect(links["prev"]).to be_nil
+        expect(links["next"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+      end
+
+      context "when on second page" do
+        let(:params) { { format: :json, page: { number: 2 } } }
+
+        it "paginates the results", :aggregate_failures do
+          get_index
+          event_attendees = json_body["event_attendees"]
+          links = json_body["links"]
+          expect(event_attendees.count).to eq 1
+          expect(links["first"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+          expect(links["last"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+          expect(links["prev"]).to eq "http://www.example.com/event_attendees?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
+          expect(links["next"]).to be_nil
+        end
       end
     end
   end

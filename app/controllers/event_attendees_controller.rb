@@ -8,7 +8,14 @@ class EventAttendeesController < ApplicationController
 
   # GET /event_attendees or /event_attendees.json
   def index
-    @event_attendees = EventAttendee.where(profile: current_user.profile)
+    event_attendees = if params[:event_id].present?
+                        policy_scope(EventAttendee.where(event_id: params[:event_id]))
+                      else
+                        EventAttendee.where(profile: current_user.profile)
+                      end
+
+    @pagy, @event_attendees = pagy(event_attendees, page_param: :number)
+    @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
   end
 
   # GET /event_attendees/1 or /event_attendees/1.json
