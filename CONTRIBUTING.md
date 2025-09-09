@@ -27,7 +27,7 @@ Install the Dev Containers extension, and reopen the folder in a container.
 `gh auth login` will handle auth with github. Please use the same protocol as you used to clone the repo (ssh or https).
 Once you are within the dev container - all commands will be run within the docker container, but you do not need to prepend docker compose.
 Just use `bundle exec rspec`, `bundle exec rails c` or any other commands as normal.
-The server should be running and forwarded to [localhost:3000](localhost:3000).
+Start the serve using `bundle exec rails server -b 0.0.0.0` and it'll be forwarded to [localhost:3000](localhost:3000).
 Extensions in your editor that rely on libraries inside the container - test runners, ruby lsp, and herb will all run perfectly.
 You may need to reenable extensions to run inside the container.
 
@@ -67,7 +67,7 @@ You may need to reenable extensions to run inside the container.
 1. Create the database. `docker compose run --rm web bundle exec rake db:setup`
 
 ## Daily use
-Run `docker compose up -d` will run those services in the background and the application should be available at [localhost:3000](localhost:3000).
+Run `docker compose up -d` will run those services in the background. You can start the application using `bundle exec rails server -b 0.0.0.0` and it should be available at [localhost:3000](localhost:3000).
 Run `docker ps` to see all of the running services which are defined in `docker-compose.yml`.
 
 ## Testing
