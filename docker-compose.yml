@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    command: sleep infinity
     depends_on:
       - db
     env_file:
