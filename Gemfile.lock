@@ -124,6 +124,7 @@ GEM
     ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    herb (0.7.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -241,6 +242,9 @@ GEM
       ffi (~> 1.0)
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
+    reactionview (0.1.2)
+      actionview (>= 7.0)
+      herb (>= 0.7.0, < 1.0.0)
     regexp_parser (2.8.2)
     reline (0.4.3)
       io-console (~> 0.5)
@@ -372,6 +376,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 7.1)
   rails_cloudflare_turnstile (~> 0.4)
+  reactionview (~> 0.1.2)
   rexml
   rqrcode (~> 2.0)
   rspec-rails
