@@ -266,7 +266,7 @@ RSpec.describe "/events" do
 
         it "returns an unprocessable entity code" do
           post_create
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
@@ -306,7 +306,7 @@ RSpec.describe "/events" do
         it "returns an unprocessable entity code" do
           patch_update
           event.reload
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
