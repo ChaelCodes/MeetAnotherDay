@@ -28,12 +28,6 @@ Rails/Exit:
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/Output:
-  Exclude:
-    - 'spec/rails_helper.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
 Rails/RootPathnameMethods:
   Exclude:
     - 'spec/rails_helper.rb'
