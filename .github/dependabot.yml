@@ -9,8 +9,21 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      dependencies:
+        exclude-patterns:
+          - "rails*"
+          - "rubocop*"
+      rails:
+        patterns:
+          - "rails*"
+      rubocop:
+        patterns:
+          - "rubocop*"
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      dependencies:
