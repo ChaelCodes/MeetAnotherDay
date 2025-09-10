@@ -19,7 +19,7 @@ RSpec.describe EventAttendee do
       expect(event_attendee.reload.email_scheduled_on).to be_nil
     end
 
-    it "will not email about event" do
+    it "does not email about event" do
       expect(event_attendee.reload.email_delivered_at).to eq EventAttendee::NEVER_DELIVER
     end
   end
