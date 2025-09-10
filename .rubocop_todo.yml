@@ -21,14 +21,6 @@ Lint/UselessConstantScoping:
   Exclude:
     - 'app/policies/application_policy.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Severity.
-Rails/EnumSyntax:
-  Exclude:
-    - 'app/models/friendship.rb'
-    - 'app/models/profile.rb'
-
 # Offense count: 1
 Rails/Exit:
   Exclude:

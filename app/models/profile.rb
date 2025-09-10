@@ -10,13 +10,13 @@ class Profile < ApplicationRecord
   validates :user_id, uniqueness: true # rubocop:disable Rails/UniqueValidationWithoutIndex
 
   # Attributes
-  enum visibility: {
+  enum :visibility, {
     myself: 0,
     friends: 1,
     # attendees: 2,
     authenticated: 3,
     everyone: 4
-  }, _prefix: :visible_to
+  }, prefix: :visible_to
 
   scope :with_authenticated, -> { where(visibility: %i[everyone authenticated]) }
   scope :nonblocked, ->(profile) { where.not(id: Friendship.blocks(profile).select(:buddy_id)) }

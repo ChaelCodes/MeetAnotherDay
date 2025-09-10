@@ -15,7 +15,7 @@ class Friendship < ApplicationRecord
   # blocked means the buddy wants no relationship nor the friend
   #    to see their profile or visibility into events
   # requested means buddy is considering being friends with friend
-  enum status: { accepted: 0, blocked: 1, requested: 2 }
+  enum :status, { accepted: 0, blocked: 1, requested: 2 }
 
   validates :status, presence: true
   validates :friend, comparison: { other_than: :buddy }
