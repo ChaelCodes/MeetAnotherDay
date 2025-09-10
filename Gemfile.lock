@@ -265,10 +265,10 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.4.3)
-    rqrcode (2.2.0)
+    rqrcode (3.1.0)
       chunky_png (~> 1.0)
-      rqrcode_core (~> 1.0)
-    rqrcode_core (1.2.0)
+      rqrcode_core (~> 2.0)
+    rqrcode_core (2.0.0)
     rspec-core (3.13.5)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -401,7 +401,7 @@ DEPENDENCIES
   rails_cloudflare_turnstile (~> 0.4)
   reactionview (~> 0.1.2)
   rexml
-  rqrcode (~> 2.0)
+  rqrcode (~> 3.1)
   rspec-rails
   rubocop (~> 1.80.2)
   rubocop-capybara

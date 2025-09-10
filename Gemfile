@@ -17,7 +17,7 @@ gem "puma", "~> 6" # Use Puma as the app server
 gem "pundit" # use pundit to control app premissions and policies
 gem "rails_cloudflare_turnstile", "~> 0.4"
 gem "reactionview", "~> 0.1.2"
-gem "rqrcode", "~> 2.0" # Generate QR codes
+gem "rqrcode", "~> 3.1" # Generate QR codes
 gem "sass-rails", ">= 6" # Use SCSS for stylesheets
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"
