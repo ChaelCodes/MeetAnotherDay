@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/actioncable": "^7.0.0",
     "@rails/activestorage": "^7.0.0",
-    "@rails/ujs": "^7.0.0",
+    "@rails/ujs": "^7.1.502",
     "turbolinks": "^5.2.0",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"
