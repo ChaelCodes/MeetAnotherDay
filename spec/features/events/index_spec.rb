@@ -13,14 +13,14 @@ describe "Events" do
 
   it "shows the event" do
     expect(page).to have_link "RubyConf", href: event_path(event)
-    expect(page).not_to have_link "New Event", href: new_event_path
-    expect(page).not_to have_link "Edit", href: edit_event_path(event)
-    expect(page).not_to have_button "Delete"
+    expect(page).to have_no_link "New Event", href: new_event_path
+    expect(page).to have_no_link "Edit", href: edit_event_path(event)
+    expect(page).to have_no_button "Delete"
   end
 
   it "only shows future events" do
     past_event = create :event, :past_event
-    expect(page).not_to have_link past_event.name, href: event_path(past_event)
+    expect(page).to have_no_link past_event.name, href: event_path(past_event)
   end
 
   context "when user logged in but unconfirmed email" do
@@ -28,9 +28,9 @@ describe "Events" do
 
     it "shows the event" do
       expect(page).to have_link "RubyConf", href: event_path(event)
-      expect(page).not_to have_link "New Event", href: new_event_path
-      expect(page).not_to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_link "New Event", href: new_event_path
+      expect(page).to have_no_link "Edit", href: edit_event_path(event)
+      expect(page).to have_no_button "Delete"
     end
   end
 
@@ -40,8 +40,8 @@ describe "Events" do
     it "shows the event" do
       expect(page).to have_link "RubyConf", href: event_path(event)
       expect(page).to have_link "New Event", href: new_event_path
-      expect(page).not_to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_link "Edit", href: edit_event_path(event)
+      expect(page).to have_no_button "Delete"
     end
   end
 end

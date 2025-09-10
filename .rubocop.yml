@@ -62,6 +62,9 @@ RSpec/HookArgument:
 RSpec/ImplicitSubject:
   Enabled: false
 
+RSpec/IncludeExamples:
+  Enabled: false
+
 RSpec/LetSetup:
   Enabled: false
 

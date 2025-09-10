@@ -5,6 +5,7 @@
 class ApplicationController < ActionController::Base
   # Ensure User is authorized to access route using Pundit
   include Pundit::Authorization
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from RailsCloudflareTurnstile::Forbidden, with: :handle_cloudflare_turnstile_failure
   after_action :verify_authorized, except: %i[index about], unless: :devise_controller?

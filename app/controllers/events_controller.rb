@@ -21,7 +21,7 @@ class EventsController < ApplicationController
   def show
     return unless current_profile
     @event_attendees = policy_scope(EventAttendee.friends_attending(event: @event, profile: current_profile))
-    @event_attendee = current_user&.profile&.event_attendees&.find_by(event: @event)
+    @event_attendee = EventAttendee.find_by(event: @event, profile: current_profile)
   end
 
   # GET /events/new

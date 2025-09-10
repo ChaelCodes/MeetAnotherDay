@@ -28,8 +28,7 @@ describe "Friendships" do
 
       it "shows the user's friends" do
         expect(page).to have_link friendship.friend.name, href: profile_path(friendship.friend)
-        expect(page).to have_link "View",
-                                  href: friendship_path(friendship)
+        expect(page).to have_link "View", href: friendship_path(friendship)
       end
 
       context "with blocked friendships" do
@@ -38,8 +37,9 @@ describe "Friendships" do
 
         it "hides blocked friendships" do
           visit current_path
-          expect(page).not_to have_link block_friendship.buddy.name, href: profile_path(block_friendship.buddy)
-          expect(page).not_to have_link blocked_friendship.friend.name, href: profile_path(blocked_friendship.friend)
+          expect(page).to have_content "Friendships"
+          expect(page).to have_no_link block_friendship.buddy.name, href: profile_path(block_friendship.buddy)
+          expect(page).to have_no_link blocked_friendship.friend.name, href: profile_path(blocked_friendship.friend)
         end
       end
     end

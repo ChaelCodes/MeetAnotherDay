@@ -19,7 +19,7 @@ class FriendshipPolicy < ApplicationPolicy
   end
 
   def create?
-    return true if missing_params # hit the validations instead of the authorizations
+    return true if missing_params? # hit the validations instead of the authorizations
     return (@friendship.blocked? || @friendship.accepted?) if @friendship.buddy == @current_profile
     return @friendship.requested? if @friendship.friend == @current_profile
     false
@@ -41,7 +41,7 @@ class FriendshipPolicy < ApplicationPolicy
     user.admin? || update?
   end
 
-  def missing_params
+  def missing_params?
     @friendship&.buddy.nil? || @friendship&.friend.nil? || @friendship&.status.nil?
   end
 

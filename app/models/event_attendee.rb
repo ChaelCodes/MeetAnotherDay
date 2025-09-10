@@ -11,7 +11,7 @@ class EventAttendee < ApplicationRecord
 
   scope :for_email, lambda {
     where(email_delivered_at: nil)
-      .where("email_scheduled_on <= ?", Date.current)
+      .where(email_scheduled_on: ..Date.current)
   }
 
   def self.friends_attending(event:, profile:)
