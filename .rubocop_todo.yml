@@ -16,14 +16,6 @@ FactoryBot/ExcessiveCreateList:
     - 'spec/requests/events_spec.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: present?, blank?, presence, try, try!
-Lint/SafeNavigationConsistency:
-  Exclude:
-    - 'app/helpers/friendships_helper.rb'
-
-# Offense count: 1
 Lint/UselessConstantScoping:
   Exclude:
     - 'app/policies/application_policy.rb'

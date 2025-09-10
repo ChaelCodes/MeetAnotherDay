@@ -4,7 +4,7 @@
 module FriendshipsHelper
   # Accept a Friendship Request
   def accept_friendship_button(friendship, current_profile)
-    return nil unless friendship&.requested? && friendship&.persisted?
+    return nil unless friendship&.requested? && friendship.persisted?
     return nil unless friendship&.buddy == current_profile
     button_to "Accept friend request", friendship_path(friendship, {
                                                          friendship: {
