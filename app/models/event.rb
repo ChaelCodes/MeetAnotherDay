@@ -11,12 +11,12 @@ class Event < ApplicationRecord
   validates :end_at, comparison: { greater_than: :start_at }
 
   scope :future, -> { where("start_at > ?", Time.zone.now) }
-  scope :ongoing_or_upcoming, -> { where("end_at >= ?", Time.zone.now) }
+  scope :ongoing_or_upcoming, -> { where(end_at: Time.zone.now..) }
   scope :ongoing, lambda {
-                    where("start_at <= ?", Time.zone.now)
-                      .where("end_at >= ?", Time.zone.now)
+                    where(start_at: ..Time.zone.now)
+                      .where(end_at: Time.zone.now..)
                   }
-  scope :past, -> { where("end_at < ?", Time.zone.now) }
+  scope :past, -> { where(end_at: ...Time.zone.now) }
 
   def to_param
     handle
