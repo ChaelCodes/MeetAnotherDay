@@ -21,12 +21,6 @@ Lint/UselessConstantScoping:
   Exclude:
     - 'app/policies/application_policy.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ExcessiveDocstringSpacing:
-  Exclude:
-    - 'spec/features/support/about_spec.rb'
-
 # Offense count: 35
 # This cop supports unsafe autocorrection (--autocorrect-all).
 RSpec/IncludeExamples:
