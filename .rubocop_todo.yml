@@ -21,17 +21,6 @@ Lint/UselessConstantScoping:
   Exclude:
     - 'app/policies/application_policy.rb'
 
-# Offense count: 35
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/IncludeExamples:
-  Exclude:
-    - 'spec/features/profiles/edit_spec.rb'
-    - 'spec/features/profiles/new_spec.rb'
-    - 'spec/requests/event_attendees_spec.rb'
-    - 'spec/requests/events_spec.rb'
-    - 'spec/requests/friendships_spec.rb'
-    - 'spec/requests/profiles_spec.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Severity.
