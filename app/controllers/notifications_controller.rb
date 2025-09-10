@@ -27,8 +27,8 @@ class NotificationsController < ApplicationController
         format.html { redirect_to @notification, notice: "Notification was successfully created." }
         format.json { render :show, status: :created, location: @notification }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @notification.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @notification.errors, status: :unprocessable_content }
       end
     end
   end

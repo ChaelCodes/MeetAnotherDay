@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem "rails", "~> 7.1"
+gem "rails", "~> 7.1.1"
 
 gem "devise" # Use to authenticate user
 gem "jsbundling-rails", "~> 1.3.0" # bundle js using webpack - https://github.com/rails/jsbundling-rails
@@ -43,11 +43,13 @@ group :development, :test do
   gem "pry"
   gem "rexml"
   gem "rspec-rails"
-  gem "rubocop"
+  gem "rubocop", "~> 1.80.2"
   gem "rubocop-capybara", require: false
+  gem "rubocop-factory_bot", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
 end
 
 group :development do
