@@ -13,7 +13,7 @@ gem "jsbundling-rails", "~> 1.3.0" # bundle js using webpack - https://github.co
 gem "kramdown", "~> 2.3", ">= 2.3.1" # Parse Markdown on Profile/Event pages
 gem "pagy", "~> 9.3"
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
-gem "puma", "~> 6" # Use Puma as the app server
+gem "puma", "~> 7" # Use Puma as the app server
 gem "pundit" # use pundit to control app premissions and policies
 gem "rails_cloudflare_turnstile", "~> 0.4"
 gem "reactionview", "~> 0.1.2"
