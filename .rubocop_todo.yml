@@ -17,12 +17,6 @@ FactoryBot/ExcessiveCreateList:
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLinesAfterModuleInclusion:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: present?, blank?, presence, try, try!
 Lint/SafeNavigationConsistency:
