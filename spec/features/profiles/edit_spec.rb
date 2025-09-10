@@ -14,7 +14,7 @@ describe "Profile" do
 
     before(:each) do
       sign_in user
-      visit(+"/profiles/#{profile.id}/edit")
+      visit("/profiles/#{profile.id}/edit")
     end
 
     it "can update profile" do
