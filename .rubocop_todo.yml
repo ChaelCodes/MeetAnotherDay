@@ -30,9 +30,3 @@ Rails/Exit:
 Style/RedundantParentheses:
   Exclude:
     - 'app/policies/friendship_policy.rb'
-
-# Offense count: 1
-# Configuration parameters: Max.
-Style/SafeNavigationChainLength:
-  Exclude:
-    - 'app/controllers/events_controller.rb'
