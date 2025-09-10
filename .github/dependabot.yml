@@ -10,12 +10,14 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      dependencies:
+      ruby_dependencies:
         exclude-patterns:
+          - "rails"
           - "rails*"
           - "rubocop*"
       rails:
         patterns:
+          - "rails"
           - "rails*"
       rubocop:
         patterns:
@@ -26,6 +28,6 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      dependencies:
+      npm_dependencies:
         patterns:
           - "*"
