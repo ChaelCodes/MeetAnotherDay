@@ -32,7 +32,7 @@ describe "Profile" do
 
     it "allows user to destroy profile" do
       # Do not allow admin to edit profiles
-      expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
+      expect(page).to have_no_link "Edit", href: edit_profile_path(profile)
       expect(page).to have_content "Danger Zone"
       expect(page).to have_button "Delete"
       click_button "Delete"

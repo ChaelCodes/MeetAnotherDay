@@ -13,14 +13,14 @@ describe "Events" do
 
   it "shows the event" do
     expect(page).to have_content "RubyConf"
-    expect(page).not_to have_link "Edit", href: edit_event_path(event)
-    expect(page).not_to have_button "Delete"
+    expect(page).to have_no_link "Edit", href: edit_event_path(event)
+    expect(page).to have_no_button "Delete"
     expect(page).to have_link "All Events", href: events_path
     expect(page).to have_css ".qr-code-container"
   end
 
   it "does not allow you to attend" do
-    expect(page).not_to have_button "Attend"
+    expect(page).to have_no_button "Attend"
   end
 
   context "when user without profile" do
@@ -28,9 +28,9 @@ describe "Events" do
 
     it "shows the event" do
       expect(page).to have_content "RubyConf"
-      expect(page).not_to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
-      expect(page).not_to have_button "Attend"
+      expect(page).to have_no_link "Edit", href: edit_event_path(event)
+      expect(page).to have_no_button "Delete"
+      expect(page).to have_no_button "Attend"
     end
   end
 
@@ -39,8 +39,8 @@ describe "Events" do
     let(:user) { profile.user }
 
     it "allows profile to attend" do
-      expect(page).not_to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_link "Edit", href: edit_event_path(event)
+      expect(page).to have_no_button "Delete"
       expect(page).to have_button "Attend"
       click_button "Attend"
       expect(EventAttendee.find_by(event:, profile:)).to be_present
@@ -79,7 +79,7 @@ describe "Events" do
 
     it "shows edit link" do
       expect(page).to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_button "Delete"
     end
 
     it "shows cancel attendance button" do
@@ -102,7 +102,7 @@ describe "Events" do
     it "allows user to edit and destroy event" do
       expect(page).to have_content "RubyConf"
       expect(page).to have_link "Edit", href: edit_event_path(event)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_button "Delete"
     end
   end
 end

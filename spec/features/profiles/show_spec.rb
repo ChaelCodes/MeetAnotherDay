@@ -20,8 +20,8 @@ describe "Profile" do
 
     it "shows the profile" do
       expect(page).to have_content "ChaelCodes"
-      expect(page).not_to have_link "Edit", href: edit_profile_path(profile)
-      expect(page).not_to have_button "Delete"
+      expect(page).to have_no_link "Edit", href: edit_profile_path(profile)
+      expect(page).to have_no_button "Delete"
       expect(page).to have_css ".qr-code-container"
     end
 
@@ -41,7 +41,7 @@ describe "Profile" do
 
       it "allows user to edit profile" do
         expect(page).to have_link "Edit", href: edit_profile_path(profile)
-        expect(page).not_to have_button "Delete" # Too dangerous, it's on the edit page
+        expect(page).to have_no_button "Delete" # Too dangerous, it's on the edit page
       end
     end
 

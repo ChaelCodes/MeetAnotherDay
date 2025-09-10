@@ -30,7 +30,7 @@ describe "Notifications" do
     it "deletes a notification" do
       click_button(class: "delete")
       expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect(page).not_to have_link notification.message, href: "/friendships"
+      expect(page).to have_no_link notification.message, href: "/friendships"
       expect(page).to have_content "Notification was successfully destroyed."
     end
   end

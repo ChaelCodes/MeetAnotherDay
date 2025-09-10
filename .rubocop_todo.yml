@@ -6,20 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 27
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_no, not_to
-Capybara/NegationMatcher:
-  Exclude:
-    - 'spec/features/events/edit_spec.rb'
-    - 'spec/features/events/index_spec.rb'
-    - 'spec/features/events/show_spec.rb'
-    - 'spec/features/friendships/index_spec.rb'
-    - 'spec/features/notifications/index_spec.rb'
-    - 'spec/features/profiles/edit_spec.rb'
-    - 'spec/features/profiles/show_spec.rb'
-
 # Offense count: 1
 Capybara/NegationMatcherAfterVisit:
   Exclude:

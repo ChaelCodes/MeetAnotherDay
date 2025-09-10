@@ -32,7 +32,7 @@ describe "Edit Event" do
         expect(page).to have_field "Name"
         expect(page).to have_field "Description"
         expect(page).to have_button "Submit"
-        expect(page).not_to have_button "Delete"
+        expect(page).to have_no_button "Delete"
       end
     end
 
