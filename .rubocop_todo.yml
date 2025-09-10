@@ -6,15 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-# Configuration parameters: MaxAmount.
-# These specs are for pagination - we can update the pagination config in test to set a lower limit.
-# Then we can reduce the number we create and remove this exclusion.
-FactoryBot/ExcessiveCreateList:
-  Exclude:
-    - 'spec/requests/event_attendees_spec.rb'
-    - 'spec/requests/events_spec.rb'
-
 # Offense count: 1
 # I'm not sure I want to change the default from Pundit - needs more research.
 Lint/UselessConstantScoping:

@@ -37,17 +37,17 @@ RSpec.describe "/events" do
       end
 
       context "with 10+ events" do
-        let!(:events) { create_list :event, 11, :ongoing_event }
+        let!(:events) { create_list :event, 6, :ongoing_event }
 
         it "paginates the list", :aggregate_failures do
           subject
           events = json_body["events"]
           links = json_body["links"]
-          expect(events.count).to eq 10
-          expect(links["first"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=10"
-          expect(links["last"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+          expect(events.count).to eq 5
+          expect(links["first"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=1&page%5Blimit%5D=5"
+          expect(links["last"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=5"
           expect(links["prev"]).to be_nil
-          expect(links["next"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=10"
+          expect(links["next"]).to eq "http://www.example.com/events?format=json&page%5Bnumber%5D=2&page%5Blimit%5D=5"
         end
 
         context "when second page" do
@@ -58,9 +58,9 @@ RSpec.describe "/events" do
             events = json_body["events"]
             links = json_body["links"]
             expect(events.count).to eq 2
-            expect(links["first"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=10&format=json"
-            expect(links["last"]).to eq "http://www.example.com/events?page%5Bnumber%5D=2&page%5Blimit%5D=10&format=json"
-            expect(links["prev"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=10&format=json"
+            expect(links["first"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=5&format=json"
+            expect(links["last"]).to eq "http://www.example.com/events?page%5Bnumber%5D=2&page%5Blimit%5D=5&format=json"
+            expect(links["prev"]).to eq "http://www.example.com/events?page%5Bnumber%5D=1&page%5Blimit%5D=5&format=json"
             expect(links["next"]).to be_nil
           end
         end
