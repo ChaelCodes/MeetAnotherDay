@@ -27,3 +27,5 @@ updates:
       interval: "weekly"
     groups:
       dependencies:
+        patterns:
+          - "*"
