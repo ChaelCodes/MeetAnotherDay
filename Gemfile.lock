@@ -303,6 +303,9 @@ GEM
     rubocop-capybara (2.22.1)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
+    rubocop-factory_bot (2.27.1)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     rubocop-performance (1.26.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
@@ -316,6 +319,10 @@ GEM
     rubocop-rspec (3.7.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
+    rubocop-rspec_rails (2.31.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+      rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
     rubyzip (3.1.0)
     sass-rails (6.0.0)
@@ -396,11 +403,13 @@ DEPENDENCIES
   rexml
   rqrcode (~> 2.0)
   rspec-rails
-  rubocop
+  rubocop (~> 1.80.2)
   rubocop-capybara
+  rubocop-factory_bot
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  rubocop-rspec_rails
   sass-rails (>= 6)
   seedbank
   selenium-webdriver (~> 3.142.7)
