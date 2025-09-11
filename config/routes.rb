@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "users/registrations" }
 
   resources :events
-  resources :event_attendees
+  resources :event_attendees, except: %i[new]
   resources :friendships
   resources :notifications, except: %i[edit update]
   resources :profiles

@@ -2,7 +2,7 @@
 
 # Manages routing and instantiating variable for Event Attendees endpoints
 class EventAttendeesController < ApplicationController
-  before_action :authenticate_user!, only: %i[create new update edit destroy index]
+  before_action :authenticate_user!, only: %i[create update edit destroy]
   before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
 
@@ -10,8 +10,10 @@ class EventAttendeesController < ApplicationController
   def index
     event_attendees = if params[:event_id].present?
                         policy_scope(EventAttendee.where(event_id: params[:event_id]))
-                      else
+                      elsif current_user&.profile
                         EventAttendee.where(profile: current_user.profile)
+                      else
+                        EventAttendee.none
                       end
 
     @pagy, @event_attendees = pagy(event_attendees, page_param: :number)
@@ -20,12 +22,6 @@ class EventAttendeesController < ApplicationController
 
   # GET /event_attendees/1 or /event_attendees/1.json
   def show; end
-
-  # GET /event_attendees/new
-  def new
-    @event_attendee = EventAttendee.new
-    authorize @event_attendee
-  end
 
   # GET /event_attendees/1/edit
   def edit; end
@@ -37,7 +33,7 @@ class EventAttendeesController < ApplicationController
         format.html { redirect_to @event_attendee, notice: "Event attendee was successfully created." }
         format.json { render :show, status: :created, location: @event_attendee }
       else
-        format.html { render :new, status: :unprocessable_content }
+        format.html { redirect_to redirect_on_error_path, status: :unprocessable_content }
         format.json { render json: @event_attendee.errors, status: :unprocessable_content }
       end
     end
@@ -77,6 +73,12 @@ class EventAttendeesController < ApplicationController
   def set_event_attendee
     @event_attendee = EventAttendee.find(params[:id])
     authorize @event_attendee
+  end
+
+  def redirect_on_error_path
+    return event_path(@event_attendee.event) if @event_attendee.event
+    return profile_path(@event_attendee.profile) if @event_attendee.profile
+    root_path
   end
 
   # Only allow a list of trusted parameters through.
