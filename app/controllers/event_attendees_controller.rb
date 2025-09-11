@@ -2,7 +2,7 @@
 
 # Manages routing and instantiating variable for Event Attendees endpoints
 class EventAttendeesController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update edit destroy index]
+  before_action :authenticate_user!, only: %i[create update edit destroy]
   before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
 
@@ -10,8 +10,10 @@ class EventAttendeesController < ApplicationController
   def index
     event_attendees = if params[:event_id].present?
                         policy_scope(EventAttendee.where(event_id: params[:event_id]))
-                      else
+                      elsif current_user&.profile
                         EventAttendee.where(profile: current_user.profile)
+                      else
+                        EventAttendee.none
                       end
 
     @pagy, @event_attendees = pagy(event_attendees, page_param: :number)

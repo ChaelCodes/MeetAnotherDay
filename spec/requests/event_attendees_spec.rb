@@ -26,13 +26,30 @@ RSpec.describe "/event_attendees" do
   describe "GET /index" do
     subject(:get_index) { get event_attendees_url, params: }
 
+    let!(:other_event_attendee) { create :event_attendee }
+
     let(:params) { { format: :json } }
     let(:user) { create :user }
     let(:profile) { create :profile, user: }
 
+    context "without profile" do
+      it "returns attendees for the specified event", :aggregate_failures do
+        get_index
+        expect(json_body["event_attendees"].length).to eq 0
+      end
+    end
+
+    context "when not logged in" do
+      let(:user) { nil }
+
+      it "returns attendees for the specified event", :aggregate_failures do
+        get_index
+        expect(json_body["event_attendees"].length).to eq 0
+      end
+    end
+
     context "without event_id parameter" do
       let!(:event_attendee) { create :event_attendee, profile: }
-      let!(:other_event_attendee) { create :event_attendee }
 
       it "returns your event attendees" do
         get_index
@@ -53,7 +70,6 @@ RSpec.describe "/event_attendees" do
     context "with event_id parameter", :aggregate_failures do
       let(:event) { create :event }
       let!(:event_attendee) { create :event_attendee, event:, profile: create(:profile, visibility: "everyone") }
-      let!(:other_event_attendee) { create :event_attendee }
       let(:params) { { format: :json, event_id: event.id } }
 
       it "returns attendees for the specified event", :aggregate_failures do
@@ -92,6 +108,18 @@ RSpec.describe "/event_attendees" do
           expect(event_attendee_ids).to include(friends_attendee.id)
           expect(event_attendee_ids).not_to include(stranger_attendee.id)
           expect(event_attendee_ids).not_to include(myself_attendee.id)
+        end
+      end
+
+      context "when not logged in" do
+        let(:user) { nil }
+
+        it "returns attendees for the specified event", :aggregate_failures do
+          get_index
+          event_attendees = json_body["event_attendees"]
+          expect(event_attendees.length).to eq 1
+          expect(event_attendees.pluck("id")).to include event_attendee.id
+          expect(event_attendees.pluck("id")).not_to include other_event_attendee.id
         end
       end
     end
