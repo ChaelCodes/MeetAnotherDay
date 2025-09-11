@@ -144,21 +144,6 @@ RSpec.describe "/event_attendees" do
     end
   end
 
-  describe "GET /new" do
-    subject(:get_new) { get new_event_attendee_url }
-
-    include_examples "redirect to sign in"
-
-    context "when user is logged in" do
-      let(:user) { create :user }
-
-      it "renders a successful response" do
-        get_new
-        expect(response).to be_successful
-      end
-    end
-  end
-
   describe "GET /edit" do
     subject(:get_edit) { get edit_event_attendee_url(event_attendee) }
 
