@@ -5,6 +5,7 @@ set -euo pipefail
 
 bundle config set --local deployment 'true'
 bundle config set --local without 'development test'
+bundle config set --local force_ruby_platform false
 
 bundle install
 
