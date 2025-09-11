@@ -1,23 +1,18 @@
 <div class="section">
-  <div class="container">
-    <div class="block">
-      <p>
-        <strong>Profile</strong>
-        <%= link_to @event_attendee.profile %>
-      </p>
+  <div class="block">
+    <%= profile_with_icon @event_attendee.profile %>
+    is <%= @event_attendee.organizer? ? "organizing" : "attending" %>
+    <%= link_to @event_attendee.event %>
+    on <%= date_range(@event_attendee.event) %>.
+  </div>
 
-      <p>
-        <strong>Event</strong>
-        <%= link_to @event_attendee.event %>
-      </p>
-
-      <p>
-        <strong>Email scheduled on</strong>
-        <%= @event_attendee.email_scheduled_on.present? ? l(@event_attendee.email_scheduled_on, format: :long) : "Not scheduled" %>
-      </p>
-    </div>
+  <% if @event_attendee.profile == current_user&.profile %>
     <div class="block">
-      <%= buttons(@event_attendee, include_delete: true) %>
+      <%= email_delivery_text(@event_attendee) %>
     </div>
+  <% end %>
+
+  <div class="block">
+    <%= buttons(@event_attendee, include_delete: true) %>
   </div>
 </div>

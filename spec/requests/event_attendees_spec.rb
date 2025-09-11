@@ -160,10 +160,18 @@ RSpec.describe "/event_attendees" do
 
     include_examples "unauthorized access"
 
-    context "with your event attendee" do
+    context "when user has no profile" do
       let(:user) { create :user }
-      let(:profile) { create :profile, user: }
-      let(:event_attendee) { create :event_attendee, profile: }
+
+      it "renders a successful response" do
+        get_show
+        expect(response).to be_successful
+      end
+    end
+
+    context "with your event attendee" do
+      let(:user) { profile.user }
+      let(:profile) { event_attendee.profile }
 
       it "renders a successful response" do
         get_show
