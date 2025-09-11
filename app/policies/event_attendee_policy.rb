@@ -28,7 +28,7 @@ class EventAttendeePolicy < ApplicationPolicy
   end
 
   def update?
-    profile.user == user
+    profile.user == user || admin?
   end
 
   def destroy?

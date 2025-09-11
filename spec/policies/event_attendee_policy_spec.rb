@@ -46,6 +46,12 @@ describe EventAttendeePolicy, type: :policy do
 
       it { expect(described_class).not_to permit(user, event_attendee) }
     end
+
+    context "when user is admin" do
+      let(:user) { create :user, :admin }
+
+      it { expect(described_class).to permit(user, event_attendee) }
+    end
   end
 
   permissions ".scope?" do
