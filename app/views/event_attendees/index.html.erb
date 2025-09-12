@@ -1,11 +1,13 @@
 <section class="section">
-  <h1 class="title">Event Attendees</h1>
+  <h1 class="title"><%= @event ? "#{@event.name} Attendees" : "Event Attendees" %></h1>
   
   <table class="table">
     <thead>
       <tr>
         <th>Profile</th>
-        <th>Event</th>
+        <% unless @event %>
+          <th>Event</th>
+        <% end %>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -14,7 +16,9 @@
       <% @event_attendees.each do |event_attendee| %>
         <tr>
           <td><%= profile_with_icon(event_attendee.profile) %></td>
-          <td><%= link_to event_attendee.event.name, event_attendee.event %></td>
+          <% unless @event %>
+            <td><%= link_to event_attendee.event.name, event_attendee.event %></td>
+          <% end %>
           <td>
             <%= buttons(event_attendee, include_show: true, include_delete: true) %>
           </td>

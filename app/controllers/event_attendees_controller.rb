@@ -8,13 +8,7 @@ class EventAttendeesController < ApplicationController
 
   # GET /event_attendees or /event_attendees.json
   def index
-    event_attendees = if params[:event_id].present?
-                        policy_scope(EventAttendee.where(event_id: params[:event_id]))
-                      elsif current_user&.profile
-                        EventAttendee.where(profile: current_user.profile)
-                      else
-                        EventAttendee.none
-                      end
+    event_attendees = build_event_attendees_query
 
     @pagy, @event_attendees = pagy(event_attendees, page_param: :number)
     @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
@@ -62,6 +56,23 @@ class EventAttendeesController < ApplicationController
   end
 
   private
+
+  # Build event attendees query based on params
+  def build_event_attendees_query
+    return event_attendees_for_event if params[:event_id].present?
+    return event_attendees_for_profile if current_user&.profile
+
+    EventAttendee.none
+  end
+
+  def event_attendees_for_event
+    @event = Event.find(params[:event_id])
+    policy_scope(EventAttendee.where(event_id: params[:event_id]).includes(:profile))
+  end
+
+  def event_attendees_for_profile
+    EventAttendee.where(profile: current_user.profile)
+  end
 
   # callback to set event attendee for create
   def create_event_attendee
