@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem "rails", "~> 7.1.1"
+gem "rails", "~> 8.0.2"
 
 gem "devise" # Use to authenticate user
 gem "jsbundling-rails", "~> 1.3.0" # bundle js using webpack - https://github.com/rails/jsbundling-rails
