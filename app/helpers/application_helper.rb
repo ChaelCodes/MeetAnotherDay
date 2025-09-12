@@ -5,50 +5,20 @@ module ApplicationHelper
   # Add pagination helpers
   include Pagy::Frontend
 
-  # Display buttons for the show page
-  def buttons(resource, include_nav: false, include_show: false, include_delete: false)
-    buttons = []
-    buttons << show_link(resource) if include_show
-    buttons << edit_link(resource)
-    buttons << delete_button(resource) if include_delete
-    buttons << index_link(resource) if include_nav
-    tag.div(safe_join(buttons), class: "buttons")
-  end
+
 
   # Page-specific navigation methods with sensible defaults
 
-  # Navigation for show pages - Edit + Index links
-  def show_page_navigation(resource)
+  # Navigation for show pages - Edit + Index links, optionally with delete
+  def show_page_navigation(resource, include_delete: false)
     buttons = []
     buttons << edit_link(resource)
+    buttons << delete_button(resource) if include_delete
     buttons << index_link(resource)
     tag.div(safe_join(buttons), class: "buttons")
   end
 
-  # Navigation for show pages that include delete capability
-  def show_page_navigation_with_delete(resource)
-    buttons = []
-    buttons << edit_link(resource)
-    buttons << delete_button(resource)
-    buttons << index_link(resource)
-    tag.div(safe_join(buttons), class: "buttons")
-  end
 
-  # Simple navigation for resources that only have delete + index
-  def simple_page_navigation_with_delete(resource)
-    buttons = []
-    buttons << delete_button(resource)
-    buttons << index_link(resource)
-    tag.div(safe_join(buttons), class: "buttons")
-  end
-
-  # Index page navigation - Show + Delete buttons
-  def index_item_navigation(resource)
-    buttons = []
-    buttons << show_link(resource)
-    buttons << delete_button(resource)
-    tag.div(safe_join(buttons), class: "buttons")
-  end
 
   # Navigation for edit pages - Show + Index links
   def edit_page_navigation(resource)
@@ -59,8 +29,8 @@ module ApplicationHelper
   end
 
   # Cancel button for new pages - links to index
-  def cancel_link(resource_class)
-    link_to("Cancel", url_for(resource_class), class: "button is-link is-outlined")
+  def cancel_new_link(resource_class)
+    link_to("Cancel", url_for(resource_class), class: "button is-primary")
   end
 
   # Delete Button if the user has permission

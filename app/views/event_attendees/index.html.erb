@@ -16,7 +16,7 @@
           <td><%= profile_with_icon(event_attendee.profile) %></td>
           <td><%= link_to event_attendee.event.name, event_attendee.event %></td>
           <td>
-            <%= index_item_navigation(event_attendee) %>
+            <%= show_link(event_attendee) %>
           </td>
         </tr>
       <% end %>
