@@ -4,8 +4,9 @@
 
     <%= render 'form', event: @event %>
 
-    <%= link_to 'Show', @event %> |
-    <%= link_to 'Back', events_path %>
+    <div class="block">
+      <%= edit_page_navigation(@event) %>
+    </div>
   </div>
 
   <% if policy(@event).destroy? %>

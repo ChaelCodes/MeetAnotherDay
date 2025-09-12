@@ -4,6 +4,8 @@
 
     <%= render 'form', event: @event %>
 
-    <%= link_to 'Back', events_path, class: "button is-primary" %>
+    <div class="block">
+      <%= cancel_link(Event) %>
+    </div>
   </div>
 </div>

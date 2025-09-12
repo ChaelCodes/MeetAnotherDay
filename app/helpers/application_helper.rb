@@ -15,6 +15,54 @@ module ApplicationHelper
     tag.div(safe_join(buttons), class: "buttons")
   end
 
+  # Page-specific navigation methods with sensible defaults
+
+  # Navigation for show pages - Edit + Index links
+  def show_page_navigation(resource)
+    buttons = []
+    buttons << edit_link(resource)
+    buttons << index_link(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Navigation for show pages that include delete capability
+  def show_page_navigation_with_delete(resource)
+    buttons = []
+    buttons << edit_link(resource)
+    buttons << delete_button(resource)
+    buttons << index_link(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Simple navigation for resources that only have delete + index
+  def simple_page_navigation_with_delete(resource)
+    buttons = []
+    buttons << delete_button(resource)
+    buttons << index_link(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Index page navigation - Show + Delete buttons
+  def index_item_navigation(resource)
+    buttons = []
+    buttons << show_link(resource)
+    buttons << delete_button(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Navigation for edit pages - Show + Index links
+  def edit_page_navigation(resource)
+    buttons = []
+    buttons << show_link(resource)
+    buttons << index_link(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Cancel button for new pages - links to index
+  def cancel_link(resource_class)
+    link_to("Cancel", url_for(resource_class), class: "button is-link is-outlined")
+  end
+
   # Delete Button if the user has permission
   def delete_button(resource, title: "Delete")
     return unless policy(resource).destroy?
@@ -51,19 +99,20 @@ module ApplicationHelper
   # Show Link if the user has permission
   def show_link(resource)
     return unless policy(resource).show?
-    link_to("Show", url_for(resource), class: "button is-link")
+    link_to("Show", url_for(resource), class: "button is-link is-outlined")
   end
 
   # Edit Link if the user has permission
   def edit_link(resource)
     return unless policy(resource).edit?
-    link_to("Edit", url_for([:edit, resource]), class: "button is-success")
+    link_to("Edit", url_for([:edit, resource]), class: "button is-primary")
   end
 
   # Index Link if the user has permission
   def index_link(resource)
     return unless policy(resource).index?
-    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class), class: "button is-link")
+    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class),
+            class: "button is-link is-outlined")
   end
 
   def alert_color
