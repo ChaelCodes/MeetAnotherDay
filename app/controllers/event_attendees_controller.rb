@@ -5,10 +5,17 @@ class EventAttendeesController < ApplicationController
   before_action :authenticate_user!, only: %i[create update edit destroy]
   before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
+  before_action :set_event, only: :index
 
   # GET /event_attendees or /event_attendees.json
   def index
-    event_attendees = build_event_attendees_query
+    event_attendees = if params[:event_id].present?
+                        policy_scope(EventAttendee.where(event_id: params[:event_id]).includes(:profile))
+                      elsif current_user&.profile
+                        EventAttendee.where(profile: current_user.profile)
+                      else
+                        EventAttendee.none
+                      end
 
     @pagy, @event_attendees = pagy(event_attendees, page_param: :number)
     @pagination_links = pagy_jsonapi_links(@pagy, absolute: true)
@@ -57,21 +64,9 @@ class EventAttendeesController < ApplicationController
 
   private
 
-  # Build event attendees query based on params
-  def build_event_attendees_query
-    return event_attendees_for_event if params[:event_id].present?
-    return event_attendees_for_profile if current_user&.profile
-
-    EventAttendee.none
-  end
-
-  def event_attendees_for_event
-    @event = Event.find(params[:event_id])
-    policy_scope(EventAttendee.where(event_id: params[:event_id]).includes(:profile))
-  end
-
-  def event_attendees_for_profile
-    EventAttendee.where(profile: current_user.profile)
+  # Set event when event_id parameter is present
+  def set_event
+    @event = Event.find(params[:event_id]) if params[:event_id].present?
   end
 
   # callback to set event attendee for create
