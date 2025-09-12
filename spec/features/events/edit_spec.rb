@@ -49,6 +49,20 @@ describe "Edit Event" do
         click_button "Delete"
         expect(page).to have_content("Event was successfully destroyed.")
       end
+
+      it "navigates to show page when clicking Show" do
+        expect(page).to have_link "Show", href: event_path(event)
+        click_link "Show"
+        expect(page).to have_current_path(event_path(event))
+        expect(page).to have_content event.name
+      end
+
+      it "navigates to events index when clicking All Events" do
+        expect(page).to have_link "All Events", href: events_path
+        click_link "All Events"
+        expect(page).to have_current_path(events_path)
+        expect(page).to have_content "Events"
+      end
     end
   end
 end

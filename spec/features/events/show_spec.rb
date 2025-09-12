@@ -104,5 +104,19 @@ describe "Events" do
       expect(page).to have_link "Edit", href: edit_event_path(event)
       expect(page).to have_no_button "Delete"
     end
+
+    it "navigates to edit page when clicking Edit" do
+      expect(page).to have_link "Edit", href: edit_event_path(event)
+      click_link "Edit"
+      expect(page).to have_current_path(edit_event_path(event))
+      expect(page).to have_content "Editing #{event.name}"
+    end
+
+    it "navigates to events index when clicking All Events" do
+      expect(page).to have_link "All Events", href: events_path
+      click_link "All Events"
+      expect(page).to have_current_path(events_path)
+      expect(page).to have_content "Events"
+    end
   end
 end

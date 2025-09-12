@@ -25,6 +25,20 @@ describe "Profile" do
       expect(page).to have_content("Profile was successfully updated.")
       expect(profile.handle).to eq("ChaelChats")
     end
+
+    it "navigates to show page when clicking Show" do
+      expect(page).to have_link "Show", href: profile_path(profile)
+      click_link "Show"
+      expect(page).to have_current_path(profile_path(profile))
+      expect(page).to have_content profile.name
+    end
+
+    it "navigates to profiles index when clicking All Profiles" do
+      expect(page).to have_link "All Profiles", href: profiles_path
+      click_link "All Profiles"
+      expect(page).to have_current_path(profiles_path)
+      expect(page).to have_content "Profiles"
+    end
   end
 
   context "when user is admin" do
