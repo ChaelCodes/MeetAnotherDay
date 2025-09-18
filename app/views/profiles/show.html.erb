@@ -33,7 +33,7 @@
     <% if policy(@profile).show_details? && @events.size > 0 %>
       <div class="block">
         <h2 class="title is-3">Events</h2>
-        <%= render 'events/list', events: @events, pagy: @events_pagy, select_time: false %>
+        <%= render 'events/list', events: @events, pagy: @events_pagy, selected_event_ids: @my_event_ids %>
       </div>
     <% end %>
     <div class="block">
