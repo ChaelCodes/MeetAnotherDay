@@ -16,6 +16,7 @@ class ProfilesController < ApplicationController
   def show
     @relationship = Relationship.new(profile: current_profile, other_profile: @profile) if current_profile
     @mine = @profile == current_profile
+    @my_event_ids = current_profile && !@mine ? current_profile.event_attendees.pluck(:event_id) : []
   end
 
   # GET /profiles/new

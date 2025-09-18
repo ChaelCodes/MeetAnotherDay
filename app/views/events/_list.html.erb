@@ -1,17 +1,20 @@
+<%# app/views/events/_list.html.erb %>
+
+<%# locals: (events:, friends_attending_count: {}, pagy:, select_time: false, selected_event_ids: [], when_events: nil) %>
 <% if select_time %>
-<div class="tabs is-centered is-fullwidth mb-0">
-  <ul>
-    <li class="<%= "is-active" if params[:when] == "future" %>">
-      <%= link_to "Future", events_path(when: :future) %>
-    </li>
-    <li class="<%= "is-active" if params[:when] == "ongoing" || params[:when].blank? %>">
-      <%= link_to "Ongoing", events_path(when: :ongoing) %>
-    </li>
-    <li class="<%= "is-active" if params[:when] == "past" %>">
-      <%= link_to "Past", events_path(when: :past) %>
-    </li>
-  </ul>
-</div>
+  <div class="tabs is-centered is-fullwidth mb-0">
+    <ul>
+      <li class="<%= "is-active" if when_events == "future" %>">
+        <%= link_to "Future", events_path(when: :future) %>
+      </li>
+      <li class="<%= "is-active" if when_events == "ongoing" || when_events.blank? %>">
+        <%= link_to "Ongoing", events_path(when: :ongoing) %>
+      </li>
+      <li class="<%= "is-active" if when_events == "past" %>">
+        <%= link_to "Past", events_path(when: :past) %>
+      </li>
+    </ul>
+  </div>
 <% end %>
 
 <% unless events&.any? %>
@@ -20,13 +23,14 @@
   <table class="table is-fullwidth">
     <tbody>
       <% events.each do |event| %>
-        <tr>
+        <tr class="<%= "is-selected" if selected_event_ids.include?(event.id) %>">
           <td><%= link_to event %></td>
-          <% if @friends_attending_count %>
-            <td><%= t(".friends", count: @friends_attending_count[event.id].to_i) %></td>
+          <% if friends_attending_count&.any? %>
+            <td><%= t(".friends", count: friends_attending_count[event.id].to_i) %></td>
           <% end %>
           <td class="is-hidden-mobile"><%= date_range(event) %></td>
           <td class="is-hidden-tablet"><%= date_range(event, format: :short) %></td>
+          <td><%= icon("attending", alt: "Attending") if selected_event_ids.include?(event.id) %></td>
         </tr>
       <% end %>
     </tbody>

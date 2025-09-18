@@ -1,6 +1,6 @@
 <div class="section container">
   <h1 class="title">Events</h1>
-  <%= render 'list', events: @events, pagy: @pagy, select_time: true %>
+  <%= render 'list', events: @events, friends_attending_count: @friends_attending_count, pagy: @pagy, select_time: true, when_events: params[:when] %>
 
   <%= link_to 'New Event', new_event_path, class: "button is-primary" if policy(:event).new? %>
 </div>
