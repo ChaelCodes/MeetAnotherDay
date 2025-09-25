@@ -10,8 +10,11 @@
 	],
 
 	// git does not recognize the user in a devcontainer - https://www.kenmuse.com/blog/avoiding-dubious-ownership-in-dev-containers/
-	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-
+	// "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+	"postStartCommand": "bundle exec rails s -b 0.0.0.0",
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+	],
 	// The 'service' property is the name of the service for the container that VS Code should
 	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
 	"service": "web",
@@ -23,7 +26,8 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers/features/git:1": {},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/sshd:1": {}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
