@@ -10,6 +10,7 @@ class ProfilesController < ApplicationController
   # GET /profiles or /profiles.json
   def index
     @profiles = policy_scope(Profile)
+    @profiles = @profiles.generic_search(params[:search]) if params[:search]
   end
 
   # GET /profiles/1 or /profiles/1.json

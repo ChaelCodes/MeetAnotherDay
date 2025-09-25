@@ -13,19 +13,20 @@ RSpec.describe "/profiles" do
     sign_in user if user
   end
 
-  # rubocop:disable RSpec/MultipleExpectations
   describe "GET /index" do
-    subject(:get_index) { get profiles_url, params: { format: :json } }
+    subject(:get_index) { get profiles_url, params: }
 
-    let!(:everyone_profile) { create :profile, visibility: :everyone }
-    let!(:authenticated_profile) { create :profile, visibility: :authenticated }
-    let!(:not_friends_profile) { create :profile, visibility: :friends }
+    let(:params) { { format: :json } }
+
+    let!(:everyone_profile) { create :profile, name: "Everyone", visibility: :everyone }
+    let!(:authenticated_profile) { create :profile, name: "Authenticated", visibility: :authenticated }
+    let!(:not_friends_profile) { create :profile, name: "Everyone else's Friend", visibility: :friends }
     let!(:friends_profile) { create :profile, visibility: :friends }
     let!(:myself_profile) { create :profile, visibility: :myself }
     let!(:current_profile) { create :profile, user:, visibility: :myself }
     let!(:friendship) { create :friendship, buddy: friends_profile, friend: current_profile, status: :accepted }
 
-    context "when the profile belongs to a confirmed user" do
+    context "when the profile belongs to a confirmed user", :aggregate_failures do
       it "renders a successful response" do
         get_index
         handles = json_body.pluck("handle")
@@ -38,7 +39,7 @@ RSpec.describe "/profiles" do
       end
     end
 
-    context "when the profile belongs to an unconfirmed user in the grace period" do
+    context "when the profile belongs to an unconfirmed user in the grace period", :aggregate_failures do
       let(:user) { create :user, :unconfirmed_with_trial }
 
       it "shows only public profiles" do
@@ -53,15 +54,38 @@ RSpec.describe "/profiles" do
       end
     end
 
-    context "when the profile belongs to an overdue unconfirmed user" do
+    context "when the profile belongs to an overdue unconfirmed user", :aggregate_failures do
       subject(:get_index) { get profiles_url, params: { format: :html } }
 
       let(:user) { create :user, :overdue_unconfirmed }
 
       it_behaves_like "confirm your email"
     end
+
+    context "with search param" do
+      let(:params) { { search: "Everyone", format: :json } }
+
+      it "filters results", :aggregate_failures do
+        get_index
+        handles = json_body.pluck("handle")
+        expect(handles).to include(everyone_profile.handle)
+        expect(handles).not_to include(authenticated_profile.handle)
+        expect(handles).not_to include(not_friends_profile.handle)
+      end
+
+      context "with partial match", :aggregate_failures do
+        let(:params) { { search: "Every", format: :json } }
+
+        it "filters results" do
+          get_index
+          handles = json_body.pluck("handle")
+          expect(handles).to include(everyone_profile.handle)
+          expect(handles).not_to include(authenticated_profile.handle)
+          expect(handles).not_to include(not_friends_profile.handle)
+        end
+      end
+    end
   end
-  # rubocop:enable RSpec/MultipleExpectations
 
   describe "GET /show" do
     subject(:get_show) { get profile_url(profile), headers: }

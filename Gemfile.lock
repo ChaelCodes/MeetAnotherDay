@@ -194,6 +194,9 @@ GEM
       racc
     pg (1.6.2)
     pg (1.6.2-x86_64-linux)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -399,6 +402,7 @@ DEPENDENCIES
   listen (~> 3.3)
   pagy (~> 9.3)
   pg (~> 1.1)
+  pg_search (~> 2.3)
   pry
   puma (~> 6)
   pundit
