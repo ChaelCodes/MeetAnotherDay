@@ -5,6 +5,14 @@
 # Becomes friends with other Profiles through Friendship
 class Profile < ApplicationRecord
   include ::Handleable
+  include PgSearch::Model
+
+  pg_search_scope :generic_search,
+                  against: %i[name handle],
+                  using: { tsearch: {
+                    any_word: true,
+                    prefix: true
+                  } }
 
   # Validations
   validates :user_id, uniqueness: true # rubocop:disable Rails/UniqueValidationWithoutIndex
