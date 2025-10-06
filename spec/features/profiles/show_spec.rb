@@ -43,6 +43,20 @@ describe "Profile" do
         expect(page).to have_link "Edit", href: edit_profile_path(profile)
         expect(page).to have_no_button "Delete" # Too dangerous, it's on the edit page
       end
+
+      it "navigates to edit page when clicking Edit" do
+        expect(page).to have_link "Edit", href: edit_profile_path(profile)
+        click_link "Edit"
+        expect(page).to have_current_path(edit_profile_path(profile))
+        expect(page).to have_content "Editing Profile"
+      end
+
+      it "navigates to profiles index when clicking All Profiles" do
+        expect(page).to have_link "All Profiles", href: profiles_path
+        click_link "All Profiles"
+        expect(page).to have_current_path(profiles_path)
+        expect(page).to have_content "Profiles"
+      end
     end
 
     context "when profile has markdown in bio" do

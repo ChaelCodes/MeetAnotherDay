@@ -29,5 +29,12 @@ describe "Profile" do
                                            user_id: user.id
                                          })
     end
+
+    it "navigates to profiles index when clicking Cancel" do
+      expect(page).to have_link "Cancel", href: profiles_path
+      click_link "Cancel"
+      expect(page).to have_current_path(profiles_path)
+      expect(page).to have_content "Profiles"
+    end
   end
 end

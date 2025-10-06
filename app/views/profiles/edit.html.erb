@@ -4,8 +4,9 @@
 
     <%= render 'form', profile: @profile %>
 
-    <%= link_to 'Show', @profile %> |
-    <%= link_to 'Back', profiles_path %>
+    <div class="block">
+      <%= edit_page_navigation(@profile) %>
+    </div>
   </section>
 
   <% if policy(@profile).destroy? %>

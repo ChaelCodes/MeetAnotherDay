@@ -5,14 +5,32 @@ module ApplicationHelper
   # Add pagination helpers
   include Pagy::Frontend
 
-  # Display buttons for the show page
-  def buttons(resource, include_nav: false, include_show: false, include_delete: false)
+
+
+  # Page-specific navigation methods with sensible defaults
+
+  # Navigation for show pages - Edit + Index links, optionally with delete
+  def show_page_navigation(resource, include_delete: false)
     buttons = []
-    buttons << show_link(resource) if include_show
     buttons << edit_link(resource)
     buttons << delete_button(resource) if include_delete
-    buttons << index_link(resource) if include_nav
+    buttons << index_link(resource)
     tag.div(safe_join(buttons), class: "buttons")
+  end
+
+
+
+  # Navigation for edit pages - Show + Index links
+  def edit_page_navigation(resource)
+    buttons = []
+    buttons << show_link(resource)
+    buttons << index_link(resource)
+    tag.div(safe_join(buttons), class: "buttons")
+  end
+
+  # Cancel button for new pages - links to index
+  def cancel_new_link(resource_class)
+    link_to("Cancel", url_for(resource_class), class: "button is-primary")
   end
 
   # Delete Button if the user has permission
@@ -51,19 +69,20 @@ module ApplicationHelper
   # Show Link if the user has permission
   def show_link(resource)
     return unless policy(resource).show?
-    link_to("Show", url_for(resource), class: "button is-link")
+    link_to("Show", url_for(resource), class: "button is-link is-outlined")
   end
 
   # Edit Link if the user has permission
   def edit_link(resource)
     return unless policy(resource).edit?
-    link_to("Edit", url_for([:edit, resource]), class: "button is-success")
+    link_to("Edit", url_for([:edit, resource]), class: "button is-primary")
   end
 
   # Index Link if the user has permission
   def index_link(resource)
     return unless policy(resource).index?
-    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class), class: "button is-link")
+    link_to("All #{resource.model_name.human.pluralize.titleize}", url_for(resource.class),
+            class: "button is-link is-outlined")
   end
 
   def alert_color
