@@ -5,11 +5,12 @@ class EventAttendeesController < ApplicationController
   before_action :authenticate_user!, only: %i[create update edit destroy]
   before_action :create_event_attendee, only: :create
   before_action :set_event_attendee, only: %i[show edit update destroy]
+  before_action :set_event, only: :index
 
   # GET /event_attendees or /event_attendees.json
   def index
     event_attendees = if params[:event_id].present?
-                        policy_scope(EventAttendee.where(event_id: params[:event_id]))
+                        policy_scope(EventAttendee.where(event_id: params[:event_id]).includes(:profile))
                       elsif current_user&.profile
                         EventAttendee.where(profile: current_user.profile)
                       else
@@ -62,6 +63,11 @@ class EventAttendeesController < ApplicationController
   end
 
   private
+
+  # Set event when event_id parameter is present
+  def set_event
+    @event = Event.find(params[:event_id]) if params[:event_id].present?
+  end
 
   # callback to set event attendee for create
   def create_event_attendee
