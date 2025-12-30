@@ -20,7 +20,7 @@ RSpec.describe "Cloudflare Turnstile" do
 
       expect(page).to have_content("Sign ups to MeetAnother.day are currently disabled")
       expect(page).to have_content("Thank you for your time and attention to this project")
-      expect(page).not_to have_button("Sign up")
+      expect(page).to have_no_button("Sign up")
     end
   end
 
