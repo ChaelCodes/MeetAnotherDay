@@ -15,17 +15,12 @@ RSpec.describe "Cloudflare Turnstile" do
   end
 
   describe "User Registration Form" do
-    it "shows error when cloudflare validation fails" do
+    it "shows disabled message" do
       visit new_user_registration_path
 
-      fill_in "Email", with: "test@example.com"
-      fill_in "Password", with: "password123"
-      fill_in "Password confirmation", with: "password123"
-
-      click_button "Sign up"
-
-      expect(page).to have_current_path(new_user_registration_path)
-      expect(page).to have_content("Uh oh! We need you to confirm you're not a bot in the cloudflare challenge.")
+      expect(page).to have_content("Sign ups to MeetAnother.day are currently disabled")
+      expect(page).to have_content("Thank you for your time and attention to this project")
+      expect(page).not_to have_button("Sign up")
     end
   end
 
@@ -76,21 +71,6 @@ RSpec.describe "Cloudflare Turnstile" do
       RailsCloudflareTurnstile.configure do |c|
         c.mock_enabled = true
         c.enabled = false
-      end
-    end
-
-    describe "User Registration Form" do
-      it "successfully creates user account", :aggregate_failures do
-        visit new_user_registration_path
-
-        fill_in "Email", with: "test@example.com"
-        fill_in "Password", with: "password123"
-        fill_in "Password confirmation", with: "password123"
-
-        click_button "Sign up"
-
-        expect(page).to have_content("Welcome!")
-        expect(User.find_by(email: "test@example.com")).not_to be_nil
       end
     end
 
