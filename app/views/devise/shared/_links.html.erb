@@ -1,3 +1,6 @@
+<%# Custom Devise shared links partial that excludes the "Sign up" link %>
+<%# This overrides the default Devise shared/_links.html.erb to disable user registrations %>
+
 <%- if controller_name != 'sessions' %>
   <%= link_to "Log in", new_session_path(resource_name) %><br />
 <% end %>
