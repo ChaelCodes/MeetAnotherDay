@@ -43,7 +43,7 @@ group :development, :test do
   gem "pry"
   gem "rexml"
   gem "rspec-rails"
-  gem "rubocop", "~> 1.80.2"
+  gem "rubocop", "~> 1.82.1"
   gem "rubocop-capybara", require: false
   gem "rubocop-factory_bot", require: false
   gem "rubocop-performance", require: false
